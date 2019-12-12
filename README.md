@@ -1,4 +1,5 @@
-# ![EESMX icon]  EditEmailSubject MX - MailExtension Conversion Project [1]
+# ![EESMX icon]  EditEmailSubject MX
+## MailExtension Conversion Project [1]
 
 The original EditEmailSubject is a [Thunderbird](https://www.thunderbird.net/) Add-on that allows users to change the subject header for any e-mail that is displayed to the user.
 
