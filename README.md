@@ -6,7 +6,7 @@ The original EditEmailSubject is a [Thunderbird](https://www.thunderbird.net/) A
 This add-on is the original work of jisse44. We will be updating
 the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goal of providing detailed process, tips and conversion notes.  Besides helping developers with the transition process, we hope to use this as one of the vehicles for developing requirements for Thunderbird 78 specifically pertaining to extensions.
 
-![editemailsubjectmx_version](https://img.shields.io/badge/version-v3.0.0b1-darkorange.png?label=EditEmailSubject%20MX)
+![editemailsubjectmx_version](https://img.shields.io/badge/version-v2.1.2b1-darkorange.png?label=EditEmailSubject%20MX)
 ![Thunderbird_version](https://img.shields.io/badge/version-v68+-blue.png?label=Thunderbird)
 [![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](src/LICENSE)
 ![Project Status](https://img.shields.io/badge/Project%20Status-Startup-brightgreen.png)
@@ -22,14 +22,14 @@ EditEmailSubject-MX changes are logged [here](CHANGELOG.md).
 
 ## Credits
 Original Author: [jisse44 (ATN)]  
-New Icon: [C-E]  
+New Icon: [Carl-Erich]  
 
 ## Team
 [jisse44 (ATN)]  
 [Axel], @realRaven2000  
 [John] , @jobisoft  
 [Eyal] , @eyalroz  
-[C-E] , @  
+[Carl-Erich] , @c-e-github  
 [Klause] , @opto  
 [Guenter] , @neandr  
 [Onno] , @  
@@ -45,11 +45,10 @@ New Icon: [C-E]
 [Eyal]: https://github.com/eyalroz
 [Klause]: https://github.com/opto
 [Onno]: https://github.com/
-[C-E]: https://github.com/
 [Ryan]: https://github.com/ryanleesipes
 [Christopher]: https://github.com/cleidigh
 [Guenter]: https://github.com/neandr
-[C-E]: https://github.com/
+[Carl-Erich]: https://github.com/c-e-github
 [Christopher]: https://github.com/cleidigh
 
 
