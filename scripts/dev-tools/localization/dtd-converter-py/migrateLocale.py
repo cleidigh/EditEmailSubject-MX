@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#  /migrateLocale.py/  gWahl  2019-12-17/
+#  /migrateLocale.py/  gWahl  2019-12-19/
 
 import os, sys, json, re
 
@@ -9,7 +9,7 @@ import os, sys, json, re
 def fileDetails(dir, path):
     filename= path[path.rfind('/')+1:]
     language= dir[dir.rfind('/')+1:]
-    dirhome= dir[:dir.rfind('/')].replace('locale','_locale')
+    dirhome= dir[:dir.rfind('/')].replace('locale','_locales')
     return [dirhome, language, filename]
 
 localePath = "**"
@@ -22,12 +22,12 @@ def scan_dir(dir):
         if os.path.isdir(path):
             if '/locale' == path[-7:]:
                 localePath = path
-                _localePath = path.replace('locale','_locale')
-                newDir(_localePath)
-                #print (" _locale created!!!!", _localePath)
+                _localesPath = path.replace('locale','_locales')
+                newDir(_localesPath)
+                #print (" _locales created!!!!", _localesPath)
 
             if localePath in path:
-                newDir(path.replace('/locale/','/_locale/'))
+                newDir(path.replace('/locale/','/_locales/'))
             scan_dir(path)
 
 def newDir(dir):
@@ -35,7 +35,7 @@ def newDir(dir):
        print ("Directory doesn't exist. Make new", dir)
        os.makedirs(dir)
 
-def scan_locale(dir):
+def scan_locales(dir):
     for name in os.listdir(dir):
         path = os.path.join(dir, name)
 
@@ -45,7 +45,7 @@ def scan_locale(dir):
             if localePath in path and ('.properties' in path):
                 convert_prop(path, dir)
         else:
-            scan_locale(path)
+            scan_locales(path)
 
 def convert_dtd(details, dir):
     _fileDetails = fileDetails(details,dir)
@@ -74,10 +74,13 @@ def convert_dtd(details, dir):
     f.close()
 
     # check the file for correctness
-    print("   TESTING ", messagesjson)
+    print("   Testing ", messagesjson)
     with open(messagesjson) as f:
         d = json.load(f)
-        #print(d)
+        e = (json.dumps(d, indent=2))
+        f = open(messagesjson, 'w')
+        f.write(e)
+        f.close()
 
 
 def convert_prop(details, dir):
@@ -107,8 +110,10 @@ def convert_prop(details, dir):
     print("   TESTING ", propjson)
     with open(propjson) as f:
         d = json.load(f)
-        #print(d)
-
+        e = (json.dumps(d, indent=2))
+        f = open(propjson, 'w')
+        f.write(e)
+        f.close()
 
 if __name__ == "__main__":
 
@@ -123,7 +128,7 @@ if __name__ == "__main__":
       use in WebExt/MailExt addon versions.
 
       Legacy                             WebExt
-       locale                              _locale
+       locale                              _locales
          |__ <languageX>                      |__ <languageX>
                |__ <myaddon.dtd>                    |__ <messages.json>
                |__ <myaddon.properties>             |__ <properties.json>
@@ -158,7 +163,7 @@ if __name__ == "__main__":
 
         exit()
 
-    scan_dir('.')     #scan dirs and builds new '_locale' and language subdirs
-    scan_locale('.')  #process .dtd and .properties files
+    scan_dir('.')     #scan dirs and builds new '_locales' and language subdirs
+    scan_locales('.')  #process .dtd and .properties files
 
     print( """___         ___ Done ___         ___""")
