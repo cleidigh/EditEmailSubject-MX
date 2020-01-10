@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#  /migrateLocale.py/  gWahl  2019-12-19/
+#  /migrateLocale.py/  gWahl  2020-01-08/
 
 import os, sys, json, re
 
@@ -9,7 +9,7 @@ import os, sys, json, re
 def fileDetails(dir, path):
     filename= path[path.rfind('/')+1:]
     language= dir[dir.rfind('/')+1:]
-    dirhome= dir[:dir.rfind('/')].replace('locale','_locales')
+    dirhome= dir[:dir.rfind('/')].replace('locales','_locales')
     return [dirhome, language, filename]
 
 localePath = "**"
@@ -20,14 +20,14 @@ def scan_dir(dir):
     for name in os.listdir(dir):
         path = os.path.join(dir, name)
         if os.path.isdir(path):
-            if '/locale' == path[-7:]:
+            if '/locales' == path[-8:]:
                 localePath = path
-                _localesPath = path.replace('locale','_locales')
+                _localesPath = path.replace('locales','_locales')
                 newDir(_localesPath)
                 #print (" _locales created!!!!", _localesPath)
 
             if localePath in path:
-                newDir(path.replace('/locale/','/_locales/'))
+                newDir(path.replace('/locales/','/_locales/'))
             scan_dir(path)
 
 def newDir(dir):
@@ -65,7 +65,7 @@ def convert_dtd(details, dir):
         if sline != '' and sline.find('<!--') == -1:
             b = p.split(sline, 2)
             b2 = b[2][0:(len(b[2])-1)]
-            sdtd = sdtd + " \"" + b[1] +"\""+ ":" + b2 + ","
+            sdtd = sdtd + " \"" + b[1] +"\""+ ': {"message": ' + b2 + '},'
     sdtd = sdtd[:-1] + '}'
 
     # write json file
@@ -74,7 +74,7 @@ def convert_dtd(details, dir):
     f.close()
 
     # check the file for correctness
-    print("   Testing ", messagesjson)
+    print("   TESTING ", messagesjson)
     with open(messagesjson) as f:
         d = json.load(f)
         e = (json.dumps(d, indent=2))
