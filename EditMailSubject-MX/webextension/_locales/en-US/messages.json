@@ -1,0 +1,26 @@
+{
+  "version": {
+    "message": "VersionsNr "
+  },
+  "localOnly": {
+    "message": "Change Only local! (Will not change on Remote/IMAP MailServer)"
+  },
+  "lang.menuTitle": {
+    "message": "Edit Mail Subject"
+  },
+  "lang.subject": {
+    "message": "Subject"
+  },
+  "lang.subjectOld": {
+    "message": "Original subject"
+  },
+  "lang.warning": {
+    "message": "Warning, subject has already been changed. Try it again at your own risk."
+  },
+  "lang.localOnly": {
+    "message": "Only local changes (will only change local Thunderbird index database)"
+  },
+  "lang.accesskey": {
+    "message": "e"
+  }
+}

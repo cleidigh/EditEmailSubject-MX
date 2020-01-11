@@ -1,0 +1,6 @@
+
+/* //gW 2018-10-17    required for TB60.2.1 on Linux        */
+/* Fix to show the menulist-dropmarker under newer GTK3 versions */
+menulist[editable="true"] > .menulist-dropmarker {
+  min-width: 2em;
+}

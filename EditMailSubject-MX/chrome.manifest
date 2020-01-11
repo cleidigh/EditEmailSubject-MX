@@ -1,0 +1,13 @@
+content  editemailsubject  chrome/content/
+
+locale  editemailsubject  en-US  chrome/locales/en-US/
+locale  editemailsubject  fr-FR  chrome/locales/fr-FR/
+locale  editemailsubject  de  chrome/locales/de/
+
+resource editemailsubject  .
+
+overlay  chrome://messenger/content/messenger.xul  chrome://editemailsubject/content/editemailsubject.xul
+overlay  chrome://messenger/content/messageWindow.xul  chrome://editemailsubject/content/editemailsubject.xul
+
+skin editemailsubject classic/1.0 chrome/skin/
+skin editemailsubject-platform classic/1.0 chrome/skin/platform/unix/ os=Linux

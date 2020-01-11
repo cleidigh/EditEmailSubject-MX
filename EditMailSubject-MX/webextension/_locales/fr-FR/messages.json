@@ -1,0 +1,26 @@
+{
+  "version": {
+    "message": "Versions n°"
+  },
+  "localOnly": {
+    "message": "Changez seulement le local! (Ne change pas sur Remote/IMAP MailServer)"
+  },
+  "lang.menuTitle": {
+    "message": "Editer le sujet du message"
+  },
+  "lang.subject": {
+    "message": "Sujet"
+  },
+  "lang.subjectOld": {
+    "message": "Sujet original"
+  },
+  "lang.warning": {
+    "message": "Attention, le sujet de ce mail a d\u00e9j\u00e0 \u00e9t\u00e9 modifi\u00e9. Le changer de nouveau comprend des risques."
+  },
+  "lang.localOnly": {
+    "message": "Changements locaux uniquement (base de donn\u00e9e locale de Thunderbird)"
+  },
+  "lang.accesskey": {
+    "message": "e"
+  }
+}

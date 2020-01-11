@@ -1,0 +1,26 @@
+{
+  "version": {
+    "message": "VersionsNr "
+  },
+  "localOnly": {
+    "message": "Änderungen nur lokal speichern (Lokale Datenbank)!"
+  },
+  "lang.menuTitle": {
+    "message": "Email Betreff bearbeiten"
+  },
+  "lang.subject": {
+    "message": "Betreff"
+  },
+  "lang.subjectOld": {
+    "message": "Original betreff"
+  },
+  "lang.warning": {
+    "message": "Warnung, der Betreff wurde schon bearbeitet. Eine erneute \u00c4nderung ist mit Risiken verbunden."
+  },
+  "lang.localOnly": {
+    "message": "\u00c4nderungen nur lokal speichern (Lokale Datenbank)"
+  },
+  "lang.accesskey": {
+    "message": "e"
+  }
+}
