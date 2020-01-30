@@ -96,7 +96,7 @@ var EditMailSubject = {
  */
 function webExtensionPrefsMsgHandler(msg, sender, sendReply) {
   console.log(" webExtensionPrefsMsgHandler:", msg, sender, sendReply)
-  console.trace()
+  //console.trace()
 
   let prefix ="extensions.editemailsubject." ;
 

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "EditeMailSubject",
-  "description": "Edit Mail Subject emS-MX",
+  "name": "__MSG_extensionName",
+  "description": "__MSG_extensionDescription__",
 
   "version": "2.1.1-mx",
   "default_locale": "de",
@@ -18,9 +18,11 @@
     "48": "images/addon.svg",
     "128": "images/addon.svg"
   },
+
   "options_ui": {
     "page": "options/options.html",
-    "browser_style": false
+    "browser_style": false,
+    "open_in_tab": true
   },
 
   "permissions": [

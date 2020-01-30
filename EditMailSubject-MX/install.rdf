@@ -13,8 +13,8 @@
     <em:hasEmbeddedWebExtension>true</em:hasEmbeddedWebExtension>
 
 		<em:iconURL>chrome://editemailsubject/skin/images/editemailsubjectmx-icon-64px.png</em:iconURL>
-	<!--  <em:optionsURL>chrome://editemailsubject/content/editemailsubjectSettings.xul</em:optionsURL>  -->
-  <!--  <em:optionsType>3</em:optionsType>  -->
+		<em:optionsURL>chrome://editemailsubject/content/editemailsubjectSettings.xul</em:optionsURL>
+		<em:optionsType>3</em:optionsType>
 
     <!-- Thunderbird -->
 	  	<em:targetApplication>

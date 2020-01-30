@@ -1,9 +1,21 @@
-## EditMailSubject-MX   
-<small>Status as of  2020-01-11</small>
+## EditMailSubject-MX
+#### General Notes about this Addon
+The Addon 'Edit email subject' was first published by 'JC Prin' back in 2011 with compatiblity for Thunderbird 3. It's a "Legacy, XUL extension with overlays" addon.
+Currently the activ version is 2.1.1 running up to TB60.*    
+For future use with TB68 and greater it's necessary to convert it's technical base and that's the purpose of this project.   
+The progress of the project can be followed with this document. XPI versions are generated for the development steps so to "freeze" these steps. The XPIs can be downloaded from the [GIT release page](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/), the first one is 2.1.1-wip.1
 
-### Status Overview
 
-To be prepared for the move from TB60 to TB68 and greater, this change includes 'webextension' for **locales,prefs,option** handling. Also the legacy prefs system is used, the `prefs` can be changed only on the Addon-Mgnr page.   
+### Status &nbsp; 2020-01-30 &nbsp; / &nbsp; [2.1.1-wip.2](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.2)
+
+Only one little change: with the previous version (wip-1) a user changes the **prefs/options** setting on the Add-on Manager page. Basically this is not a problem, but would be difficult / not nice with an extensions with a larger number of preferences.   
+Adding `open_in_tab": true` in `webextension/manifest.json` will open the `options.html` code in a new tab.   
+Pitfall/Todo: the tab has neither a label nor a popup title.
+
+
+
+### Status &nbsp; 2020-01-11 &nbsp; / &nbsp; [2.1.1-wip.1](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.1)
+To be prepared for the move from TB60 to TB68 and greater, this first change includes 'webextension' for **locales,prefs,option** handling. Also the legacy prefs system is used, the `prefs` can be changed only on the Addon-Mgnr page.   
 **locales** text elements are converted to 'data-l10n-id' format and stored in json format (see 'webextension' dir)
 
 An jsm module holds WebExtension coding and also some general supporting functions.
