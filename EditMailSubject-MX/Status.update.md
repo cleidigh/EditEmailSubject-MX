@@ -3,7 +3,7 @@
 The Addon 'Edit email subject' was first published by 'JC Prin' back in 2011 with compatiblity for Thunderbird 3. It's a "Legacy, XUL extension with overlays" addon.
 Currently the activ version is 2.1.1 running up to TB60.*    
 For future use with TB68 and greater it's necessary to convert it's technical base and that's the purpose of this project.   
-The progress of the project can be followed with this document. XPI versions are generated for the development steps so to "freeze" these steps. The XPIs can be downloaded from the [GIT release page](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/), the first one is 2.1.1-wip.1
+The progress of the project can be followed with this document. XPI versions are generated for the development steps so to "freeze" these steps. The XPI/ZIPs can be downloaded from the [GIT release page](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/), the first one is 2.1.1-wip.1
 
 
 ### Status &nbsp; 2020-02-01 &nbsp; / &nbsp; [2.1.1-wip.2a](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.2a)
@@ -15,7 +15,7 @@ Adding `open_in_tab": true` in `webextension/manifest.json` will open the `optio
 
 #### UI to access the Options Settings ####
 With defining `open-in-tab` there are different ways to get access to the settings
-* **Main menu    **
+* **Main menu    **   
 ![Access via Main menu](docs/options-access-mainmenu.png)<br><br>
 * **Addon Manager Tab with [Setting]   **    
 ![Access on Addon Mgnr](docs/addonmgr_settings.png)<br><br>
