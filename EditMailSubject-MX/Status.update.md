@@ -6,13 +6,29 @@ For future use with TB68 and greater it's necessary to convert it's technical ba
 The progress of the project can be followed with this document. XPI versions are generated for the development steps so to "freeze" these steps. The XPIs can be downloaded from the [GIT release page](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/), the first one is 2.1.1-wip.1
 
 
-### Status &nbsp; 2020-01-30 &nbsp; / &nbsp; [2.1.1-wip.2](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.2)
+### Status &nbsp; 2020-02-01 &nbsp; / &nbsp; [2.1.1-wip.2a](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.2a)
 
-Only one little change: with the previous version (wip-1) a user changes the **prefs/options** setting on the Add-on Manager page. Basically this is not a problem, but would be difficult / not nice with an extensions with a larger number of preferences.   
-Adding `open_in_tab": true` in `webextension/manifest.json` will open the `options.html` code in a new tab.   
-Pitfall/Todo: the tab has neither a label nor a popup title.
+With the previous version (wip-1) a user changes the **prefs/options** setting on the Add-on Manager page. Basically this is not a problem, but would be difficult / not nice with an extension with a larger number of preferences.   
+Adding `open_in_tab": true` in `webextension/manifest.json` will open the `options.html` code in a new tab   
 
+![Main menu](docs/options-in-tab.png)  
 
+#### UI to access the Options Settings ####
+With defining `open-in-tab` there are different ways to get access to the settings
+* **Main menu    **
+![Access via Main menu](docs/options-access-mainmenu.png)<br><br>
+* **Addon Manager Tab with [Setting]   **    
+![Access on Addon Mgnr](docs/addonmgr_settings.png)<br><br>
+This opens directly the Options tab
+
+* **Addon Manager Tab with link 'more'   **   
+![Access Addon Mgr more](docs/addonmgr_more.png)<br><br>
+Opens the Addon Overview page, there is a button [Settings] to be used to open the tab (same as point before)
+
+--> Reference:  https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/options_ui
+
+_Note **//TODO**_     
+_In certain cases it would be helpful to open and edit the option setting in a simple dialog._
 
 ### Status &nbsp; 2020-01-11 &nbsp; / &nbsp; [2.1.1-wip.1](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.1)
 To be prepared for the move from TB60 to TB68 and greater, this first change includes 'webextension' for **locales,prefs,option** handling. Also the legacy prefs system is used, the `prefs` can be changed only on the Addon-Mgnr page.   
