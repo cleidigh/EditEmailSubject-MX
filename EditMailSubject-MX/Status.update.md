@@ -15,13 +15,13 @@ Adding `open_in_tab": true` in `webextension/manifest.json` will open the `optio
 
 #### UI to access the Options Settings ####
 With defining `open-in-tab` there are different ways to get access to the settings
-* **Main menu    **   
+* **Main menu**     
 ![Access via Main menu](docs/options-access-mainmenu.png)<br><br>
-* **Addon Manager Tab with [Setting]   **    
+* **Addon Manager Tab with [Setting]**       
 ![Access on Addon Mgnr](docs/addonmgr_settings.png)<br><br>
 This opens directly the Options tab
 
-* **Addon Manager Tab with link 'more'   **   
+* **Addon Manager Tab with link 'more'**      
 ![Access Addon Mgr more](docs/addonmgr_more.png)<br><br>
 Opens the Addon Overview page, there is a button [Settings] to be used to open the tab (same as point before)
 
