@@ -6,6 +6,7 @@ For future use with TB68 and greater it's necessary to convert it's technical ba
 The progress of the project can be followed with this document. XPI versions are generated for the development steps so to "freeze" these steps. The XPI/ZIPs can be downloaded from the [GIT release page](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/), the first one is 2.1.1-wip.1
 
 <hr>
+
 ### Status &nbsp; 2020-02-11 &nbsp; / &nbsp; [2.1.1-wip.3](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip3)
 #### Localization  
 Easy migration from a XUL based Add-on to WebExtension needs to take care about the text strings which have be stored with the chrome/locales/<addon\>.dtd files.   
@@ -40,6 +41,7 @@ _Example_
 ![Popup Helper](docs/popupHelper.png)   
 
 <hr>
+
 ### Status &nbsp; 2020-02-01 &nbsp; / &nbsp; [2.1.1-wip.2a](https://github.com/cleidigh/EditEmailSubject-MX/releases/tag/2.1.1-wip.2a)
 
 With the previous version (wip-1) a user changes the **prefs/options** setting on the Add-on Manager page. Basically this is not a problem, but would be difficult / not nice with an extension with a larger number of preferences.   
