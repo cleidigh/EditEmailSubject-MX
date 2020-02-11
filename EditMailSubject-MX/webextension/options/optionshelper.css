@@ -1,0 +1,64 @@
+body {
+  font-family: arial;
+  padding-right: 30%;
+  padding-left: 2%;
+}
+
+.option-style.bolded{
+  font-weight: bold;
+}
+
+.prefbox {
+  display: flex;
+  background-color: ghostwhite;
+  margin:5px;
+}
+.helper {
+  flex: 1;
+  margin:5px;
+}
+/* helper Popup with arrow */
+.helppopup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin: 5px;
+}
+.helppopup:hover .helpbox{
+  display: inline-block;
+}
+.helpbox {
+    width: 160px;
+    background-color: gainsboro;
+    color: #000;
+    position: absolute;
+    margin: -135px;
+    display: none;
+    border-radius: 5px;
+    padding: 8px;
+    -webkit-animation: fadeIn 2s;
+    animation: fadeIn 2s;
+}
+.helpbox.arrow-top::after {
+    content: "";
+    position: absolute;
+    right: 30px;
+    top: -5px;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-bottom: 5px solid #150a83;
+}
+.helpbox.arrow-top {
+    margin-top: 24px;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}

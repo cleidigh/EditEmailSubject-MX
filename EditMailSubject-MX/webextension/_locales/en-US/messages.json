@@ -5,22 +5,26 @@
   "localOnly": {
     "message": "Change Only local! (Will not change on Remote/IMAP MailServer)"
   },
-  "lang.menuTitle": {
+  "localOnly.help": {
+    "message": "The subject will not be changed on an IMAP server if this item is set."
+  },
+  "help.label": {
+    "message": "Help"
+  },
+
+  "menuTitle": {
     "message": "Edit Mail Subject"
   },
-  "lang.subject": {
+  "subject": {
     "message": "Subject"
   },
-  "lang.subjectOld": {
+  "subjectOld": {
     "message": "Original subject"
   },
-  "lang.warning": {
+  "warning": {
     "message": "Warning, subject has already been changed. Try it again at your own risk."
   },
-  "lang.localOnly": {
-    "message": "Only local changes (will only change local Thunderbird index database)"
-  },
-  "lang.accesskey": {
+  "accesskey": {
     "message": "e"
   }
 }

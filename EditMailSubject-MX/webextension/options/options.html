@@ -1,24 +1,35 @@
-<!DOCTYPE html>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
-  <head>
-    <script src="options.js"></script>
-    <link rel="stylesheet" href="options.css" type="text/css">
-    <title>Edit eMail Subject - Options</title>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-  </head>
+  <script src="options.js"></script>
+  <link rel="stylesheet" href="options.css" type="text/css">
+  <link rel="stylesheet" href="optionshelper.css" type="text/css">
+
+  <title>Edit eMail Subject - Options</title>
+
+</head>
 
   <body>
-    <h2>Edit eMail Subject -- Options</h2>
+    <h2 id="eHead" >Edit eMail Subject -- Options</h2>
+
     <div class="browser-style">
-      <input type="text" id="version">
-      <label for="version" data-l10n-id="version"></label>
+      <label for="version" data-i18n="version"> </label>
+      <label class="option-style bolded" id="version"></label>
     </div>
     <hr/>
-    <div class="browser-style">
-      <input type="checkbox" id="localOnly">
-      <label for="localOnly" data-l10n-id="localOnly"></label>
+
+    <div class="prefbox">
+      <div class="browser-style helper" >
+        <input type="checkbox" id="localOnly">
+        <label for="localOnly" data-i18n="localOnly"></label>
+      </div>
+      <div class="helppopup" data-i18n="help.label">
+        <img src="tooltip.png">
+        <label class="helpbox arrow-top" data-i18n="localOnly.help"></label>
+      </div>
     </div>
 
   </body>

@@ -5,22 +5,25 @@
   "localOnly": {
     "message": "Änderungen nur lokal speichern (Lokale Datenbank)!"
   },
-  "lang.menuTitle": {
-    "message": "Email Betreff bearbeiten"
+  "localOnly.help": {
+    "message": "Das &subject; wird nicht auf einem IMAP Server verändert, wenn dies gesetzt ist."
   },
-  "lang.subject": {
+  "help.label": {
+    "message": "Hilfe"
+  },
+  "menuTitle": {
+    "message": "Email &subject; bearbeiten"
+  },
+  "subject": {
     "message": "Betreff"
   },
-  "lang.subjectOld": {
-    "message": "Original betreff"
+  "subjectOld": {
+    "message": "Original &subject;"
   },
-  "lang.warning": {
-    "message": "Warnung, der Betreff wurde schon bearbeitet. Eine erneute \u00c4nderung ist mit Risiken verbunden."
+  "warning": {
+    "message": "Warnung, der &subject; wurde schon bearbeitet. Eine erneute Änderung ist mit Risiken verbunden."
   },
-  "lang.localOnly": {
-    "message": "\u00c4nderungen nur lokal speichern (Lokale Datenbank)"
-  },
-  "lang.accesskey": {
+  "accesskey": {
     "message": "e"
   }
 }

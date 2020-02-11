@@ -20,17 +20,17 @@ var EditMailSubject = {
   getString: function(aStringName, aParams) {
     let propName = this.properties;
     try {
-        let props = Services.strings.createBundle(propName);
+      let props = Services.strings.createBundle(propName);
 
-        if (aParams && aParams.length) {
-            return props.formatStringFromName(aStringName, aParams, aParams.length);
-        } else {
-            return props.GetStringFromName(aStringName);
-        }
+      if (aParams && aParams.length) {
+        return props.formatStringFromName(aStringName, aParams, aParams.length);
+      } else {
+        return props.GetStringFromName(aStringName);
+      }
     } catch (ex) {
-        let s = `Failed to read ${aStringName} from ${propName}.`;
-        Components.utils.reportError(s + " Error: " + ex);
-        return s;
+      let s = `Failed to read ${aStringName} from ${propName}.`;
+      Components.utils.reportError(s + " Error: " + ex);
+      return s;
     }
   },
 
@@ -92,20 +92,20 @@ var EditMailSubject = {
 
 /**
  *  Legacy Prefs Handler
- *    Note: uses prefs store, need to be migrated   //XXX MX
+ *    Note: uses prefs store, need to be migrated
  */
 function webExtensionPrefsMsgHandler(msg, sender, sendReply) {
   console.log(" webExtensionPrefsMsgHandler:", msg, sender, sendReply)
-  //console.trace()
 
   let prefix ="extensions.editemailsubject." ;
 
-  if (msg.action == "get-prefs") {    //XXX MX  below change prefs names and default values
+  if (msg.action == "get-prefs") { //XXX MX  below change prefs names and default values
     sendReply({
       version: Preferences.get(prefix + "version", "2.1.1-mx"),
       localOnly: Preferences.get(prefix + "localOnly", true)
     });
-  } else if (msg.action == "set-prefs") {     //XXX MX  below change prefs names and default values
+  } else
+  if (msg.action == "set-prefs") { //XXX MX  below change prefs names and default values
     Preferences.set(prefix + "version", msg.prefs.version);
     Preferences.set(prefix + "localOnly", msg.prefs.localOnly);
   }
