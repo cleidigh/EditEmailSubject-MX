@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 
 #  /migrateLocale.py/  gWahl  2019-12-17/
 
@@ -68,9 +68,10 @@ def convert_dtd(details, dir):
             sdtd = sdtd + " \"" + b[1] +"\""+ ":" + b2 + ","
     sdtd = sdtd[:-1] + '}'
 
-    # write json file
+    # write pretty printed json file
+    parsed = json.loads(sdtd)
     f = open(messagesjson, 'w')
-    f.write(sdtd)
+    f.write(json.dumps(parsed, indent=4, sort_keys=True))
     f.close()
 
     # check the file for correctness
@@ -99,8 +100,10 @@ def convert_prop(details, dir):
     sprop = sprop[:-1] + '}'
 
     # write json file
+    # write pretty printed json file
+    parsed = json.loads(sprop)
     f = open(propjson, 'w')
-    f.write(sprop)
+    f.write(json.dumps(parsed, indent=4, sort_keys=True))
     f.close()
 
     # check the file for correctness
