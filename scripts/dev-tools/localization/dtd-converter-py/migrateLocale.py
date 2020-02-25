@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 #  /migrateLocale.py/  gWahl  2019-12-17/
 
