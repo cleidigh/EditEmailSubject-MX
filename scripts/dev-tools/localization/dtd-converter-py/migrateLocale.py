@@ -9,7 +9,7 @@ import os, sys, json, re, io
 def fileDetails(dir, path):
     filename= path[path.rfind('/')+1:]
     language= dir[dir.rfind('/')+1:]
-    dirhome= dir[:dir.rfind('/')].replace('locale','_locale')
+    dirhome= dir[:dir.rfind('/')].replace('locale','_locales')
     return [dirhome, language, filename]
 
 localePath = "**"
@@ -22,12 +22,12 @@ def scan_dir(dir):
         if os.path.isdir(path):
             if '/locale' == path[-7:]:
                 localePath = path
-                _localePath = path.replace('locale','_locale')
+                _localePath = path.replace('locale','_locales')
                 newDir(_localePath)
-                #print (" _locale created!!!!", _localePath)
+                #print (" _locales created!!!!", _localePath)
 
             if localePath in path:
-                newDir(path.replace('/locale/','/_locale/'))
+                newDir(path.replace('/locale/','/_locales/'))
             scan_dir(path)
 
 def newDir(dir):
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
         exit()
 
-    scan_dir('.')     #scan dirs and builds new '_locale' and language subdirs
+    scan_dir('.')     #scan dirs and builds new '_locales' and language subdirs
     scan_locale('.')  #process .dtd and .properties files
 
     print( """___         ___ Done ___         ___""")
