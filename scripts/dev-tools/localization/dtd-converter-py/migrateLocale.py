@@ -2,14 +2,14 @@
 
 #  /migrateLocale.py/  gWahl  2019-12-17/
 
-import os, sys, json, re
+import os, sys, json, re, io
 
 #------------------------------------------------
 
 def fileDetails(dir, path):
     filename= path[path.rfind('/')+1:]
     language= dir[dir.rfind('/')+1:]
-    dirhome= dir[:dir.rfind('/')].replace('locale','_locale')
+    dirhome= dir[:dir.rfind('/')].replace('locale','_locales')
     return [dirhome, language, filename]
 
 localePath = "**"
@@ -22,12 +22,12 @@ def scan_dir(dir):
         if os.path.isdir(path):
             if '/locale' == path[-7:]:
                 localePath = path
-                _localePath = path.replace('locale','_locale')
+                _localePath = path.replace('locale','_locales')
                 newDir(_localePath)
-                #print (" _locale created!!!!", _localePath)
+                #print (" _locales created!!!!", _localePath)
 
             if localePath in path:
-                newDir(path.replace('/locale/','/_locale/'))
+                newDir(path.replace('/locale/','/_locales/'))
             scan_dir(path)
 
 def newDir(dir):
@@ -36,26 +36,44 @@ def newDir(dir):
        os.makedirs(dir)
 
 def scan_locale(dir):
+    messages = ""
     for name in os.listdir(dir):
         path = os.path.join(dir, name)
-
+        
         if os.path.isfile(path):
             if localePath in path and ('.dtd' in path):
-              convert_dtd(path, dir)
+                messages = messages + convert_dtd(path, dir)
             if localePath in path and ('.properties' in path):
-                convert_prop(path, dir)
+                messages = messages + convert_prop(path, dir)
+
         else:
             scan_locale(path)
 
-def convert_dtd(details, dir):
-    _fileDetails = fileDetails(details,dir)
-    messagesjson = _fileDetails[0] + "/messages.json"
-    print(" <myaddon.dtd> converted to JSON for ", _fileDetails[2])
+    if (messages):
+        messagesjson = fileDetails(path, dir)[0] + "/messages.json"
+        
+        # write pretty printed json file
+        parsed = json.loads("{" + messages[:-1] + "}")
+        final = json.dumps(parsed, indent=4, sort_keys=True, ensure_ascii=False)
+        with io.open(messagesjson, "w",  encoding='utf-8') as f:
+            f.write(final)
+
+        # check the file for correctness
+        print(" -> TESTING " + messagesjson)
+        with open(messagesjson) as f:
+            d = json.load(f)
+            #print(d)
+
+
+
+
+def convert_dtd(path, dir):
+    print(" CONVERTING <"+path+"> to JSON")
 
     p = re.compile(r'\s+')
-    sdtd = '{'
+    sdtd = ''
 
-    dtd = open(details, 'r')
+    dtd = io.open(path, 'r', encoding='utf-8')
     dtdLines = dtd.readlines()
 
     for line in dtdLines:
@@ -65,49 +83,43 @@ def convert_dtd(details, dir):
         if sline != '' and sline.find('<!--') == -1:
             b = p.split(sline, 2)
             b2 = b[2][0:(len(b[2])-1)]
-            sdtd = sdtd + " \"" + b[1] +"\""+ ":" + b2 + ","
-    sdtd = sdtd[:-1] + '}'
+            sdtd = sdtd + ' "' + b[1] +'"'+ ': { "message": ' + b2 + '},'
 
-    # write json file
-    f = open(messagesjson, 'w')
-    f.write(sdtd)
-    f.close()
-
-    # check the file for correctness
-    print("   TESTING ", messagesjson)
-    with open(messagesjson) as f:
-        d = json.load(f)
-        #print(d)
+    return sdtd
 
 
-def convert_prop(details, dir):
-    _fileDetails = fileDetails(details,dir)
-    propjson = _fileDetails[0] + "/properties.json"
-    print(" <myaddon.properties> converted to JSON for ", _fileDetails[2])
+def convert_prop(path, dir):
+    print(" CONVERTING <" + path + "> to JSON")
 
-    sprop = '{'
-    prop = open(details, 'r')
+    sprop = ''
+    prop = io.open(path, 'r', encoding='utf-8')
     propLines = prop.readlines()
 
     for line in propLines:
         sline = line.strip().replace('\r','').replace('\n','')
-        #print("next line >>" + line + "<<", len(line))
+        #print("next line >>" + line + "<<")
 
         if sline != '' and sline[0] != '#':
             a = sline.split('=')
-            sprop = sprop + " \"" + a[0] +"\""+ ":\"" + a[1].replace("\"","'") + "\","
-    sprop = sprop[:-1] + '}'
+            
+            # search for %S and replace them by $P1$, $P2" and so on
+            count = 0;
+            placeholders = [];
+            placeholder = ""
+            while True:
+                idx = a[1].find("%S")
+                if (idx == -1):
+                    break
+                count += 1
+                a[1] = a[1].replace("%S", "$P" + str(count) + "$", 1)
+                placeholders.append('"P' + str(count) + '": { "content": "$' + str(count) + '"}')
+                
+            if len(placeholders) > 0:
+                placeholder = ', "placeholders": {' + ','.join(placeholders) + '}'
+                 
+            sprop = sprop + ' "' + a[0] +'"'+ ': { "message": "' + a[1].replace("\"","'") + '"' + placeholder+ ' },'
 
-    # write json file
-    f = open(propjson, 'w')
-    f.write(sprop)
-    f.close()
-
-    # check the file for correctness
-    print("   TESTING ", propjson)
-    with open(propjson) as f:
-        d = json.load(f)
-        #print(d)
+    return sprop
 
 
 if __name__ == "__main__":
@@ -123,10 +135,10 @@ if __name__ == "__main__":
       use in WebExt/MailExt addon versions.
 
       Legacy                             WebExt
-       locale                              _locale
+       locale                              _locales
          |__ <languageX>                      |__ <languageX>
                |__ <myaddon.dtd>                    |__ <messages.json>
-               |__ <myaddon.properties>             |__ <properties.json>
+               |__ <myaddon.properties>
 
 
       Arguments:
@@ -158,7 +170,7 @@ if __name__ == "__main__":
 
         exit()
 
-    scan_dir('.')     #scan dirs and builds new '_locale' and language subdirs
+    scan_dir('.')     #scan dirs and builds new '_locales' and language subdirs
     scan_locale('.')  #process .dtd and .properties files
 
     print( """___         ___ Done ___         ___""")
