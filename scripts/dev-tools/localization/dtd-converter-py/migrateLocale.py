@@ -6,61 +6,55 @@ import os, sys, json, re, io
 
 #------------------------------------------------
 
-def fileDetails(dir, path):
-    filename= path[path.rfind('/')+1:]
-    language= dir[dir.rfind('/')+1:]
-    dirhome= dir[:dir.rfind('/')].replace('locale','_locales')
-    return [dirhome, language, filename]
-
-localePath = "**"
-
-def scan_dir(dir):
-    global localePath
-
-    for name in os.listdir(dir):
-        path = os.path.join(dir, name)
-        if os.path.isdir(path):
-            if '/locale' == path[-7:]:
-                localePath = path
-                _localePath = path.replace('locale','_locales')
-                newDir(_localePath)
-                #print (" _locales created!!!!", _localePath)
-
-            if localePath in path:
-                newDir(path.replace('/locale/','/_locales/'))
-            scan_dir(path)
-
 def newDir(dir):
     if not os.path.exists(dir):
-       print ("Directory doesn't exist. Make new", dir)
+       print("Directory doesn't exist. Creating. <" +  dir + ">")
        os.makedirs(dir)
 
-def scan_locale(dir):
+def convert(source, destination, current = None):
+    dir = source if current == None else current
     messages = ""
+    
     for name in os.listdir(dir):
         path = os.path.join(dir, name)
         
         if os.path.isfile(path):
-            if localePath in path and ('.dtd' in path):
+            if path.endswith('.dtd'):
                 messages = messages + convert_dtd(path, dir)
-            if localePath in path and ('.properties' in path):
+            if path.endswith('.properties'):
                 messages = messages + convert_prop(path, dir)
 
         else:
-            scan_locale(path)
+            convert(source, destination, path)
 
     if (messages):
-        messagesjson = fileDetails(path, dir)[0] + "/messages.json"
+        # map the path from the source into the destination folder
+        dest = dir.replace(source, destination);
+        messagesjson = os.path.join(dest, "messages.json")
+        newDir(dest)
+
+        # check if the messagesjson already exists
+        oldData = None
+        if os.path.exists(messagesjson):
+            with open(messagesjson, "r",  encoding='utf-8') as f:
+                oldData = json.load(f)    
+        
+        # merge data
+        newData = json.loads("{" + messages[:-1] + "}")
+        if oldData:
+            mergedData = oldData
+            mergedData.update(newData)
+        else:
+            mergedData = newData
         
         # write pretty printed json file
-        parsed = json.loads("{" + messages[:-1] + "}")
-        final = json.dumps(parsed, indent=4, sort_keys=True, ensure_ascii=False)
-        with io.open(messagesjson, "w",  encoding='utf-8') as f:
+        final = json.dumps(mergedData, indent=4, sort_keys=True, ensure_ascii=False)
+        with io.open(messagesjson, "w", encoding='utf-8') as f:
             f.write(final)
 
         # check the file for correctness
         print(" -> TESTING " + messagesjson)
-        with open(messagesjson) as f:
+        with open(messagesjson, "r",  encoding='utf-8') as f:
             d = json.load(f)
             #print(d)
 
@@ -68,7 +62,7 @@ def scan_locale(dir):
 
 
 def convert_dtd(path, dir):
-    print(" CONVERTING <"+path+"> to JSON")
+    print(" CONVERTING <" + path + "> to JSON")
 
     p = re.compile(r'\s+')
     sdtd = ''
@@ -124,53 +118,49 @@ def convert_prop(path, dir):
 
 if __name__ == "__main__":
 
-    print ("""___ Migrate Thunderbird 60:Legacy 'locale' to WebExt JSON format ___""")
+    print ("""
+      This python3 script converts legacy locale files (*.properties and *.dtd)
+      to the new WebExt JSON format.""")
 
-    if (len(sys.argv) == 2) and sys.argv[1] == "--help":
+    if (len(sys.argv) < 2 or len(sys.argv) > 3):
         print ("""
-      Webextension (and Mailextension) can't work with the legacy 'locale'
-      text notation/format (*.properties and *.dtd).
-      To reuse those legacy addon text elements this python3 program
-      converts all 'locale' file content to JSON format files for further
-      use in WebExt/MailExt addon versions.
-
-      Legacy                             WebExt
+      Legacy                              WebExt
+      ------                              ------
        locale                              _locales
          |__ <languageX>                      |__ <languageX>
                |__ <myaddon.dtd>                    |__ <messages.json>
                |__ <myaddon.properties>
 
 
-      Arguments:
-        No arguments. Scan tree from '.'
-        Use --help argument to get this help listing
-
+      Usage:
+        py migrateLocale.py <source> [<destination>] 
+        
+        If the destination folder (WebExt _locale folder) is not specified,
+        the specified source folder (legacy locale folder) will be used as
+        the destination folder.
+        
+        If there is an existing messages.json at the final destination, the
+        script will attempt to merge the new strings into it.
+        
       Testing:
-        Each JSON file is directly reloaded with the python function
-        json.load(f), so any un-resolved .dtd or .properties string
-        would throw a python error.
-        Example:
-          Assume a .dtd line with:
-            <!ENTITY rf.options.list.startingday.label "Startdag fan \&apos;e wike">
-          Also the converting will write an JSON file (messages.json),
-          the file testing will throw an python error like this:
-            json.decoder.JSONDecodeError: Invalid \escape: line 1 column 17672 (char 17671)
-
-          More details will give an JSON Validator with:
-            Parse error on line 1:
-            ....startingday.label":"Startdag fan \&apos
-            -----------------------^
-            Expecting 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '[', got 'undefined'
-
-        JSON Validators:
-            https://jsonlint.com/
-            http://jsoneditoronline.org/
-            https://jsonformatter.curiousconcept.com/
+        Each created JSON file is tested with the python function json.load(f),
+        which will throw an error in case something went wrong. Run a JSON
+        validator on the created json files to learn more about the error.
+        
+      JSON Validators:
+        https://jsonlint.com/
+        http://jsoneditoronline.org/
+        https://jsonformatter.curiousconcept.com/
         """)
 
         exit()
+   
+    # use source as destination, if not specified
+    source = sys.argv[1];
+    destination = sys.argv[1];
+    if (len(sys.argv) == 3):
+        destination = sys.argv[2];
+        
+    convert(source, destination)
 
-    scan_dir('.')     #scan dirs and builds new '_locales' and language subdirs
-    scan_locale('.')  #process .dtd and .properties files
-
-    print( """___         ___ Done ___         ___""")
+    print( """Done""")
