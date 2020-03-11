@@ -1,0 +1,27 @@
+{
+	"applications": {
+		"gecko": {
+			"id": "edit-email-subject-mx@tb.dev",
+			"strict_min_version": "68.0",
+			"strict_max_version": "69.*"
+		}
+	},
+	"manifest_version": 2,
+	"name": "EditEmailSubject MX",
+	"version": "3.0.0b1",
+	"author": "tb-developers",
+	"description": "__MSG_extensionDescription__",
+	"default_locale": "en-US",
+	"icons": {
+		"64": "chrome/images/editemailsubjectmx-icon-64px.png",
+		"32": "chrome/images/editemailsubjectmx-icon-32px.png",
+		"16": "chrome/images/editemailsubjectmx-icon-16px.png"
+	},
+	"legacy": {
+        "options": {
+            "page": "chrome://editemailsubject/content/editemailsubjectSettings.xul",
+            "open_in_tab": false
+        }
+    }
+
+}
