@@ -25,6 +25,17 @@ var objEditemailsubject = {
 	initDialog : function() {
 
 		objEditemailsubject.consoleService.logStringMessage("EditEmailSubject start");
+	
+		document.getElementById("EditEmailSubject_dialog").addEventListener("dialogaccept", function(event) {
+			if (!objEditemailsubject.exitDialog(false)) {
+				event.preventDefault(); // Prevent the dialog closing.
+			}
+		});
+		
+		document.getElementById("EditEmailSubject_dialog").addEventListener("dialogcancel", function(event) {
+			objEditemailsubject.exitDialog(true);
+		});
+		
 		document.getElementById("editemailsubjectInput").value = window.arguments[0].subject;
 		if (document.getElementById("editemailsubjectOld")!= null) document.getElementById("editemailsubjectOld").value = window.arguments[0].oldSubject;
 	},
@@ -79,7 +90,7 @@ var objEditemailsubject = {
 			var newMsgHeader = {};
 			newMsgHeader.subject = objEditemailsubject.msgHeader.mime2DecodedSubject;
 
-			window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable ",newMsgHeader);
+			window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable ", newMsgHeader);
 
 			if (newMsgHeader.cancel) return;
 

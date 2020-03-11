@@ -5,8 +5,7 @@
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		title="EditEmailSubject Settings"
 		id="editemailsubjectSettings"
-		onload="loadSettings()"
-       		ondialogaccept="saveSettings();">
+		onload="loadSettings()">
 
 	<script type="application/x-javascript">
 		<![CDATA[
@@ -14,6 +13,9 @@
 		  var extSettings = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 			
 		  function loadSettings() {
+			document.getElementById("editemailsubjectSettings").addEventListener("dialogaccept", function(event) {
+				saveSettings();
+			});
 			document.getElementById("localOnly").checked = extSettings.getBoolPref("extensions.editemailsubject.localOnly");
 		   }
    
