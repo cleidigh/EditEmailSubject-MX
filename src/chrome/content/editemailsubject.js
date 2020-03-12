@@ -19,7 +19,7 @@ var objEditemailsubject = {
 	msgFolder : null,	
 	msgHeader : null,
 	consoleService : Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService),
-    	extSettings : Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
+	extSettings : Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
 
 
 	initDialog : function() {
@@ -269,7 +269,7 @@ var objEditemailsubject = {
 
 		},
 	
-         	onDataAvailable : function (aRequest, aContext, aInputStream, aOffset, aCount) {
+         	onDataAvailable : function (aRequest, aInputStream, aOffset, aCount) {
 
 			var scriptInStream = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance().QueryInterface(Components.interfaces.nsIScriptableInputStream);
 			scriptInStream.init(aInputStream);
