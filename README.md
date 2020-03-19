@@ -6,7 +6,7 @@ The original EditEmailSubject is a [Thunderbird](https://www.thunderbird.net/) A
 This add-on is the original work of jisse44. We will be updating
 the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goal of providing detailed process, tips and conversion notes.  Besides helping developers with the transition process, we hope to use this as one of the vehicles for developing requirements for Thunderbird 78 specifically pertaining to extensions.
 
-![editemailsubjectmx_version](https://img.shields.io/badge/version-v2.1.2b1-darkorange.png?label=EditEmailSubject%20MX)
+[![editemailsubjectmx_version](https://img.shields.io/badge/version-v3.0.0b2-darkorange.png?label=EditEmailSubject%20MX)](https://github.com/cleidigh/EditEmailSubject-MX/releases)
 ![Thunderbird_version](https://img.shields.io/badge/version-v68+-blue.png?label=Thunderbird)
 [![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](LICENSE)
 ![Project Status](https://img.shields.io/badge/Project%20Status-Startup-brightgreen.png)
