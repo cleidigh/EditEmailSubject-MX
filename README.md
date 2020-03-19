@@ -11,14 +11,13 @@ the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goa
 [![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](LICENSE)
 ![Project Status](https://img.shields.io/badge/Project%20Status-Startup-brightgreen.png)
 
-## XPI Add-on Package Build instructions
-TBD - package build description (node build script)
+## Releases & Changelog
+EditEmailSubject-MX releases can be found [here](https://github.com/cleidigh/EditEmailSubject-MX/releases). Each release will list the relevant changes and provides a link to an XPI file to download the add-on. 
+
+_Note: You need to save the XPI file on your computer (using "save as" from the context menu). If you just click on it, it will be installed in your Firefox browser where it will not work of course. The downloaded file can be installed in Thunderbird using the gear menu in the Add-On Manager._
 
 ## Issues & Questions
 Post any issues or questions for EditEmailSubject MX [here](https://github.com/cleidigh/EditEmailSubject-MX/issues).
-
-## Releases & Changelog
-EditEmailSubject-MX releases can be found [here](https://github.com/cleidigh/EditEmailSubject-MX/releases). Each release will list the relevant changes.
 
 ## Credits
 Original Author: [jisse44 (ATN)]  
