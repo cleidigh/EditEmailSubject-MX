@@ -17,8 +17,8 @@ TBD - package build description (node build script)
 ## Issues & Questions
 Post any issues or questions for EditEmailSubject MX [here](https://github.com/cleidigh/EditEmailSubject-MX/issues).
 
-## Changelog
-EditEmailSubject-MX changes are logged [here](CHANGELOG.md).
+## Releases & Changelog
+EditEmailSubject-MX releases can be found [here](https://github.com/cleidigh/EditEmailSubject-MX/releases). Each release will list the relevant changes.
 
 ## Credits
 Original Author: [jisse44 (ATN)]  
