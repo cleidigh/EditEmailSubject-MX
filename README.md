@@ -8,7 +8,7 @@ the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goa
 
 ![editemailsubjectmx_version](https://img.shields.io/badge/version-v2.1.2b1-darkorange.png?label=EditEmailSubject%20MX)
 ![Thunderbird_version](https://img.shields.io/badge/version-v68+-blue.png?label=Thunderbird)
-[![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](src/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](LICENSE)
 ![Project Status](https://img.shields.io/badge/Project%20Status-Startup-brightgreen.png)
 
 ## XPI Add-on Package Build instructions
