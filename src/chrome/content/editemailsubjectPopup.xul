@@ -4,10 +4,8 @@
 <!DOCTYPE overlay SYSTEM "chrome://editemailsubject/locale/editemailsubject.dtd">
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        onload="objEditemailsubject.initDialog();" 
+	onload="objEditemailsubject.initDialog();" 
 	title="EditEmailSubject - &lang.menuTitle;"
-        ondialogaccept="return objEditemailsubject.exitDialog(false)"
-	ondialogcancel="objEditemailsubject.exitDialog(true)"
 	orient="vertical"
 	flex="1"
 	id="EditEmailSubject_dialog"

@@ -19,12 +19,23 @@ var objEditemailsubject = {
 	msgFolder : null,	
 	msgHeader : null,
 	consoleService : Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService),
-    	extSettings : Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
+	extSettings : Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
 
 
 	initDialog : function() {
 
 		objEditemailsubject.consoleService.logStringMessage("EditEmailSubject start");
+	
+		document.getElementById("EditEmailSubject_dialog").addEventListener("dialogaccept", function(event) {
+			if (!objEditemailsubject.exitDialog(false)) {
+				event.preventDefault(); // Prevent the dialog closing.
+			}
+		});
+		
+		document.getElementById("EditEmailSubject_dialog").addEventListener("dialogcancel", function(event) {
+			objEditemailsubject.exitDialog(true);
+		});
+		
 		document.getElementById("editemailsubjectInput").value = window.arguments[0].subject;
 		if (document.getElementById("editemailsubjectOld")!= null) document.getElementById("editemailsubjectOld").value = window.arguments[0].oldSubject;
 	},
@@ -79,7 +90,7 @@ var objEditemailsubject = {
 			var newMsgHeader = {};
 			newMsgHeader.subject = objEditemailsubject.msgHeader.mime2DecodedSubject;
 
-			window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable ",newMsgHeader);
+			window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable ", newMsgHeader);
 
 			if (newMsgHeader.cancel) return;
 
@@ -258,7 +269,7 @@ var objEditemailsubject = {
 
 		},
 	
-         	onDataAvailable : function (aRequest, aContext, aInputStream, aOffset, aCount) {
+         	onDataAvailable : function (aRequest, aInputStream, aOffset, aCount) {
 
 			var scriptInStream = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance().QueryInterface(Components.interfaces.nsIScriptableInputStream);
 			scriptInStream.init(aInputStream);
