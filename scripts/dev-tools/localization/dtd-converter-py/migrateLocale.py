@@ -135,7 +135,7 @@ if __name__ == "__main__":
       Usage:
         py migrateLocale.py <source> [<destination>] 
         
-        If the destination folder (WebExt _locale folder) is not specified,
+        If the destination folder (WebExt _locales folder) is not specified,
         the specified source folder (legacy locale folder) will be used as
         the destination folder.
         
