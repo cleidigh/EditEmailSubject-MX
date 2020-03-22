@@ -14,7 +14,8 @@ the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goa
 ## Releases & Changelog
 EditEmailSubject-MX releases can be found [here](https://github.com/cleidigh/EditEmailSubject-MX/releases). Each release will list the relevant changes and provides a link to an XPI file to download the add-on. 
 
-_Note: You need to save the XPI file on your computer (using "save as" from the context menu). If you just click on it, it will be installed in your Firefox browser where it will not work of course. The downloaded file can be installed in Thunderbird using the gear menu in the Add-On Manager._   
+_Note: You need to save the XPI file on your computer (using "save as" from the context menu). If you just click on it, it will be installed in your Firefox browser where it will not work of course. The downloaded file can be installed in Thunderbird using the gear menu in the Add-On Manager._
+
 _Alternatively use Drag&Drop for installing from "Releases" directly to the TB/Addon Manager page. With having both pages open just grap the release in question on github and drag it over to the TB page, release and follow further instructions._
 
 ## Issues & Questions
