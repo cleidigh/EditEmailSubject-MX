@@ -43,7 +43,7 @@ New Icon: [Carl-Erich]
 [Axel]: https://github.com/realRaven2000
 [John]: https://github.com/jobisoft
 [Eyal]: https://github.com/eyalroz
-[Klause]: https://github.com/opto
+[Klaus]: https://github.com/opto
 [Onno]: https://github.com/
 [Ryan]: https://github.com/ryanleesipes
 [Christopher]: https://github.com/cleidigh
