@@ -38,7 +38,7 @@ New Icon: [Carl-Erich]
 [Christopher] , @cleidigh   
 
 ## License
-[GPL v3](src/LICENSE)
+[GPL v3](LICENSE)
 
 
 [Axel]: https://github.com/realRaven2000
