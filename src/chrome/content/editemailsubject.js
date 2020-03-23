@@ -129,11 +129,11 @@ var objEditemailsubject = {
         	        return 0;
         	},
         
-	        onStartRequest : function (aRequest, aContext) {
+	        onStartRequest : function (aRequest) {
 			objEditemailsubject.listener.text = "";			
 		},
             
-        	onStopRequest : function (aRequest, aContext, aStatusCode) {
+        	onStopRequest : function (aRequest, aStatusCode) {
 
 			var isImap = (objEditemailsubject.msgFolder.server.type == "imap") ? true : false;
 			var date = objEditemailsubject.getOrigDate();
