@@ -143,9 +143,6 @@ var objEditemailsubject = {
 			if (objEditemailsubject.msgHeader.flags & 0x0010) originalSubject = "Re: " + originalSubject;
 			newMsgHeader.subject = originalSubject;
 			newMsgHeader.date = date;
-			newMsgHeader.replyto = objEditemailsubject.msgHeader.getStringProperty("replyTo");
-			newMsgHeader.author = objEditemailsubject.msgHeader.mime2DecodedAuthor;
-			newMsgHeader.recipients = objEditemailsubject.msgHeader.mime2DecodedRecipients;
 
 			var text = objEditemailsubject.listener.text;
 			if (text.indexOf("X-EditEmailSubject:") < 0) window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable",newMsgHeader);
@@ -157,12 +154,6 @@ var objEditemailsubject = {
 			if (newMsgHeader.cancel) return;
 		
 			var newSubject = unescape(encodeURIComponent(newMsgHeader.subject));
-			var newAuthor = unescape(encodeURIComponent(newMsgHeader.author));		
-			var newRecipients = unescape(encodeURIComponent(newMsgHeader.recipients));
-
-			var newReplyto = "";
-			if (newMsgHeader.replyto) newReplyto = unescape(encodeURIComponent(newMsgHeader.replyto));
-			else newReplyto = null;
 		
 			var data = objEditemailsubject.cleanNR(objEditemailsubject.listener.text);
 			var headerEnd = data.search(/\r\n\r\n/);
@@ -171,39 +162,13 @@ var objEditemailsubject = {
 			while(headers.match(/\r\nSubject: .*\r\n\s+/))
 				headers = headers.replace(/(\r\nSubject: .*)(\r\n\s+)/, "$1 ");
 
-			while(headers.match(/\r\nFrom: .*\r\n\s+/))
-				headers = headers.replace(/(\r\nFrom: .*)(\r\n\s+)/, "$1 ");
-
-			while(headers.match(/\r\nTo: .*\r\n\s+/))
-				headers = headers.replace(/(\r\nTo: .*)(\r\n\s+)/, "$1 ");
-
 			if (headers.indexOf("\nSubject:") > -1) headers = headers.replace(/\nSubject: .*\r\n/, "\nSubject: " + newSubject + "\r\n");
 			else if (headers.indexOf("\nsubject:") > -1) headers = headers.replace(/\nsubject: *.*\r\n/, "\nsubject: " + newSubject+ "\r\n");
 			else headers = headers + ("\r\nSubject: " + newSubject);
 
-			if (headers.indexOf("From:") > -1) headers = headers.replace(/\nFrom: .*\r\n/, "\nFrom: " + newAuthor + "\r\n");
-			else if (headers.indexOf("\nfrom:") > -1) headers = headers.replace(/\nfrom: *.*\r\n/, "\nfrom: " + newAuthor + "\r\n");
-			else headers = headers + ("\r\nFrom: " + newAuthor);
-
-			if (headers.indexOf("To:") > -1) headers = headers.replace(/\nTo: .*\r\n/, "\nTo: " + newRecipients + "\r\n");
-			else if (headers.indexOf("\nto:") > -1) headers = headers.replace(/\nto: *.*\r\n/, "\nto: " + newRecipients + "\r\n");
-			else headers = headers + ("\r\nTo: " + newRecipients);
-
 			if (headers.indexOf("Date:") > -1) headers = headers.replace(/\nDate: .*\r\n/, "\nDate: " + newMsgHeader.date + "\r\n");
 			else if (headers.indexOf("\ndate:") > -1) headers = headers.replace(/\ndate: *.*\r\n/, "\ndate: " + newMsgHeader.date + "\r\n");
 			else headers = headers + ("\r\nDate: " + newMsgHeader.date);
-
-			if (headers.indexOf("\nMessage-ID:") > -1) headers = headers.replace(/\nMessage-ID: *.*\r\n/, "\nMessage-ID: " + newMsgHeader.mid + "\r\n");
-			else if (newMsgHeader.mid) headers = headers + ("\r\nMessage-ID: " + newMsgHeader.mid);
-
-			if (headers.indexOf("\nReferences:") > -1) headers = headers.replace(/\nReferences: *.*\r\n/, "\nReferences: " + newMsgHeader.ref + "\r\n");
-			else if (newMsgHeader.ref) headers = headers + ("\r\nReferences: " + newMsgHeader.ref);
-
-			if (newReplyto) {
-				if (headers.indexOf("Reply-To:") > -1) headers = headers.replace(/\nReply\-To: .*\r\n/, "\nReply-To: " + newMsgHeader.replyto + "\r\n");
-				else if (headers.indexOf("reply-to:") > -1) headers = headers.replace(/\nreply\-to: *.*\r\n/, "\nreply-to: " + newMsgHeader.replyto + "\r\n");
-				else headers = headers + ("\r\nReply-To: " + newMsgHeader.replyto);
-			} 
 			
 			/* Hack to prevent blank line into headers and binary attachments broken. Thanks to Achim Czasch for fix */		
 			headers = headers.replace(/\r\r/,"\r");
