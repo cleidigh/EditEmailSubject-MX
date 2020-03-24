@@ -1,14 +1,14 @@
 {
 	"applications": {
 		"gecko": {
-			"id": "edit-email-subject-mx@tb.dev",
+			"id": "EditMailSubject@jcp.convenant",
 			"strict_min_version": "68.0",
 			"strict_max_version": "69.*"
 		}
 	},
 	"manifest_version": 2,
 	"name": "EditEmailSubject MX",
-	"version": "3.0.0b2",
+	"version": "3.2",
 	"author": "tb-developers",
 	"description": "__MSG_extensionDescription__",
 	"default_locale": "en-US",
