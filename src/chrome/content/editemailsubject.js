@@ -142,7 +142,7 @@ var objEditemailsubject = {
 
 			if (objEditemailsubject.msgHeader.flags & 0x0010) originalSubject = "Re: " + originalSubject;
 			newMsgHeader.subject = originalSubject;
-			newMsgHeader.date = date;
+			//newMsgHeader.date = date;
 
 			var text = objEditemailsubject.listener.text;
 			if (text.indexOf("X-EditEmailSubject:") < 0) window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable",newMsgHeader);
@@ -166,9 +166,9 @@ var objEditemailsubject = {
 			else if (headers.indexOf("\nsubject:") > -1) headers = headers.replace(/\nsubject: *.*\r\n/, "\nsubject: " + newSubject+ "\r\n");
 			else headers = headers + ("\r\nSubject: " + newSubject);
 
-			if (headers.indexOf("Date:") > -1) headers = headers.replace(/\nDate: .*\r\n/, "\nDate: " + newMsgHeader.date + "\r\n");
-			else if (headers.indexOf("\ndate:") > -1) headers = headers.replace(/\ndate: *.*\r\n/, "\ndate: " + newMsgHeader.date + "\r\n");
-			else headers = headers + ("\r\nDate: " + newMsgHeader.date);
+			//if (headers.indexOf("Date:") > -1) headers = headers.replace(/\nDate: .*\r\n/, "\nDate: " + newMsgHeader.date + "\r\n");
+			//else if (headers.indexOf("\ndate:") > -1) headers = headers.replace(/\ndate: *.*\r\n/, "\ndate: " + newMsgHeader.date + "\r\n");
+			//else headers = headers + ("\r\nDate: " + newMsgHeader.date);
 			
 			/* Hack to prevent blank line into headers and binary attachments broken. Thanks to Achim Czasch for fix */		
 			headers = headers.replace(/\r\r/,"\r");
