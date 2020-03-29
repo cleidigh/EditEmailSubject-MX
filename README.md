@@ -31,8 +31,7 @@ New Icon: [Carl-Erich]
 [John] , @jobisoft  
 [Eyal] , @eyalroz  
 [Carl-Erich] , @c-e-github  
-[Klaus] , @opto  
-[Guenter] , @neandr  
+[Klaus] , @opto   
 [Onno] , @  
 [Ryan] , @ryanleesipes  
 [Christopher] , @cleidigh   
