@@ -10,7 +10,6 @@
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/ConversionHelper/ConversionHelper.js"></script>
 	<!-- Loading localization.js will trigger the string replacement. -->
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/localization.js"></script>
-	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/preferences.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubjectSettings.js"></script>
 
 	<hbox align="center">
