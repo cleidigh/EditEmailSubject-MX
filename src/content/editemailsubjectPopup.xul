@@ -1,21 +1,23 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
-<!DOCTYPE overlay SYSTEM "chrome://editemailsubject/locale/editemailsubject.dtd">
-
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	onload="objEditemailsubject.initDialog();" 
-	title="EditEmailSubject - &lang.menuTitle;"
+	title="EditEmailSubject - __MSG_lang.menuTitle__"
 	orient="vertical"
 	flex="1"
 	id="EditEmailSubject_dialog"
 	persist="screenX screenY width height">
 
+	<!-- Loading the ConversionHelper allows to access WebExtension API from legacy code. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/ConversionHelper/ConversionHelper.js"></script>
+	<!-- Loading localization.js will trigger the string replacement. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/localization.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubject.js"/>
 
 	<vbox style="overflow: auto; min-width:300px;" flex="1">
 		<hbox align="center">
-			<label value="&lang.subject;" />
+			<label value="__MSG_lang.subject__" />
 			<textbox id="editemailsubjectInput" flex="1" />
 		</hbox>
 	</vbox>

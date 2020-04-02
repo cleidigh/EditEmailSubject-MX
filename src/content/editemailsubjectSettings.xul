@@ -1,16 +1,20 @@
 <?xml version="1.0"?> 
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
-<!DOCTYPE overlay SYSTEM "chrome://editemailsubject/locale/editemailsubject.dtd">
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		title="EditEmailSubject Settings"
 		id="editemailsubjectSettings"
 		onload="loadSettings()">
-
+	
+	<!-- Loading the ConversionHelper allows to access WebExtension API from legacy code. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/ConversionHelper/ConversionHelper.js"></script>
+	<!-- Loading localization.js will trigger the string replacement. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/localization.js"></script>
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/preferences.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubjectSettings.js"></script>
 
 	<hbox align="center">
-		<checkbox id="localOnly" label="&lang.localOnly;" />
+		<checkbox id="localOnly" label="__MSG_lang.localOnly__" />
 	</hbox>
 
 	<spacer height="10px" /> 
