@@ -1,9 +1,5 @@
 content	editemailsubject	/content/
 
-locale	editemailsubject	en-US	content/locale/en-US/
-locale	editemailsubject	fr-FR	content/locale/fr-FR/
-locale	editemailsubject	de-DE	content/locale/de-DE/
-
 overlay	chrome://messenger/content/messenger.xul	chrome://editemailsubject/content/editemailsubject.xul
 overlay	chrome://messenger/content/messageWindow.xul	chrome://editemailsubject/content/editemailsubject.xul
 
