@@ -1,0 +1,1 @@
+var { ConversionHelper } = ChromeUtils.import("chrome://editemailsubject/content/ConversionHelper/ConversionHelper.jsm");
