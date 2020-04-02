@@ -1,8 +1,26 @@
 {
-  "extensionName": {
-    "message": "Edit email subject"
-  },
-  "extensionDescription": {
-    "message": "Edit received e-mail subjects."
-  }
+    "extensionDescription": {
+        "message": "Edit received e-mail subjects."
+    },
+    "extensionName": {
+        "message": "Edit email subject"
+    },
+    "lang.accesskey": {
+        "message": "e"
+    },
+    "lang.localOnly": {
+        "message": "Only local changes (will only change local Thunderbird index database)"
+    },
+    "lang.menuTitle": {
+        "message": "Edit Mail Subject"
+    },
+    "lang.subject": {
+        "message": "Subject"
+    },
+    "lang.subjectOld": {
+        "message": "Original subject"
+    },
+    "lang.warning": {
+        "message": "Warning, subject has already been changed. Try it again at your own risk."
+    }
 }

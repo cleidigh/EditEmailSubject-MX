@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<overlay id="editemailsubjectOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<!-- Loading the ConversionHelper allows to access WebExtension API from legacy code. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/ConversionHelper/ConversionHelper.js"></script>
+	<!-- Loading localization.js will trigger the string replacement. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/localization.js"></script>
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubject.js"/>
+
+	<menupopup id="messageMenuPopup">
+		<menuitem id="editemailsubjectMessageMenuPopup" label="__MSG_lang.menuTitle__" insertbefore="messageMenuAfterMarkSeparator" oncommand="objEditemailsubject.edit();" key="editemailsubject-key_edit" />
+	</menupopup>
+
+	<menupopup id="mailContext">
+	    <menuitem id="editemailsubjectMailContext" label="__MSG_lang.menuTitle__" insertbefore="mailContext-sep-afterMarkMenu" oncommand="objEditemailsubject.edit();" accesskey="__MSG_lang.accesskey__" key="editemailsubject-key_edit" keytext="__MSG_lang.accesskey__" />
+	</menupopup>
+
+	<keyset>
+		<key id="editemailsubject-key_edit" key="__MSG_lang.accesskey__" command="editemailsubject-cmd_edit" />
+	</keyset>
+
+	<commandset>
+		<command id="editemailsubject-cmd_edit" label="__MSG_lang.menuTitle__" accesskey="__MSG_lang.accesskey__" oncommand="objEditemailsubject.edit();"/>
+	</commandset>
+
+</overlay>

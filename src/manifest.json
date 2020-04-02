@@ -13,11 +13,25 @@
 	"description": "__MSG_extensionDescription__",
 	"default_locale": "en-US",
 	"icons": {
-		"64": "chrome/images/editemailsubjectmx-icon-64px.png",
-		"32": "chrome/images/editemailsubjectmx-icon-32px.png",
-		"16": "chrome/images/editemailsubjectmx-icon-16px.png"
+		"64": "content/images/editemailsubjectmx-icon-64px.png",
+		"32": "content/images/editemailsubjectmx-icon-32px.png",
+		"16": "content/images/editemailsubjectmx-icon-16px.png"
 	},
-	"legacy": {
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"experiment_apis": {
+		"ConversionHelper": {
+			"schema": "content/ConversionHelper/schema.json",
+			"parent": {
+				"scopes": ["addon_parent"],
+				"paths": [["ConversionHelper"]],
+				"script": "content/ConversionHelper/implementation.js"
+			}
+		}    
+	}, 
+  "legacy": {
+		"type": "xul",
         "options": {
             "page": "chrome://editemailsubject/content/editemailsubjectSettings.xul",
             "open_in_tab": false
