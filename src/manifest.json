@@ -17,7 +17,8 @@
 		"32": "content/images/editemailsubjectmx-icon-32px.png",
 		"16": "content/images/editemailsubjectmx-icon-16px.png"
 	},
-	"legacy": {
+  "legacy": {
+		"type": "xul",
         "options": {
             "page": "chrome://editemailsubject/content/editemailsubjectSettings.xul",
             "open_in_tab": false
