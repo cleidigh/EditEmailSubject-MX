@@ -15,10 +15,10 @@
         "message": "Editer le sujet du message"
     },
     "lang.subject": {
-        "message": "Sujet"
+        "message": "Sujet:"
     },
     "lang.subjectOld": {
-        "message": "Sujet original"
+        "message": "Sujet original:"
     },
     "lang.warning": {
         "message": "Attention, le sujet de ce mail a déjà été modifié. Le changer de nouveau comprend des risques."
