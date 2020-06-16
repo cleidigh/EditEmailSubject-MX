@@ -9,6 +9,8 @@
 	id="EditEmailSubject_dialog"
 	persist="screenX screenY width height">
 
+	<!-- Loading locales.js will trigger the string replacement. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/locales.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubject.js"/>
 
 	<vbox style="overflow: auto; min-width:300px;" flex="1">
