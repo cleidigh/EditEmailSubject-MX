@@ -22,11 +22,11 @@
 	},
 	"experiment_apis": {
 		"ConversionHelper": {
-			"schema": "content/ConversionHelper/schema.json",
+			"schema": "content/api/ConversionHelper/schema.json",
 			"parent": {
 				"scopes": ["addon_parent"],
 				"paths": [["ConversionHelper"]],
-				"script": "content/ConversionHelper/implementation.js"
+				"script": "content/api/ConversionHelper/implementation.js"
 			}
 		}    
 	}, 
