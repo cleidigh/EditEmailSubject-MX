@@ -17,8 +17,9 @@
 		"32": "content/images/editemailsubjectmx-icon-32px.png",
 		"16": "content/images/editemailsubjectmx-icon-16px.png"
 	},
+	"permissions": ["storage"],
 	"background": {
-		"scripts": ["background.js"]
+		"scripts": ["content/scripts/preferences.js", "background.js"]
 	},
 	"experiment_apis": {
 		"ConversionHelper": {
@@ -27,6 +28,14 @@
 				"scopes": ["addon_parent"],
 				"paths": [["ConversionHelper"]],
 				"script": "content/api/ConversionHelper/implementation.js"
+			}
+		},
+		"LegacyPrefs": {
+			"schema": "content/api/LegacyPrefs/schema.json",
+			"parent": {
+				"scopes": ["addon_parent"],
+				"paths": [["LegacyPrefs"]],
+				"script": "content/api/LegacyPrefs/implementation.js"
 			}
 		}    
 	}, 

@@ -19,8 +19,6 @@ var objEditemailsubject = {
 	msgFolder : null,	
 	msgHeader : null,
 	consoleService : Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService),
-	extSettings : Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
-
 
 	initDialog : function() {
 
@@ -81,7 +79,7 @@ var objEditemailsubject = {
 	edit: function() {
 
 		// local style
-		if (objEditemailsubject.extSettings.getBoolPref("extensions.editemailsubject.localOnly")) {
+		if (editEmailSubject.preferences.getPrefValue("localOnly")) {
 			
 			//var msg = gDBView.hdrForFirstSelectedMessage;
 			//objEditemailsubject.msgHeader = msg.QueryInterface(Components.interfaces.nsIMsgDBHdr);
@@ -307,5 +305,3 @@ var objEditemailsubject = {
 		OnItemEvent: function(folder, event) {}
 	}
 };
-
-

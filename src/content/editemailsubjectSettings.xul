@@ -3,15 +3,15 @@
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		title="EditEmailSubject Settings"
-		id="editemailsubjectSettings"
-		onload="loadSettings()">
+		id="editemailsubjectSettings">
 	
 	<!-- Loading locales.js will trigger the string replacement. -->
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/locales.js"></script>
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/preferences.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubjectSettings.js"></script>
 
 	<hbox align="center">
-		<checkbox id="localOnly" label="__MSG_lang.localOnly__" />
+		<checkbox preference="localOnly" label="__MSG_lang.localOnly__" />
 	</hbox>
 
 	<spacer height="10px" /> 
