@@ -78,18 +78,6 @@ var ConversionHelper = {
     }
   },
   
-  getPref: async function(aName, aFallback = null) {
-    let storage = await this.getWXAPI("storage");
-    let defaultValue = await storage.local.get({ ["pref.default." + aName] : aFallback });
-    let value = await storage.sync.get({ ["pref.value." + aName] :  defaultValue["pref.default." + aName] });
-    return value["pref.value." + aName];
-  },
-  
-  setPref: async function(aName, aValue) {
-    let storage = await this.getWXAPI("storage");
-    await storage.sync.set({ ["pref.value." + aName] : aValue });
-  },
-  
   get storage() {
     return ConversionHelper.getWXAPI("storage");
   }  
