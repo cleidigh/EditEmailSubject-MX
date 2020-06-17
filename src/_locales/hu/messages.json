@@ -5,6 +5,9 @@
     "extensionName": {
         "message": "E-mail tárgyának szerkesztése (Edit Email Subject)"
     },
+    "lang.settings": {
+        "message": "Beállítások"
+    },
     "lang.accesskey": {
         "message": "z"
     },
