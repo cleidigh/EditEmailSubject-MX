@@ -43,29 +43,37 @@ editEmailSubject.preferences = {
     loadPref: async function(node) {
       let prefName = node.getAttribute("preference");
       let prefValue = await this.getPrefValue(prefName);
-      let nodeName = node.tagName.toLowerCase();
+      let nodeName = node.tagName.toLowerCase().split(":").pop() + (node.hasAttribute("type") ? "." + node.getAttribute("type").toLowerCase() : "");
       
+      // nodename will have the namespace prefix removed and the value of the type attribute (if any) appended
       switch (nodeName) {
         case "checkbox":
+        case "input.checkbox": 
           node.checked = prefValue;
           break;
-        case "input":
+        
         case "textbox":
-          node.setAttribute("value", prefValue);
+        case "input.text": 
+        default:
+          node.setAttribute("value", prefValue);              
           break;
       }
     },
 
     savePref: async function(node) {
       let prefName = node.getAttribute("preference");
-      let nodeName = node.tagName.toLowerCase();
+      let nodeName = node.tagName.toLowerCase().split(":").pop() + (node.hasAttribute("type") ? "." + node.getAttribute("type").toLowerCase() : "");
 
+      // nodename will have the namespace prefix removed and the value of the type attribute (if any) appended
       switch (nodeName) {
         case "checkbox":
+        case "input.checkbox": 
           await this.setPrefValue(prefName, node.checked);
           break;
+        
         case "textbox":
-        case "input":
+        case "input.text": 
+        default:
           await this.setPrefValue(prefName, node.value);
           break;
       }

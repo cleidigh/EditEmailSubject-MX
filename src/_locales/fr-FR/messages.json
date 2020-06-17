@@ -5,6 +5,9 @@
     "extensionName": {
         "message": "Edit email subject"
     },
+    "lang.settings": {
+        "message": "Réglages"
+    },
     "lang.accesskey": {
         "message": "e"
     },

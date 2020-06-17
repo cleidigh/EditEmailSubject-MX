@@ -2,8 +2,7 @@
 	"applications": {
 		"gecko": {
 			"id": "EditMailSubject@jcp.convenant",
-			"strict_min_version": "68.0",
-			"strict_max_version": "69.*"
+			"strict_min_version": "68.0"
 		}
 	},
 	"manifest_version": 2,
@@ -39,12 +38,11 @@
 			}
 		}    
 	}, 
+  "options_ui": {
+    "page": "/content/options/options.html",
+    "browser_style": true	
+  },
   "legacy": {
-		"type": "xul",
-        "options": {
-            "page": "chrome://editemailsubject/content/editemailsubjectSettings.xul",
-            "open_in_tab": false
-        }
-    }
-
+		"type": "xul"
+	}
 }
