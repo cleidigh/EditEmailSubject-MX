@@ -2,10 +2,9 @@
 
 <overlay id="editemailsubjectOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-	<!-- Loading the ConversionHelper allows to access WebExtension API from legacy code. -->
-	<script type="application/x-javascript" src="chrome://editemailsubject/content/ConversionHelper/ConversionHelper.js"></script>
-	<!-- Loading localization.js will trigger the string replacement. -->
-	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/localization.js"></script>
+	<!-- Loading locales.js will trigger the string replacement. -->
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/locales.js"></script>
+	<script type="application/x-javascript" src="chrome://editemailsubject/content/scripts/preferences.js"></script>
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubject.js"/>
 
 	<menupopup id="messageMenuPopup">

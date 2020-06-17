@@ -13,7 +13,7 @@ var ConversionHelper = {
   
   context: null,
   startupCompleted: false,
-  promises: [],
+  promisses: [],
   
   // Called from legacy code to wait until startup completed
   webExtensionStartupCompleted: function(msg) {
@@ -24,15 +24,15 @@ var ConversionHelper = {
     
     console.log("WX startup not yet completed. Pausing. [" + msg + "]");
     return new Promise(resolve => {
-      this.promises.push({resolve, msg});
+      this.promisses.push({resolve, msg});
     });
   },
   
   // Called from WX code to set startupCompleted
   notifyStartupComplete: function() {
     this.startupCompleted = true;
-    // Run through all pending promises and fullfill them
-    for (const p of this.promises){
+    // Run through all pending promisses and fullfill them
+    for (const p of this.promisses){
       console.log("WX startup now completed. Continuing. [" + p.msg + "]");
       p.resolve();
     }  
@@ -41,7 +41,7 @@ var ConversionHelper = {
   
   
   
-  getWXAPI(name, sync = true) {
+  getWXAPI(name, sync = false) {
     let that = this;
     
     function implementation(api) {
@@ -72,13 +72,13 @@ var ConversionHelper = {
     }
   },
   
-  // Convenient getters to be able to use ConversionHelper.<apiname>.* in the same way as browser.<apiname>.*
-  // Not really needed. One could also use ConversionHelper.getWXAPI(<apiname>).*
-  get i18n() { 
-    return ConversionHelper.getWXAPI("i18n");
+  i18n: { 
+    getMessage: function(aName, aParams) {
+      return ConversionHelper.getWXAPI("i18n", true).getMessage(aName, aParams);
+    }
   },
   
   get storage() {
     return ConversionHelper.getWXAPI("storage");
-  }
+  }  
 }
