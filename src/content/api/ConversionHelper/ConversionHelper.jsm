@@ -9,6 +9,8 @@
 
 var EXPORTED_SYMBOLS = ["ConversionHelper"];
 
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+
 var ConversionHelper = {
   
   context: null,
@@ -17,6 +19,10 @@ var ConversionHelper = {
   
   // Called from legacy code to wait until startup completed
   webExtensionStartupCompleted: function(msg) {
+    if (Services.vc.compare(Services.appinfo.version, "78.0") >= 0) {
+      return;
+    }
+
     if (this.startupCompleted) {
       console.log("WX startup already completed. Continuing. [" + msg + "]");
       return;
@@ -57,7 +63,7 @@ var ConversionHelper = {
     }
 
     if (!this.context) {
-      throw new Error("Extension context not set. Please call browser.ConversionHelper.init(aPath) first!");
+      throw new Error("Extension context not set. Please call browser.conversionHelper.init(aPath) first!");
     }
     
     let extension = this.context.extension;
@@ -80,5 +86,5 @@ var ConversionHelper = {
   
   get storage() {
     return ConversionHelper.getWXAPI("storage");
-  }  
+  }
 }

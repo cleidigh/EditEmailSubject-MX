@@ -53,6 +53,10 @@
 				if (browser) this.i18n = browser.i18n;
 			} catch (e) {
 				let { ConversionHelper } = ChromeUtils.import(pathToConversionHelperJSM);
+				// since the TB68 built in OverlayLoader could run/finish before background,js and
+				// therefore run before the ConversionHelper has been initialized
+				// in TB78, this return immediately
+				await ConversionHelper.webExtensionStartupCompleted();
 				this.i18n = ConversionHelper.i18n;
 			}
 			this.updateSubtree(document);
