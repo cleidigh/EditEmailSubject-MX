@@ -1,7 +1,7 @@
 async function main() {
-  // init ConversionHelper
-    
-  await messenger.ConversionHelper.init("chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm");
+  // register chrome URLs, just like in the now obsolete chrome.manifest
+  await messenger.ConversionHelper.registerChromeUrl([ ["content", "editemailsubject", "content/"] ]);
+  await messenger.ConversionHelper.registerApiFolder("chrome://editemailsubject/content/api/ConversionHelper/");
 
   // define default prefs and migrate legacy settings
   let defaultPrefs = {

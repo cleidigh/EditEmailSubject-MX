@@ -1,6 +1,0 @@
-content	editemailsubject	/content/
-
-overlay	chrome://messenger/content/messenger.xul	chrome://editemailsubject/content/editemailsubject.xul
-overlay	chrome://messenger/content/messageWindow.xul	chrome://editemailsubject/content/editemailsubject.xul
-
-
