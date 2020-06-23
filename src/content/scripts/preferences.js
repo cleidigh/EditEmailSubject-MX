@@ -1,8 +1,5 @@
-// custom namespace
-var editEmailSubject = editEmailSubject || {};
-
-editEmailSubject.preferences = {
-    pathToConversionHelperJSM: "chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm",
+var editEmailSubjectPreferences = {
+  pathToConversionHelperJSM: "chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm",
 
   setDefaults: async function(defaultPrefs) {
       // set defaultPrefs in local storage, so we can access them from everywhere
@@ -27,8 +24,8 @@ editEmailSubject.preferences = {
     load: async function(document) {
       for (let node of document.querySelectorAll("[preference]")) {
         if (node.getAttribute("instantApply") == "true") {
-          node.addEventListener("command", function(event) {editEmailSubject.preferences.savePref(event.target);});
-          node.addEventListener("change", function(event) {editEmailSubject.preferences.savePref(event.target);});
+          node.addEventListener("command", function(event) {editEmailSubjectPreferences.savePref(event.target);});
+          node.addEventListener("change", function(event) {editEmailSubjectPreferences.savePref(event.target);});
         }
       this.loadPref(node);    
       }
@@ -90,7 +87,8 @@ editEmailSubject.preferences = {
       try {
         if (browser) this.storage = await messenger.storage;
       } catch (e) {
-        let { ConversionHelper } = ChromeUtils.import(editEmailSubject.preferences.pathToConversionHelperJSM);
+        let { ConversionHelper } = ChromeUtils.import(editEmailSubjectPreferences.pathToConversionHelperJSM);
+        await ConversionHelper.webExtensionStartupCompleted();
         this.storage = await ConversionHelper.storage;
       }
     },

@@ -8,9 +8,9 @@ async function main() {
     "version": "2.1.1",
     "localOnly": true
   };
-  await editEmailSubject.preferences.setDefaults(defaultPrefs);
-  await editEmailSubject.preferences.migrateFromLegacy(defaultPrefs, "extensions.editemailsubject.");
-    
+  await editEmailSubjectPreferences.setDefaults(defaultPrefs);
+  await editEmailSubjectPreferences.migrateFromLegacy(defaultPrefs, "extensions.editemailsubject.");
+
   // notify legacy code that startup of background script has finished
   await messenger.ConversionHelper.notifyStartupCompleted();
 }

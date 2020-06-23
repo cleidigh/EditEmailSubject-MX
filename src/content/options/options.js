@@ -1,3 +1,3 @@
 document.addEventListener('DOMContentLoaded', () => {
-	editEmailSubject.preferences.load(document);
+	editEmailSubjectPreferences.load(document);
 }, { once: true });
