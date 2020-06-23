@@ -8,19 +8,19 @@
 	<script type="application/x-javascript" src="chrome://editemailsubject/content/editemailsubject.js"/>
 
 	<menupopup id="messageMenuPopup">
-		<menuitem id="editemailsubjectMessageMenuPopup" label="__MSG_lang.menuTitle__" insertbefore="messageMenuAfterMarkSeparator" oncommand="objEditemailsubject.edit();" key="editemailsubject-key_edit" />
+		<menuitem id="editemailsubjectMessageMenuPopup" label="__EESMSG_lang.menuTitle__" insertbefore="messageMenuAfterMarkSeparator" oncommand="objEditemailsubject.edit();" key="editemailsubject-key_edit" />
 	</menupopup>
 
 	<menupopup id="mailContext">
-	    <menuitem id="editemailsubjectMailContext" label="__MSG_lang.menuTitle__" insertbefore="mailContext-sep-afterMarkMenu" oncommand="objEditemailsubject.edit();" accesskey="__MSG_lang.accesskey__" key="editemailsubject-key_edit" keytext="__MSG_lang.accesskey__" />
+	    <menuitem id="editemailsubjectMailContext" label="__EESMSG_lang.menuTitle__" insertbefore="mailContext-sep-afterMarkMenu" oncommand="objEditemailsubject.edit();" accesskey="__EESMSG_lang.accesskey__" key="editemailsubject-key_edit" keytext="__EESMSG_lang.accesskey__" />
 	</menupopup>
 
 	<keyset>
-		<key id="editemailsubject-key_edit" key="__MSG_lang.accesskey__" command="editemailsubject-cmd_edit" />
+		<key id="editemailsubject-key_edit" key="__EESMSG_lang.accesskey__" command="editemailsubject-cmd_edit" />
 	</keyset>
 
 	<commandset>
-		<command id="editemailsubject-cmd_edit" label="__MSG_lang.menuTitle__" accesskey="__MSG_lang.accesskey__" oncommand="objEditemailsubject.edit();"/>
+		<command id="editemailsubject-cmd_edit" label="__EESMSG_lang.menuTitle__" accesskey="__EESMSG_lang.accesskey__" oncommand="objEditemailsubject.edit();"/>
 	</commandset>
 
 </overlay>

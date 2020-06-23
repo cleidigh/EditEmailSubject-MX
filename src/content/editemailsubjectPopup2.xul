@@ -3,7 +3,7 @@
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	onload="objEditemailsubject.initDialog();" 
-	title="EditEmailSubject - __MSG_lang.menuTitle__"
+	title="EditEmailSubject - __EESMSG_lang.menuTitle__"
 	orient="vertical"
 	flex="1"
 	id="EditEmailSubject_dialog"
@@ -15,16 +15,16 @@
 
 	<vbox style="overflow: auto; min-width:300px;" flex="1">
 		<hbox align="center">
-			<label value="__MSG_lang.subject__" />
+			<label value="__EESMSG_lang.subject__" />
 			<textbox id="editemailsubjectInput" flex="1" />
 		</hbox>
 	</vbox>
 
-	<label value="__MSG_lang.warning__" />
+	<label value="__EESMSG_lang.warning__" />
 
 	<vbox style="overflow: auto; min-width:300px;" flex="1">
 		<hbox align="center">
-			<label value="__MSG_lang.subjectOld__" />
+			<label value="__EESMSG_lang.subjectOld__" />
 			<textbox id="editemailsubjectOld" flex="1" />
 		</hbox>
 	</vbox>

@@ -9,21 +9,22 @@
 
 // This file can be used in WX but also in legacy code, where it adds to the global
 // scope. Therefore, it is encapsuled.
-(function (addonId, pathToConversionHelperJSM){
+(function (addonId, keyPrefix, pathToConversionHelperJSM){
 
 	let localization = {
 		i18n: null,
 		
 		updateString(string) {
-			return string.replace(/__MSG_(.+?)__/g, matched => {
-				const key = matched.slice(6, -2);
+			let re = new RegExp(keyPrefix + "(.+?)__", "g");
+			return string.replace(re, matched => {
+				const key = matched.slice(keyPrefix.length, -2);
 				return this.i18n.getMessage(key) || matched;
 			});
 		},
 		
 		updateSubtree(node) {
 			const texts = document.evaluate(
-				'descendant::text()[contains(self::text(), "__MSG_")]',
+				'descendant::text()[contains(self::text(), "' + keyPrefix + '")]',
 				node,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -31,11 +32,11 @@
 			);
 			for (let i = 0, maxi = texts.snapshotLength; i < maxi; i++) {
 				const text = texts.snapshotItem(i);
-				if (text.nodeValue.includes("__MSG_")) text.nodeValue = this.updateString(text.nodeValue);
+				if (text.nodeValue.includes(keyPrefix)) text.nodeValue = this.updateString(text.nodeValue);
 			}
 			
 			const attributes = document.evaluate(
-				'descendant::*/attribute::*[contains(., "__MSG_")]',
+				'descendant::*/attribute::*[contains(., "' + keyPrefix + '")]',
 				node,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -43,7 +44,7 @@
 			);
 			for (let i = 0, maxi = attributes.snapshotLength; i < maxi; i++) {
 				const attribute = attributes.snapshotItem(i);
-				if (attribute.value.includes("__MSG_")) attribute.value = this.updateString(attribute.value);
+				if (attribute.value.includes(keyPrefix)) attribute.value = this.updateString(attribute.value);
 			}
 		},
 		
@@ -53,9 +54,9 @@
 				if (browser) this.i18n = browser.i18n;
 			} catch (e) {
 				let { ConversionHelper } = ChromeUtils.import(pathToConversionHelperJSM);
-				// since the TB68 built in OverlayLoader could run/finish before background,js and
-				// therefore run before the ConversionHelper has been initialized
-				// in TB78, this return immediately
+				// Since the TB68 built in OverlayLoader could run/finish before background.js has finished,
+				// and therefore run before the ConversionHelper has been initialized, we need to wait.
+				// In TB78, this return immediately
 				await ConversionHelper.webExtensionStartupCompleted();
 				this.i18n = ConversionHelper.i18n;
 			}
@@ -73,4 +74,4 @@
 		localization.updateDocument();
 	}, { once: true });
 
-})("EditMailSubject@jcp.convenant", "chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm");
+})("EditMailSubject@jcp.convenant", "__EESMSG_", "chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm");
