@@ -8,14 +8,11 @@
     "lang.settings": {
         "message": "Beállítások"
     },
-    "lang.accesskey": {
-        "message": "z"
-    },
     "lang.localOnly": {
         "message": "Csak helyi változások (csak a helyi Thunderbird index adatbázis módosul)"
     },
     "lang.menuTitle": {
-        "message": "Tárgy szerkesztése"
+        "message": "Tárgy s&zerkesztése"
     },
     "lang.subject": {
         "message": "Tárgy:"

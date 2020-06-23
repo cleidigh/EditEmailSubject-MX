@@ -8,14 +8,11 @@
     "lang.settings": {
         "message": "Settings"
     },
-    "lang.accesskey": {
-        "message": "e"
-    },
     "lang.localOnly": {
         "message": "Only local changes (will only change local Thunderbird index database)"
     },
     "lang.menuTitle": {
-        "message": "Edit Mail Subject"
+        "message": "&Edit Mail Subject"
     },
     "lang.subject": {
         "message": "Subject:"
