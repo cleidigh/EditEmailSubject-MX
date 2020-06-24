@@ -1,6 +1,4 @@
 var editEmailSubjectPreferences = {
-  pathToConversionHelperJSM: "chrome://editemailsubject/content/api/ConversionHelper/ConversionHelper.jsm",
-
   setDefaults: async function(defaultPrefs) {
       // set defaultPrefs in local storage, so we can access them from everywhere
       const prefs = Object.keys(defaultPrefs);
@@ -78,34 +76,14 @@ var editEmailSubjectPreferences = {
     
 
 
-
-    setupStorage: async function() {
-      if (this.storage)
-        return;
-
-      //check wether we run in WX or legacy environment
-      try {
-        if (browser) this.storage = await messenger.storage;
-      } catch (e) {
-        let { ConversionHelper } = ChromeUtils.import(editEmailSubjectPreferences.pathToConversionHelperJSM);
-        // Since the TB68 built in OverlayLoader could run/finish before background.js has finished,
-        // and therefore run before the ConversionHelper has been initialized, we need to wait.
-        // In TB78, this return immediately
-        await ConversionHelper.webExtensionStartupCompleted();
-        this.storage = await ConversionHelper.storage;
-      }
-    },
-
     getPrefValue: async function(aName, aFallback = null) {
-      await this.setupStorage();
-      let defaultValue = await this.storage.local.get({ ["pref.default." + aName] : aFallback });
-      let value = await this.storage.sync.get({ ["pref.value." + aName] :  defaultValue["pref.default." + aName] });
+      let defaultValue = await messenger.storage.local.get({ ["pref.default." + aName] : aFallback });
+      let value = await messenger.storage.sync.get({ ["pref.value." + aName] :  defaultValue["pref.default." + aName] });
       return value["pref.value." + aName];
     },
 
     setPrefValue: async function(aName, aValue) {
-      await this.setupStorage();
-      await this.storage.sync.set({ ["pref.value." + aName] : aValue });
+      await messenger.storage.sync.set({ ["pref.value." + aName] : aValue });
     }
 
 };

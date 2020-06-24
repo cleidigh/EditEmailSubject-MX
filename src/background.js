@@ -1,7 +1,4 @@
 async function main() {
-  // register chrome URLs, just like in the now obsolete chrome.manifest
-  await messenger.ConversionHelper.registerChromeUrl([ ["content", "editemailsubject", "content/"] ]);
-  await messenger.ConversionHelper.registerApiFolder("chrome://editemailsubject/content/api/ConversionHelper/");
 
   // define default prefs and migrate legacy settings
   let defaultPrefs = {
@@ -18,8 +15,6 @@ async function main() {
     title: messenger.i18n.getMessage("lang.menuTitle")
   });
   
-  // notify legacy code that startup of background script has finished
-  await messenger.ConversionHelper.notifyStartupCompleted();
 }
 
 main();

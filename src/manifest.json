@@ -21,14 +21,6 @@
 		"scripts": ["content/scripts/preferences.js", "content/editemailsubject.js", "background.js"]
 	},
 	"experiment_apis": {
-		"ConversionHelper": {
-			"schema": "content/api/ConversionHelper/schema.json",
-			"parent": {
-				"scopes": ["addon_parent"],
-				"paths": [["ConversionHelper"]],
-				"script": "content/api/ConversionHelper/implementation.js"
-			}
-		},
 		"MessageModification": {
 			"schema": "content/api/MessageModification/schema.json",
 			"parent": {
