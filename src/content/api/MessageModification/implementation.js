@@ -8,15 +8,26 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
     
     return {
       MessageModification: {
-
-        getSubjectOfSelectedMessage: async function() {
-          this.window = Services.wm.getMostRecentWindow("mail:3pane");
-          this.msgHeader = this.window.gDBView.hdrForFirstSelectedMessage;
-          return this.msgHeader.mime2DecodedSubject;
+        
+        getSelectedMessages: async function() {
+          let window = Services.wm.getMostRecentWindow("mail:3pane");          
+          return window.gDBView.getIndicesForSelection();
         },
 
-        setSubjectOfSelectedMessage: async function(aSubject) {
-          if (this.msgHeader) this.msgHeader.subject = unescape(encodeURIComponent(aSubject));
+        getSubjectOfMessage: async function(aIndex) {
+          let window = Services.wm.getMostRecentWindow("mail:3pane");
+          let msgHeader = window.gDBView.getMsgHdrAt(aIndex);
+          return msgHeader.mime2DecodedSubject;
+        },
+
+        setSubjectOfMessage: async function(aIndex, aSubject) {
+          let window = Services.wm.getMostRecentWindow("mail:3pane");
+          let msgHeader = window.gDBView.getMsgHdrAt(aIndex);
+          if (msgHeader) {
+            msgHeader.subject = unescape(encodeURIComponent(aSubject));
+            return true;
+          }
+          return false;
         }
 
       },

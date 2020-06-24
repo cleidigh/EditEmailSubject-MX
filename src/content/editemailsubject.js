@@ -23,12 +23,12 @@ var editEmailSubjectMain = {
 		if (request && request.action) {
 			switch (request.action) {
 				case "requestSubject":
-					sendResponse({currentSubject: this.info.subject});
+					sendResponse({currentSubject: this.msg.subject});
 				break;
 				case "requestOK":
-					messenger.MessageModification.setSubjectOfSelectedMessage(request.newSubject);
+					messenger.MessageModification.setSubjectOfMessage(this.msg.index, request.newSubject);
 				case "requestCANCEL":
-					messenger.windows.remove(this.info.popupWindow.id);
+					messenger.windows.remove(this.msg.popupWindow.id);
 				break;					
 			}
 		}
@@ -36,16 +36,23 @@ var editEmailSubjectMain = {
 	
 	// open popup window
 	open: async function (info) {
-		this.info = {};
-		this.info.subject = await messenger.MessageModification.getSubjectOfSelectedMessage();
-	
-		messenger.runtime.onMessage.addListener(editEmailSubjectMain.handleMessage);	
-		this.info.popupWindow = await messenger.windows.create({
-			height: 140,
-			width: 500,
-			url: "/content/editemailsubjectPopup.html",
-			type: "popup"
-		});	
+		this.msg = {};
+		
+		let indices = await messenger.MessageModification.getSelectedMessages();
+		if (indices.length > 0) {
+			this.msg.index = indices[0];
+			this.msg.subject = await messenger.MessageModification.getSubjectOfMessage(this.msg.index);
+			
+			messenger.runtime.onMessage.addListener(editEmailSubjectMain.handleMessage);	
+			this.msg.popupWindow = await messenger.windows.create({
+				height: 140,
+				width: 500,
+				url: "/content/editemailsubjectPopup.html",
+				type: "popup"
+			});
+		} else {
+			console.log("No Message Selected!");
+		}
 	}
 	
 	

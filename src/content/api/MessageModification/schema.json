@@ -3,18 +3,36 @@
     "namespace": "MessageModification",
     "functions": [
       {
-        "name": "getSubjectOfSelectedMessage",
+        "name": "getSelectedMessages",
         "type": "function",
-        "description": "getSubjectOfSelectedMessage",
+        "description": "Returns an Array with indices of the currently selected messages.",
         "async": true,
         "parameters": []
       },
       {
-        "name": "setSubjectOfSelectedMessage",
+        "name": "getSubjectOfMessage",
         "type": "function",
-        "description": "setSubjectOfSelectedMessage",
+        "description": "Returns the subject of the Message identified by the given index.",
         "async": true,
         "parameters": [
+          {
+            "name": "aIndex",
+            "type": "integer",
+            "description": "Index of the desired Message."
+          }
+        ]
+      },
+      {
+        "name": "setSubjectOfMessage",
+        "type": "function",
+        "description": "Set the subject of the Message identified by the given index.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "aIndex",
+            "type": "integer",
+            "description": "Index of the desired Message."
+          },
           {
             "name": "aSubject",
             "type": "string",
