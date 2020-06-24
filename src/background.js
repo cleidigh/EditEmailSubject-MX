@@ -11,6 +11,13 @@ async function main() {
   await editEmailSubjectPreferences.setDefaults(defaultPrefs);
   await editEmailSubjectPreferences.migrateFromLegacy(defaultPrefs, "extensions.editemailsubject.");
 
+  messenger.menus.create({
+    contexts : ["message_list"],
+    id: "edit_email_subject_entry",
+    onclick : editEmailSubjectMain.open,
+    title: messenger.i18n.getMessage("lang.menuTitle")
+  });
+  
   // notify legacy code that startup of background script has finished
   await messenger.ConversionHelper.notifyStartupCompleted();
 }

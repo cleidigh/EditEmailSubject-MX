@@ -1,0 +1,27 @@
+[
+  {
+    "namespace": "MessageModification",
+    "functions": [
+      {
+        "name": "getSubjectOfSelectedMessage",
+        "type": "function",
+        "description": "getSubjectOfSelectedMessage",
+        "async": true,
+        "parameters": []
+      },
+      {
+        "name": "setSubjectOfSelectedMessage",
+        "type": "function",
+        "description": "setSubjectOfSelectedMessage",
+        "async": true,
+        "parameters": [
+          {
+            "name": "aSubject",
+            "type": "string",
+            "description": "Subject"
+          }
+        ]
+      }
+    ]
+  }
+]

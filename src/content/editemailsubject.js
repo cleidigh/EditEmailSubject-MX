@@ -12,9 +12,94 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>
+	
+    Modifications for TB78 by John Bieling (2020)
 */
 
-var objEditemailsubject = {
+var editEmailSubjectMain = {
+
+	// communication with popup window
+	handleMessage: function(request, sender, sendResponse) {
+		if (request && request.action) {
+			switch (request.action) {
+				case "requestSubject":
+					sendResponse({currentSubject: this.info.subject});
+				break;
+				case "requestOK":
+					messenger.MessageModification.setSubjectOfSelectedMessage(request.newSubject);
+				case "requestCANCEL":
+					messenger.windows.remove(this.info.popupWindow.id);
+				break;					
+			}
+		}
+	},
+	
+	// open popup window
+	open: async function (info) {
+		this.info = {};
+		this.info.subject = await messenger.MessageModification.getSubjectOfSelectedMessage();
+	
+		messenger.runtime.onMessage.addListener(editEmailSubjectMain.handleMessage);	
+		this.info.popupWindow = await messenger.windows.create({
+			height: 140,
+			width: 500,
+			url: "/content/editemailsubjectPopup.html",
+			type: "popup"
+		});	
+	}
+	
+	
+	/*
+	edit: async function (info) {
+
+		let msg = null;
+		try {
+			msg = info.selectedMessages.messages[0];
+		} catch (e) {
+			//no message selected
+		}
+		if (!msg) 
+			return;
+		
+		console.log(info);
+	
+		// local style
+		if (editEmailSubject.preferences.getPrefValue("localOnly")) {
+			
+			//var msg = gDBView.hdrForFirstSelectedMessage;
+			//objEditemailsubject.msgHeader = msg.QueryInterface(Components.interfaces.nsIMsgDBHdr);
+			objEditemailsubject.msgHeader = gDBView.hdrForFirstSelectedMessage;
+		
+			var newMsgHeader = {};
+			newMsgHeader.subject = objEditemailsubject.msgHeader.mime2DecodedSubject;
+
+			window.openDialog("chrome://editemailsubject/content/editemailsubjectPopup.xul","","chrome,modal,centerscreen,resizable ", newMsgHeader);
+
+			if (newMsgHeader.cancel) return;
+
+			objEditemailsubject.msgHeader.subject = unescape(encodeURIComponent(newMsgHeader.subject));
+		}
+		else {	// IMAP style
+			var msgUri = gFolderDisplay.selectedMessageUris[0];
+			var mms = messenger.messageServiceFromURI(msgUri).QueryInterface(Components.interfaces.nsIMsgMessageService);
+
+			objEditemailsubject.msgHeader = mms.messageURIToMsgHdr(msgUri);
+			objEditemailsubject.msgFolder = objEditemailsubject.msgHeader.folder;
+			mms.streamMessage(msgUri, objEditemailsubject.listener, null, null, false, null);
+		}
+
+		console.log(info); 
+		messenger.windows.create({
+			height: 300,
+			width: 500,
+			url: "/content/options/options.html"	,
+			type: "popup"
+		});
+	}*/
+
+};
+
+/*var objEditemailsubject = {
 	
 	msgFolder : null,	
 	msgHeader : null,
@@ -168,7 +253,7 @@ var objEditemailsubject = {
 			//else if (headers.indexOf("\ndate:") > -1) headers = headers.replace(/\ndate: *.*\r\n/, "\ndate: " + newMsgHeader.date + "\r\n");
 			//else headers = headers + ("\r\nDate: " + newMsgHeader.date);
 			
-			/* Hack to prevent blank line into headers and binary attachments broken. Thanks to Achim Czasch for fix */		
+			// Hack to prevent blank line into headers and binary attachments broken. Thanks to Achim Czasch for fix
 			headers = headers.replace(/\r\r/,"\r");
 	
 			data = headers + data.substring(headerEnd);
@@ -304,4 +389,4 @@ var objEditemailsubject = {
 		OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},
 		OnItemEvent: function(folder, event) {}
 	}
-};
+};*/

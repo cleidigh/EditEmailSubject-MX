@@ -27,7 +27,7 @@ var editEmailSubjectPreferences = {
           node.addEventListener("command", function(event) {editEmailSubjectPreferences.savePref(event.target);});
           node.addEventListener("change", function(event) {editEmailSubjectPreferences.savePref(event.target);});
         }
-      this.loadPref(node);    
+        this.loadPref(node);    
       }
     },
 
@@ -88,6 +88,9 @@ var editEmailSubjectPreferences = {
         if (browser) this.storage = await messenger.storage;
       } catch (e) {
         let { ConversionHelper } = ChromeUtils.import(editEmailSubjectPreferences.pathToConversionHelperJSM);
+        // Since the TB68 built in OverlayLoader could run/finish before background.js has finished,
+        // and therefore run before the ConversionHelper has been initialized, we need to wait.
+        // In TB78, this return immediately
         await ConversionHelper.webExtensionStartupCompleted();
         this.storage = await ConversionHelper.storage;
       }
