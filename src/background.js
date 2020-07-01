@@ -11,7 +11,7 @@ async function main() {
   messenger.menus.create({
     contexts : ["message_list"],
     id: "edit_email_subject_entry",
-    onclick : editEmailSubjectMain.open,
+    onclick : editEmailSubjectMain.edit,
     title: messenger.i18n.getMessage("lang.menuTitle")
   });
   

@@ -22,41 +22,49 @@ var editEmailSubjectMain = {
 	handleMessage: function(request, sender, sendResponse) {
 		if (request && request.action) {
 			switch (request.action) {
-				case "requestSubject":
-					sendResponse({currentSubject: this.msg.subject});
+				case "requestData":
+					sendResponse(this.msg);
 				break;
-				case "requestOK":
-					messenger.MessageModification.setSubjectOfMessage(this.msg.index, request.newSubject);
-				case "requestCANCEL":
-					messenger.windows.remove(this.msg.popupWindow.id);
-				break;					
+				case "requestUpdate":
+					if (this.msg.localMode) {
+						// local update in Thunderbird
+						messenger.MessageModification.setSubjectOfMessage(this.msg.id, request.newSubject);
+					} else {
+						// remote update on the server
+						console.log("Not implemented");
+					}
+				break;
 			}
 		}
 	},
 	
-	// open popup window
-	open: async function (info) {
+	edit: async function (info) {
 		this.msg = {};
-		if (await editEmailSubjectPreferences.getPrefValue("localOnly")) {		
-			// change subject only in local Thunderbird
+		this.msg.localMode = await editEmailSubjectPreferences.getPrefValue("localOnly");
 
-			let indices = await messenger.MessageModification.getSelectedMessages();
-			if (indices.length > 0) {
-				this.msg.index = indices[0];
-				this.msg.subject = await messenger.MessageModification.getSubjectOfMessage(this.msg.index);
-				
-				messenger.runtime.onMessage.addListener(editEmailSubjectMain.handleMessage);	
-				this.msg.popupWindow = await messenger.windows.create({
-					height: 140,
-					width: 500,
-					url: "/content/editemailsubjectPopup.html",
-					type: "popup"
-				});
-			} else {
-				console.log("No Message Selected!");
+		console.log(info);
+		if (info.selectedMessages && info.selectedMessages.messages.length > 0) {
+			let MessageHeader = info.selectedMessages.messages[0];
+			this.msg.subject = MessageHeader.subject;
+			this.msg.date = MessageHeader.date;
+			this.msg.id = MessageHeader.id;
+			this.msg.alreadyModified = false;
+
+			// in remoteMode, if the header contains X-EditEmailSubject, we show a warning about being already modified
+			if (!this.msg.localMode) {
+				this.msg.header = await messenger.MessageModification.getHeaderOfMessage(this.msg.id);
+				this.msg.alreadyModified = this.msg.header.includes("X-EditEmailSubject:");
 			}
+
+			messenger.runtime.onMessage.addListener(editEmailSubjectMain.handleMessage);	
+			this.msg.popupWindow = await messenger.windows.create({
+				height: this.msg.alreadyModified ? 260 : 170,
+				width: 500,
+				url: "/content/editemailsubjectPopup.html",
+				type: "popup"
+			});
 		} else {
-			// change subject on Server
+			console.log("No Message Selected!");
 		}
 	}
 };

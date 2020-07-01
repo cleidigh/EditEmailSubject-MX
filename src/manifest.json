@@ -16,7 +16,7 @@
 		"32": "content/images/editemailsubjectmx-icon-32px.png",
 		"16": "content/images/editemailsubjectmx-icon-16px.png"
 	},
-	"permissions": ["storage", "menus"],
+	"permissions": ["storage", "menus", "messagesRead"],
 	"background": {
 		"scripts": ["content/scripts/preferences.js", "content/editemailsubject.js", "background.js"]
 	},
