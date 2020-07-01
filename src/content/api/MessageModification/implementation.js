@@ -5,7 +5,8 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
   
 var MessageModification = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
-    
+    context.callOnClose(this);
+
     return {
       MessageModification: {
         
@@ -33,4 +34,9 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
       },
     };
   }
+  
+  close() {
+    // Flush all caches
+    Services.obs.notifyObservers(null, "startupcache-invalidate");
+  }  
 };
