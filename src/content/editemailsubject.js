@@ -64,7 +64,7 @@ var editEmailSubjectMain = {
 					sendResponse(editEmailSubjectMain.msg);
 				break;
 				case "requestUpdate":
-					if (request.newSubject != this.msg.subject) {
+					if (request.newSubject != editEmailSubjectMain.msg.subject) {
 						if (editEmailSubjectMain.msg.localMode) {
 							// just update the subject value in the Thunderbird DB, do not change the actual email
 							editEmailSubjectMain.updateSubject(request);
@@ -140,7 +140,7 @@ var editEmailSubjectMain = {
 		if (newID) {
 			console.log("Success [" + this.msg.id + " vs " + newID + "]");
 			await messenger.messages.delete([this.msg.id], true);
-			//await messenger.MessageModification.selectMessage(newID);
+			await messenger.MessageModification.selectMessage(newID);
 		}
 	}
 };
