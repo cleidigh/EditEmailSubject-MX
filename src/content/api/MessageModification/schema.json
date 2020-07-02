@@ -21,9 +21,9 @@
         ]
       },
       {
-        "name": "getHeaderOfMessage",
+        "name": "getMessageServerType",
         "type": "function",
-        "description": "Gets the header of the Message identified by the given ID.",
+        "description": "Gets the type of the remote server of the message",
         "async": true,
         "parameters": [
           {
@@ -32,7 +32,25 @@
             "description": "ID of the desired Message."
           }
         ]
-      }      
+      },
+      {
+        "name": "updateMessage",
+        "type": "function",
+        "description": "Replaces the raw content of a message.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "aID",
+            "type": "integer",
+            "description": "ID of the desired Message."
+          },
+          {
+            "name": "aContent",
+            "type": "string",
+            "description": "New raw content of the message"
+          }
+        ]
+      }
     ]
   }
 ]

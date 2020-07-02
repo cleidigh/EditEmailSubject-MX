@@ -22,12 +22,17 @@ async function load() {
 	document.getElementById("editemailsubjectInput").addEventListener('keydown', okAndInput);
 
 	let msg = await messenger.runtime.sendMessage({action: "requestData"});
+	
 	document.getElementById("editemailsubjectInput").value = msg.subject;
 	document.getElementById("editemailsubjectInput").focus();
-	
-	if (!msg.alreadyModified) { 
+
+	if (msg.alreadyModified && msg.headers && msg.headers.hasOwnProperty("x-editemailsubject-originalsubject")) {
+		document.getElementById("editemailsubjectOld").value = msg.headers["x-editemailsubject-originalsubject"];
+	} else {
 		document.getElementById("modifiedInfo").style.display = "none";
 	}
+	
+	document.getElementById("body").style.display = "block";
 
 }
 
