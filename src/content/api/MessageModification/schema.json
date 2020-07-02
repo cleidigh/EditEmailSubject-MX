@@ -5,13 +5,13 @@
       {
         "name": "setSubjectOfMessage",
         "type": "function",
-        "description": "Set the subject of the Message identified by the given ID.",
+        "description": "Set the subject of a Message.",
         "async": true,
         "parameters": [
           {
             "name": "aID",
             "type": "integer",
-            "description": "ID of the desired Message."
+            "description": "ID of the requested message."
           },
           {
             "name": "aSubject",
@@ -21,33 +21,64 @@
         ]
       },
       {
-        "name": "getMessageServerType",
+        "name": "selectMessage",
         "type": "function",
-        "description": "Gets the type of the remote server of the message",
+        "description": "Select a message in UI.",
         "async": true,
         "parameters": [
           {
             "name": "aID",
             "type": "integer",
-            "description": "ID of the desired Message."
+            "description": "ID of the requested message."
           }
         ]
       },
       {
-        "name": "updateMessage",
+        "name": "getMessageFlags",
         "type": "function",
-        "description": "Replaces the raw content of a message.",
+        "description": "Get the internal Thunderbird flags of a message",
         "async": true,
         "parameters": [
           {
             "name": "aID",
             "type": "integer",
-            "description": "ID of the desired Message."
-          },
+            "description": "ID of the requested message."
+          }
+        ]
+      },
+      {
+        "name": "getFolderServerType",
+        "type": "function",
+        "description": "Get the type of the remote server of a MailFolder.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "aMailFolder",
+            "$ref": "folders.MailFolder",
+            "description": "MailFolder to check."
+          }
+        ]
+      },
+      {
+        "name": "addRaw",
+        "type": "function",
+        "description": "Add a new message.",
+        "async": true,
+        "parameters": [
           {
             "name": "aContent",
             "type": "string",
-            "description": "New raw content of the message"
+            "description": "New raw content"
+          },
+          {
+            "name": "aMailFolder",
+            "$ref": "folders.MailFolder",
+            "description": "MailFolder to which the message should be added to."
+          },
+          {
+            "name": "aID",
+            "type": "integer",
+            "description": "ID of a message whos flags and keywords should be cloned."
           }
         ]
       }
