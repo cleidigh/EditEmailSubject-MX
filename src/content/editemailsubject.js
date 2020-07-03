@@ -30,6 +30,7 @@ var editEmailSubjectMain = {
 			this.msg.date = MessageHeader.date;
 			this.msg.id = MessageHeader.id;
 			this.msg.alreadyModified = false;
+			
 
 			let flags = await messenger.MessageModification.getMessageFlags(this.msg.id);
 			//It looks like TB is storing a leading Re: not as part of the subject, but inside a flag, which is not honored by the subject member
@@ -139,8 +140,8 @@ var editEmailSubjectMain = {
 		let newID = await messenger.MessageModification.addRaw(headers + body, this.msg.folder, this.msg.id);	
 		if (newID) {
 			console.log("Success [" + this.msg.id + " vs " + newID + "]");
-			await messenger.messages.delete([this.msg.id], true);
 			await messenger.MessageModification.selectMessage(newID);
+			await messenger.messages.delete([this.msg.id], true);
 		}
 	}
 };
