@@ -90,13 +90,13 @@ var editEmailSubjectMain = {
 	//change the entire email (add new + delete original)
 	updateMessage: async function(request) {
 		let raw = this.msg.raw
-						.replace(/\r/g, "") //for RFC2822
-						.replace(/\n/g, "\r\n");
+			.replace(/\r/g, "") //for RFC2822
+			.replace(/\n/g, "\r\n");
 		
 		// extract the header section and include the linebreak belonging to the last header
 		// prevent blank line into headers and binary attachments broken (thanks to Achim Czasch for fix)
-		let headerEnd =raw.search(/\r\n\r\n/);
-		let headers =raw.substring(0, headerEnd+2).replace(/\r\r/,"\r");
+		let headerEnd = raw.search(/\r\n\r\n/);
+		let headers = raw.substring(0, headerEnd+2).replace(/\r\r/,"\r");
 		let body = raw.substring(headerEnd+2);
 		
 		// update subject, check if subject is multiline
