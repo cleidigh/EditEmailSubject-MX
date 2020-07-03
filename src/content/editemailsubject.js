@@ -107,7 +107,8 @@ var editEmailSubjectMain = {
 		// Some IMAP provider (for ex. GMAIL) doesn't register changes in source if the main headers
 		// are not different from an existing message. To work around this limit, the "Date" field is 
 		// modified, if necessary, adding a second to the time (or decreasing a second if second are 59)	
-		if (await messenger.MessageModification.getFolderServerType(this.msg.folder) == "imap") {
+		let mailAccount = await browser.accounts.get(this.msg.folder.accountId);
+		if (mailAccount.type == "imap") {
 			try {
 				let date = this.msg.headers["date"][0].replace(/(\d{2}):(\d{2}):(\d{2})/, function (str, p1, p2, p3) {
 					var seconds = parseInt(p3) + 1; 

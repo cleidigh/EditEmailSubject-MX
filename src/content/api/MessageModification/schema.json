@@ -47,19 +47,6 @@
         ]
       },
       {
-        "name": "getFolderServerType",
-        "type": "function",
-        "description": "Get the type of the remote server of a MailFolder.",
-        "async": true,
-        "parameters": [
-          {
-            "name": "aMailFolder",
-            "$ref": "folders.MailFolder",
-            "description": "MailFolder to check."
-          }
-        ]
-      },
-      {
         "name": "addRaw",
         "type": "function",
         "description": "Add a new message.",

@@ -47,15 +47,6 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
           }
           return false;          
         },
-
-        getFolderServerType: async function(aMailFolder) {
-          //https://searchfox.org/comm-central/source/mail/components/extensions/parent/ext-messages.js#115
-          let folder = context.extension.folderManager.get(aMailFolder.accountId, aMailFolder.path);
-          if (folder) {
-            return folder.server.type;
-          }
-          return false;          
-        },
         
         addRaw: async function(aContent, aMailFolder, aRefID) {
           return new Promise(function(resolve, reject) {
