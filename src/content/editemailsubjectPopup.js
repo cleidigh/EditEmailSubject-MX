@@ -24,7 +24,6 @@ async function load() {
 	let msg = await messenger.runtime.sendMessage({action: "requestData"});
 	
 	document.getElementById("editemailsubjectInput").value = msg.subject;
-	document.getElementById("editemailsubjectInput").focus();
 
 	if (msg.alreadyModified && msg.headers && msg.headers.hasOwnProperty("x-editemailsubject-originalsubject")) {
 		document.getElementById("editemailsubjectOld").value = msg.headers["x-editemailsubject-originalsubject"];
@@ -33,6 +32,7 @@ async function load() {
 	}
 	
 	document.getElementById("body").style.display = "block";
+	document.getElementById("editemailsubjectInput").focus();
 
 }
 
