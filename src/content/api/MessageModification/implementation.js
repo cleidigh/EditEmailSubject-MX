@@ -2,21 +2,9 @@
 
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 var MessageModification = class extends ExtensionCommon.ExtensionAPI {
-  //simple sleep helper
-  sleep (delay) {
-    let timer =  Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-    return new Promise(function(resolve, reject) {
-      let event = {
-        notify: function(timer) {
-          resolve();
-        }
-      }            
-      timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
-    });
-  }
-
   getAPI(context) {    
     context.callOnClose(this);
     let self = this;
@@ -51,49 +39,75 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
         addRaw: async function(aContent, aMailFolder, aRefID) {
           return new Promise(function(resolve, reject) {
               let folder = context.extension.folderManager.get(aMailFolder.accountId, aMailFolder.path);
-
+              let key = null;
+              let count = 0;
+            
               // reference message for flags and stuff
               let refMsgHdr = context.extension.messageManager.get(aRefID);
-
+              
               let copyListener = {
                 QueryInterface : ChromeUtils.generateQI(["nsIMsgCopyServiceListener"]),
                 GetMessageId: function (messageId) {},
                 OnProgress: function (progress, progressMax) {},
-                SetMessageKey: function (key) {
-                  this.key = key;
+                SetMessageKey: function (aKey) {
+                  key = aKey;
+                  // For IMAP and NEWS messages do not wait for OnStopCopy, but
+                  // for the actual addition to the folder.
+                  if (folder.server.type == "imap" || folder.server.type == "news") {
+                    // wait until folder reports new message
+                    MailServices.mailSession.AddFolderListener(folderListener, Ci.nsIFolderListener.all);
+                  }
                 }, 
                 OnStartCopy: function () {},
                 OnStopCopy: async function (statusCode) {
                     if (statusCode === 0) {
-                      // HACK: For some reason the newly added message is "unstable"
-                      // in a short period after creation
-                      // This works directly here after it has been added:
-                      // let msgHeader = folder.GetMessageHeader(this.key);
-                      // let newId = context.extension.messageManager.convert(msgHeader).id;
-                      // let msgHdr = context.extension.messageManager.get(aID);
-                      
-                      // BUT if I call the last line later again, it returns an invalid msgHdr
-                      // and if I call it even later, it works again *puzzled*
-                      // Observed by calling selectMessage() after addRaw() has resolved
-                      
-                      // Adding a sleep here seems to help. I played with folderListeners as well, and
-                      // instead of resolving in OnStopCopy, I resolved after the message was added
-                      // and I could se, that it onAdd event was fired twice, but as I do not understand
-                      // that code at all, I did not include it.
-                      await self.sleep(200);
-                      
-                      let msgHeader = folder.GetMessageHeader(this.key);
-                      let newId = context.extension.messageManager.convert(msgHeader).id;
-
-                      if (msgHeader.flags & 2) folder.addMessageDispositionState(msgHeader, 0);
-                      if (msgHeader.flags & 4096) folder.addMessageDispositionState(msgHeader, 1);                  
-                      resolve(newId);
+                      // IMAP and NEWS messages are not handled here but by the
+                      // folderListener.
+                      if (!(folder.server.type == "imap" || folder.server.type == "news")) {
+                        postActions(key);
+                      }
                     } else {
                       console.log("Error adding message: " + statusCode);
                     }
                 }
               }
-                                
+              
+              let folderListener = {
+                OnItemAdded: function(parentItem, item, view) {
+                    let msgHeader = null;
+                    try {
+                        msgHeader = item.QueryInterface(Components.interfaces.nsIMsgDBHdr);
+                    } catch(e) {
+                        console.log(e);
+                        return;
+                    }
+                    
+                    if (key == msgHeader.messageKey && folder.URI == msgHeader.folder.URI) {
+                        count++;
+                        // Why ???
+                        if  (count > 1) {
+                          MailServices.mailSession.RemoveFolderListener(folderListener);
+                          postActions();
+                        }
+                    }            
+                },
+
+                OnItemRemoved: function(parentItem, item, view) {},
+                OnItemPropertyChanged: function(item, property, oldValue, newValue) {},
+                OnItemIntPropertyChanged: function(item, property, oldValue, newValue) {},
+                OnItemBoolPropertyChanged: function(item, property, oldValue, newValue) {},
+                OnItemUnicharPropertyChanged: function(item, property, oldValue, newValue){},
+                OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},
+                OnItemEvent: function(folder, event) {}
+              }
+              
+              let postActions = function() {
+                let msgHeader = folder.GetMessageHeader(key);
+                if (msgHeader.flags & 2) folder.addMessageDispositionState(msgHeader, 0);
+                if (msgHeader.flags & 4096) folder.addMessageDispositionState(msgHeader, 1);                  
+                resolve(context.extension.messageManager.convert(msgHeader).id);
+              }
+
               if (folder) {
                 var tempFile = Services.dirsvc.get("TmpD", Ci.nsIFile);
                 tempFile.append("EMS.eml");
