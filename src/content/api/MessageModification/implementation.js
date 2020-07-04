@@ -111,7 +111,7 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
               if (folder) {
                 var tempFile = Services.dirsvc.get("TmpD", Ci.nsIFile);
                 tempFile.append("EMS.eml");
-                tempFile.createUnique(0, 436); // == 0664, octal is deprecated (openPGP is using 384=0600)
+                tempFile.createUnique(0, 384); // == 0600, octal is deprecated
                 
                 var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
                 foStream.init(tempFile, 2, 0x200, false); // open as "write only"
