@@ -54,7 +54,6 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
                   // For IMAP and NEWS messages do not wait for OnStopCopy, but
                   // for the actual addition to the folder.
                   if (folder.server.type == "imap" || folder.server.type == "news") {
-                    // wait until folder reports new message
                     MailServices.mailSession.AddFolderListener(folderListener, Ci.nsIFolderListener.all);
                   }
                 }, 
