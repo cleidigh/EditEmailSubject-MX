@@ -93,10 +93,11 @@ var editEmailSubjectMain = {
 			.replace(/\r/g, "") //for RFC2822
 			.replace(/\n/g, "\r\n");
 		
-		// extract the header section and include the linebreak belonging to the last header
+		// extract the header section and include the linebreak belonging to the last header and include
+		// a linebreak before the first header
 		// prevent blank line into headers and binary attachments broken (thanks to Achim Czasch for fix)
 		let headerEnd = raw.search(/\r\n\r\n/);
-		let headers = raw.substring(0, headerEnd+2).replace(/\r\r/,"\r");
+		let headers = "\r\n" + raw.substring(0, headerEnd+2).replace(/\r\r/,"\r");
 		let body = raw.substring(headerEnd+2);
 		
 		// update subject, check if subject is multiline
@@ -137,6 +138,9 @@ var editEmailSubjectMain = {
 		} else {
 			headers = headers.replace(/\nX-EditEmailSubject: .+\r\n/,"\n" + EditEmailSubjectHead + "\r\n");
 		}
+		
+		//remove the leading linebreak;
+		headers = headers.substring(2);
 		
 		let newID = await messenger.MessageModification.addRaw(headers + body, this.msg.folder, this.msg.id);	
 		if (newID) {
