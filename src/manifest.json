@@ -22,19 +22,19 @@
 	},
 	"experiment_apis": {
 		"MessageModification": {
-			"schema": "content/api/MessageModification/schema.json",
+			"schema": "api/MessageModification/schema.json",
 			"parent": {
 				"scopes": ["addon_parent"],
 				"paths": [["MessageModification"]],
-				"script": "content/api/MessageModification/implementation.js"
+				"script": "api/MessageModification/implementation.js"
 			}
 		},
 		"LegacyPrefs": {
-			"schema": "content/api/LegacyPrefs/schema.json",
+			"schema": "api/LegacyPrefs/schema.json",
 			"parent": {
 				"scopes": ["addon_parent"],
 				"paths": [["LegacyPrefs"]],
-				"script": "content/api/LegacyPrefs/implementation.js"
+				"script": "api/LegacyPrefs/implementation.js"
 			}
 		}
 	}, 
