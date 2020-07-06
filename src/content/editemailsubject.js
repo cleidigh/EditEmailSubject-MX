@@ -103,8 +103,14 @@ var editEmailSubjectMain = {
 		// update subject, check if subject is multiline
 		while(headers.match(/\r\nSubject: .*\r\n\s+/))
 			headers = headers.replace(/(\r\nSubject: .*)(\r\n\s+)/, "$1 ");
-		headers = headers.replace(/\nSubject: .*\r\n/, "\nSubject: " + unescape(encodeURIComponent(request.newSubject)) + "\r\n");
-
+		
+		// either replace the subject header or add one if missing
+		if (headers.includes("\nSubject: ")) {
+			headers = headers.replace(/\nSubject: .*\r\n/, "\nSubject: " + unescape(encodeURIComponent(request.newSubject)) + "\r\n");
+		} else {
+			headers += "Subject: " + unescape(encodeURIComponent(request.newSubject)) + "\r\n";			
+		}
+		
 		// Some IMAP provider (for ex. GMAIL) doesn't register changes in source if the main headers
 		// are not different from an existing message. To work around this limit, the "Date" field is 
 		// modified, if necessary, adding a second to the time (or decreasing a second if second are 59)	
