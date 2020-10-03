@@ -133,7 +133,7 @@ var editEmailSubjectMain = {
 		
 		// HACK: without changing the message-id, the MessageHeader obj of the new message and the old message will
 		//share the same ID. It seems this was not the case in TB68.
-		headers = headers.replace(/\nMessage-ID: *.*\r\n/, "\nMessage-ID: " + this.msg.headers["message-id"] + ".1\r\n");		
+		headers = headers.replace(/\nMessage-ID: *.*\r\n/i, "\nMessage-ID: " + this.msg.headers["message-id"] + ".1\r\n");		
 		
 		// update or modify X-EditEmailSubject headers
 		let now = new Date;
