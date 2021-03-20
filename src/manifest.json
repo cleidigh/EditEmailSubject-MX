@@ -20,6 +20,14 @@
 	"background": {
 		"scripts": ["content/scripts/preferences.js", "content/editemailsubject.js", "background.js"]
 	},
+	"commands": {
+	  "edit_email_subject": {
+		"suggested_key": {
+		  "default": "Ctrl+Shift+E"
+		},
+		"description": "Open the Edit Email Subject popup"
+	  }
+	},
 	"experiment_apis": {
 		"MessageModification": {
 			"schema": "api/MessageModification/schema.json",

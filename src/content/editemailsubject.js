@@ -18,13 +18,25 @@
 
 var editEmailSubjectMain = {
 
+	onClick: async function (info) {
+		if (info.selectedMessages && info.selectedMessages.messages.length == 1) {
+			this.edit(info.selectedMessages.messages[0]);
+		}
+	},
+
+	onCommand: async function () {
+		let selectedMessages = await messenger.mailTabs.getSelectedMessages();
+		if (selectedMessages.messages && selectedMessages.messages.length > 0) {
+			this.edit(selectedMessages.messages[0]);
+		}
+	},
+
 	// open edit popup
-	edit: async function (info) {
+	edit: async function (MessageHeader) {
 		this.msg = {};
 		this.msg.localMode = await editEmailSubjectPreferences.getPrefValue("localOnly");
 
-		if (info.selectedMessages && info.selectedMessages.messages.length > 0) {
-			let MessageHeader = info.selectedMessages.messages[0];
+		if (MessageHeader) {
 			this.msg.folder = MessageHeader.folder;
 			this.msg.subject = MessageHeader.subject;
 			this.msg.date = MessageHeader.date;

@@ -11,10 +11,18 @@ async function main() {
   messenger.menus.create({
     contexts : ["message_list"],
     id: "edit_email_subject_entry",
-    onclick : editEmailSubjectMain.edit.bind(editEmailSubjectMain),
+    onclick : editEmailSubjectMain.onClick.bind(editEmailSubjectMain),
     title: messenger.i18n.getMessage("lang.menuTitle")
   });
-  
+
+  messenger.commands.onCommand.addListener((command) => {
+    if (command == "edit_email_subject") {
+      console.log(command);
+      editEmailSubjectMain.onCommand();
+    }
+  });
 }
+
+
 
 main();
