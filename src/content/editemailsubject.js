@@ -26,7 +26,7 @@ var editEmailSubjectMain = {
 
 	onCommand: async function () {
 		let selectedMessages = await messenger.mailTabs.getSelectedMessages();
-		if (selectedMessages.messages && selectedMessages.messages.length > 0) {
+		if (selectedMessages.messages && selectedMessages.messages.length == 1) {
 			this.edit(selectedMessages.messages[0]);
 		}
 	},
