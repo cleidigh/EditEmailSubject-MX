@@ -19,14 +19,14 @@
 var editEmailSubjectMain = {
 
 	onClick: async function (info) {
-		if (info.selectedMessages && info.selectedMessages.messages.length == 1) {
+		if (info.selectedMessages && info.selectedMessages.messages  && info.selectedMessages.messages.length == 1) {
 			this.edit(info.selectedMessages.messages[0]);
 		}
 	},
 
 	onCommand: async function () {
 		let selectedMessages = await messenger.mailTabs.getSelectedMessages();
-		if (selectedMessages.messages && selectedMessages.messages.length == 1) {
+		if (selectedMessages && selectedMessages.messages && selectedMessages.messages.length == 1) {
 			this.edit(selectedMessages.messages[0]);
 		}
 	},
