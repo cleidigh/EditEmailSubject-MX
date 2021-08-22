@@ -2,7 +2,7 @@
 	"applications": {
 		"gecko": {
 			"id": "EditMailSubject@jcp.convenant",
-			"strict_min_version": "78.0"
+			"strict_min_version": "91.0"
 		}
 	},
 	"manifest_version": 2,
@@ -16,7 +16,7 @@
 		"32": "content/images/editemailsubjectmx-icon-32px.png",
 		"16": "content/images/editemailsubjectmx-icon-16px.png"
 	},
-	"permissions": ["storage", "menus", "messagesRead", "messagesMove","accountsRead"],
+	"permissions": ["storage", "menus", "messagesRead", "messagesMove","accountsRead", "messagesDelete"],
 	"background": {
 		"scripts": ["content/scripts/preferences.js", "content/editemailsubject.js", "background.js"]
 	},
