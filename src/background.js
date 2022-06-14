@@ -6,12 +6,11 @@ async function main() {
     "localOnly": true
   };
   await editEmailSubjectPreferences.setDefaults(defaultPrefs);
-  await editEmailSubjectPreferences.migrateFromLegacy(defaultPrefs, "extensions.editemailsubject.");
 
   messenger.menus.create({
-    contexts : ["message_list"],
+    contexts: ["message_list"],
     id: "edit_email_subject_entry",
-    onclick : editEmailSubjectMain.onClick.bind(editEmailSubjectMain),
+    onclick: editEmailSubjectMain.onClick.bind(editEmailSubjectMain),
     title: messenger.i18n.getMessage("lang.menuTitle")
   });
 

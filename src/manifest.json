@@ -1,54 +1,63 @@
 {
-	"applications": {
-		"gecko": {
-			"id": "EditMailSubject@jcp.convenant",
-			"strict_min_version": "91.0"
-		}
-	},
-	"manifest_version": 2,
-	"name": "EditEmailSubject MX",
-	"version": "5.1",
-	"author": "tb-developers",
-	"description": "__MSG_extensionDescription__",
-	"default_locale": "en-US",
-	"icons": {
-		"64": "content/images/editemailsubjectmx-icon-64px.png",
-		"32": "content/images/editemailsubjectmx-icon-32px.png",
-		"16": "content/images/editemailsubjectmx-icon-16px.png"
-	},
-	"permissions": ["storage", "menus", "messagesRead", "messagesMove","accountsRead", "messagesDelete"],
-	"background": {
-		"scripts": ["content/scripts/preferences.js", "content/editemailsubject.js", "background.js"]
-	},
-	"commands": {
-	  "edit_email_subject": {
-		"suggested_key": {
-		  "default": "Ctrl+Shift+E"
-		},
-		"description": "Open the Edit Email Subject popup"
-	  }
-	},
-	"experiment_apis": {
-		"MessageModification": {
-			"schema": "api/MessageModification/schema.json",
-			"parent": {
-				"scopes": ["addon_parent"],
-				"paths": [["MessageModification"]],
-				"script": "api/MessageModification/implementation.js"
-			}
-		},
-		"LegacyPrefs": {
-			"schema": "api/LegacyPrefs/schema.json",
-			"parent": {
-				"scopes": ["addon_parent"],
-				"paths": [["LegacyPrefs"]],
-				"script": "api/LegacyPrefs/implementation.js"
-			}
-		}
-	}, 
+  "applications": {
+    "gecko": {
+      "id": "EditMailSubject@jcp.convenant",
+      "strict_min_version": "102.0",
+      "strict_max_version": "102.*"
+    }
+  },
+  "manifest_version": 2,
+  "name": "EditEmailSubject MX",
+  "version": "6.1",
+  "author": "John Bieling",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "en-US",
+  "icons": {
+    "64": "content/images/editemailsubjectmx-icon-64px.png",
+    "32": "content/images/editemailsubjectmx-icon-32px.png",
+    "16": "content/images/editemailsubjectmx-icon-16px.png"
+  },
+  "permissions": [
+    "storage",
+    "menus",
+    "messagesRead",
+    "messagesMove",
+    "accountsRead",
+    "messagesDelete"
+  ],
+  "background": {
+    "scripts": [
+      "content/scripts/preferences.js",
+      "content/editemailsubject.js",
+      "background.js"
+    ]
+  },
+  "commands": {
+    "edit_email_subject": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E"
+      },
+      "description": "Open the Edit Email Subject popup"
+    }
+  },
+  "experiment_apis": {
+    "MessageModification": {
+      "schema": "api/MessageModification/schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "MessageModification"
+          ]
+        ],
+        "script": "api/MessageModification/implementation.js"
+      }
+    }
+  },
   "options_ui": {
     "page": "/content/options/options.html",
-    "browser_style": true	,
-	"open_in_tab": true
+    "browser_style": true
   }
 }

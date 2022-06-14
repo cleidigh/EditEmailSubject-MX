@@ -47,11 +47,23 @@
         ]
       },
       {
+        "name": "generateUUID",
+        "type": "function",
+        "description": "Generate a UUID.",
+        "async": true,
+        "parameters": []
+      },
+      {
         "name": "addRaw",
         "type": "function",
         "description": "Add a new message.",
         "async": true,
         "parameters": [
+          {
+            "name": "aUUID",
+            "type": "string",
+            "description": "UUID of the new message"
+          },
           {
             "name": "aContent",
             "type": "string",
