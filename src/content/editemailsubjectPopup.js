@@ -33,7 +33,8 @@ async function load() {
 
   document.getElementById("body").style.display = "block";
   document.getElementById("editemailsubjectInput").focus();
-
+  window.focus();
+  
 }
 
 document.addEventListener('DOMContentLoaded', load, { once: true });
