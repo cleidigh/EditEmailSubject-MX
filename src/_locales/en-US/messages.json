@@ -12,7 +12,7 @@
     "message": "Only local changes (will only change local Thunderbird index database)"
   },
   "lang.menuTitle": {
-    "message": "&Edit Mail Subject"
+    "message": "Edit Mail Subject"
   },
   "lang.subject": {
     "message": "Subject:"
