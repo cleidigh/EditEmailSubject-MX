@@ -35,6 +35,7 @@ var editEmailSubjectMain = {
   edit: async function (MessageHeader) {
     this.msg = {};
     this.msg.localMode = await editEmailSubjectPreferences.getPrefValue("localOnly");
+    this.msg.addReMode = await editEmailSubjectPreferences.getPrefValue("addRePrefix");
 
     if (MessageHeader) {
       this.msg.folder = MessageHeader.folder;
@@ -46,8 +47,9 @@ var editEmailSubjectMain = {
 
       let flags = await messenger.MessageModification.getMessageFlags(this.msg.id);
       //It looks like TB is storing a leading Re: not as part of the subject, but inside a flag, which is not honored by the subject member
-      if (flags & 0x0010) this.msg.subject = "Re: " + this.msg.subject;
-
+      if (this.msg.addReMode){
+        if (flags & 0x0010) this.msg.subject = "Re: " + this.msg.subject;
+      }
       // in remoteMode, if the header contains X-EditEmailSubject, we show a warning about being already modified
       if (!this.msg.localMode) {
         let full = await messenger.messages.getFull(this.msg.id);
