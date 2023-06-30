@@ -1,0 +1,26 @@
+{
+    "extensionDescription": {
+      "message": "Edytuj temat wiadomości e-mail."
+    },
+    "extensionName": {
+      "message": "Edit email subject"
+    },
+    "lang.settings": {
+      "message": "Ustawienia"
+    },
+    "lang.localOnly": {
+      "message": "Zmiany zapisuj tylko lokalnie (tylko lokalna baza danych Thunderbirda)"
+    },
+    "lang.menuTitle": {
+      "message": "Edytuj temat wiadomości"
+    },
+    "lang.subject": {
+      "message": "Temat:"
+    },
+    "lang.subjectOld": {
+      "message": "Temat oryginalny:"
+    },
+    "lang.warning": {
+      "message": "Uwaga, temat został już zmieniony. Spróbuj ponownie na własne ryzyko."
+    }
+  }
