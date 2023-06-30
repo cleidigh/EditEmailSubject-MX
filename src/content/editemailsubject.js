@@ -129,7 +129,7 @@ var editEmailSubjectMain = {
     // share the same ID.
     let [, oldServer] = this.msg.headers["message-id"][0].split("@");
     oldServer = oldServer.split(">")[0];
-    let newUID = [await messenger.MessageModification.generateUUID(), oldServer].join("@")
+    let newUID = [crypto.randomUUID(), oldServer].join("@")
     headers = headers.replace(/\nMessage-ID: *.*\r\n/i, "\nMessage-ID: <" + newUID + ">\r\n");
 
     // update or modify X-EditEmailSubject headers
