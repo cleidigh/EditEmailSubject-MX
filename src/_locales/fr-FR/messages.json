@@ -11,6 +11,9 @@
   "lang.localOnly": {
     "message": "Changements locaux uniquement (base de donnée locale de Thunderbird)"
   },
+  "lang.alwaysAddRePrefix": {
+    "message": "Toujours faire précéder les réponses de Re:."
+  },
   "lang.menuTitle": {
     "message": "Editer le sujet du message"
   },

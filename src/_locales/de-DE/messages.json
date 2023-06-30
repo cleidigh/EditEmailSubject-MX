@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Email Betreff bearbeiten"
+    "message": "E-Mail-Betreff bearbeiten"
   },
   "extensionName": {
     "message": "Edit email subject"
@@ -11,14 +11,17 @@
   "lang.localOnly": {
     "message": "Änderungen nur lokal speichern (Lokale Datenbank)"
   },
+   "lang.alwaysAddRePrefix": {
+    "message": "Bei Antworten immer Re: voranstellen"
+  },
   "lang.menuTitle": {
-    "message": "Email Betreff bearbeiten"
+    "message": "E-Mail-Betreff bearbeiten"
   },
   "lang.subject": {
     "message": "Betreff:"
   },
   "lang.subjectOld": {
-    "message": "Original betreff:"
+    "message": "Original-Betreff:"
   },
   "lang.warning": {
     "message": "Warnung, der Betreff wurde schon bearbeitet. Eine erneute Änderung ist mit Risiken verbunden."
