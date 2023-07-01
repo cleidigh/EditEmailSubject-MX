@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <div style="display:flex">
+    <img src="images/editemailsubjectmx-icon-64px.png">
+    <h1>Edit Email Subject: local mode deprecation</h1>
+  </div>
+  <div style="font-size:18px">
+    <p>Since version 1.0, the default operation mode used by the <i>Edit Email Subject</i> add-on for changing the
+      subject was to modify the local message database. This mode did not actually change the message.</p>
+
+    <p>After IMAP servers became more popular, a new mode was introduced, which changed the subject in the
+      message itself. This change was synchronized with the IMAP server and was therefore visible on all other IMAP
+      clients connected to the same email account.</p>
+
+    <p>During the last year it became obvious, that the local mode causes confusions:
+    <ul>
+      <li>the original subject is restored when message is moved/copied (applies to messages in local folders, POP
+        folders and IMAP folders)</li>
+      <li>the original subject is restored when folder is repaired (applies to messages in local folders, POP folders
+        and IMAP folders)</li>
+      <li>most of the time users are confused that the subject is not updated on all devices (applies to messages in
+        IMAP folders)</li>
+    </ul>
+    </p>
+
+    <p>We therefore decided to drop support for the local mode and no longer modify the message database, but always
+      update the message. Technically, the message is re-created with a new UUID and the updated subject. The original
+      message is moved to a local folder named "EES-Backup", in case something went wrong.
+    </p>
+  </div>
+</body>
+
+</html>

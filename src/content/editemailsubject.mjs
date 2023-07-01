@@ -33,21 +33,15 @@ export async function edit({ selectedMessage, tab, localMode, addReMode }) {
     if (flags & 0x0010) currentSubject = "Re: " + currentSubject;
   }
 
-  // In remoteMode, if the header contains X-EditEmailSubject, we show a warning about being already modified.
-  let originalSubject;
-  if (!localMode) {
-    let full = await messenger.messages.getFull(selectedMessage.id);
-    originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
-      ? full.headers["x-editemailsubject-originalsubject"]
-      : null
-  }
+  let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
+    ? full.headers["x-editemailsubject-originalsubject"]
+    : null
 
   let popupUrl = new URL(messenger.runtime.getURL("/content/editemailsubjectPopup.html"));
   popupUrl.searchParams.append("tabId", tab.id);
   popupUrl.searchParams.append("msgId", selectedMessage.id);
   popupUrl.searchParams.append("currentSubject", currentSubject);
 
-  if (localMode) popupUrl.searchParams.append("localMode", localMode);
   if (originalSubject) popupUrl.searchParams.append("originalSubject", originalSubject);
 
   return messenger.windows.create({
@@ -56,12 +50,6 @@ export async function edit({ selectedMessage, tab, localMode, addReMode }) {
     url: popupUrl.href,
     type: "popup"
   });
-}
-
-// Just update the subject value in the Thunderbird DB, do not change the actual email
-// it would be nice to be able to do this via messages.update(), but the newProperties obj does not have a subject member.
-export function updateSubject({ msgId, newSubject }) {
-  messenger.MessageModification.setSubjectOfMessage(msgId, newSubject);
 }
 
 // Change the entire email (add new + delete original).

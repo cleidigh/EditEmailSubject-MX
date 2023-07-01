@@ -64,12 +64,6 @@ messenger.commands.onCommand.addListener(async (command, tab) => {
 messenger.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request && request.action) {
     switch (request.action) {
-      case "updateSubject":
-        sendResponse();
-        // Just update the subject value in the Thunderbird DB, do not change the actual email.
-        ees.updateSubject(request);
-        break;
-
       case "updateMessage":
         sendResponse();
         // Change the entire email.
@@ -84,3 +78,10 @@ messenger.menus.create({
   id: "edit_email_subject_entry",
   title: messenger.i18n.getMessage("lang.menuTitle")
 });
+
+// Open tab with deprecation info on localOnly
+let localOnly = await eesPreferences.getPrefValue("localOnly");
+if (localOnly) {
+  messenger.tabs.create({url: "/content/localModeDeprecated.html"});
+  eesPreferences.setPrefValue("localOnly", false); 
+}

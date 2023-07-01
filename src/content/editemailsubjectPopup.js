@@ -1,4 +1,4 @@
-let msgId, tabId, localMode, currentSubject, originalSubject;
+let msgId, tabId, currentSubject, originalSubject;
 
 async function okAndInput(e) {
   if ((e.type == "keydown" && e.key == "Enter") || e.type == "click") {
@@ -6,7 +6,7 @@ async function okAndInput(e) {
 
     if (msgId && tabId && currentSubject != newSubject) {
       await messenger.runtime.sendMessage({
-        action: localMode ? "updateSubject" : "updateMessage",
+        action: "updateMessage",
         msgId,
         tabId,
         newSubject,
@@ -34,7 +34,6 @@ async function load() {
   const urlParams = new URLSearchParams(window.location.search);
   msgId = parseInt(urlParams.get('msgId'), 10);
   tabId = parseInt(urlParams.get('tabId'), 10);
-  localMode = !!urlParams.get('localMode');
   currentSubject = urlParams.get('currentSubject');
   originalSubject = urlParams.get('originalSubject');
 

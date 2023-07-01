@@ -12,15 +12,6 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       MessageModification: {
-        setSubjectOfMessage: async function (aID, aSubject) {
-          let msgHdr = context.extension.messageManager.get(aID);
-          if (msgHdr) {
-            msgHdr.subject = unescape(encodeURIComponent(aSubject));
-            return true;
-          }
-          return false;
-        },
-
         getMessageFlags: async function (aID) {
           let msgHdr = context.extension.messageManager.get(aID);
           if (msgHdr) {
