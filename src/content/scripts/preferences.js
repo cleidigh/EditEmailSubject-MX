@@ -1,4 +1,4 @@
-var editEmailSubjectPreferences = {
+var eesPreferences = {
   setDefaults: async function (defaultPrefs) {
     // set defaultPrefs in local storage, so we can access them from everywhere
     const prefs = Object.keys(defaultPrefs);
@@ -10,8 +10,8 @@ var editEmailSubjectPreferences = {
   load: async function (document) {
     for (let node of document.querySelectorAll("[preference]")) {
       if (node.getAttribute("instantApply") == "true") {
-        node.addEventListener("command", function (event) { editEmailSubjectPreferences.savePref(event.target); });
-        node.addEventListener("change", function (event) { editEmailSubjectPreferences.savePref(event.target); });
+        node.addEventListener("command", function (event) { eesPreferences.savePref(event.target); });
+        node.addEventListener("change", function (event) { eesPreferences.savePref(event.target); });
       }
       this.loadPref(node);
     }

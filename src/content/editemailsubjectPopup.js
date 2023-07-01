@@ -1,32 +1,51 @@
+let msgId, tabId, localMode, currentSubject, originalSubject;
+
 async function okAndInput(e) {
   if ((e.type == "keydown" && e.key == "Enter") || e.type == "click") {
-    await messenger.runtime.sendMessage({ action: "requestUpdate", newSubject: document.getElementById("editemailsubjectInput").value });
-    const windowId = (await messenger.windows.getCurrent()).id;
-    await messenger.windows.remove(windowId);
+    let newSubject = document.getElementById("editemailsubjectInput").value;
+
+    if (msgId && tabId && currentSubject != newSubject) {
+      await messenger.runtime.sendMessage({
+        action: localMode ? "updateSubject" : "updateMessage",
+        msgId,
+        tabId,
+        newSubject,
+        currentSubject,
+        originalSubject
+      });
+    }
+
+    let win = await messenger.windows.getCurrent();
+    await messenger.windows.remove(win.id);
   }
 
   if (e.type == "keydown" && e.key == "Escape") {
-    const windowId = (await messenger.windows.getCurrent()).id;
-    await messenger.windows.remove(windowId);
+    let win = await messenger.windows.getCurrent();
+    await messenger.windows.remove(win.id);
   }
 }
 
 async function cancel(e) {
-  const windowId = (await messenger.windows.getCurrent()).id;
-  await messenger.windows.remove(windowId);
+  let win = await messenger.windows.getCurrent();
+  await messenger.windows.remove(win.id);
 }
 
 async function load() {
+  const urlParams = new URLSearchParams(window.location.search);
+  msgId = parseInt(urlParams.get('msgId'), 10);
+  tabId = parseInt(urlParams.get('tabId'), 10);
+  localMode = !!urlParams.get('localMode');
+  currentSubject = urlParams.get('currentSubject');
+  originalSubject = urlParams.get('originalSubject');
+
   document.getElementById("editemailsubjectCANCEL").addEventListener('click', cancel);
   document.getElementById("editemailsubjectOK").addEventListener('click', okAndInput);
   document.getElementById("editemailsubjectInput").addEventListener('keydown', okAndInput);
 
-  let msg = await messenger.runtime.sendMessage({ action: "requestData" });
+  document.getElementById("editemailsubjectInput").value = currentSubject;
 
-  document.getElementById("editemailsubjectInput").value = msg.subject;
-
-  if (msg.alreadyModified && msg.headers && msg.headers.hasOwnProperty("x-editemailsubject-originalsubject")) {
-    document.getElementById("editemailsubjectOld").value = msg.headers["x-editemailsubject-originalsubject"];
+  if (originalSubject) {
+    document.getElementById("editemailsubjectOld").value = originalSubject;
   } else {
     document.getElementById("modifiedInfo").style.display = "none";
   }
@@ -34,7 +53,6 @@ async function load() {
   document.getElementById("body").style.display = "block";
   document.getElementById("editemailsubjectInput").focus();
   window.focus();
-  
 }
 
 document.addEventListener('DOMContentLoaded', load, { once: true });

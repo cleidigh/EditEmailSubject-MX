@@ -21,23 +21,12 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
           return false;
         },
 
-        selectMessage: async function (aID) {
-          let msgHdr = context.extension.messageManager.get(aID);
-          let win = Services.wm.getMostRecentWindow("mail:3pane");
-          win.gFolderTreeView.selectFolder(msgHdr.folder, true);
-          win.gFolderDisplay.selectMessage(msgHdr);
-        },
-
         getMessageFlags: async function (aID) {
           let msgHdr = context.extension.messageManager.get(aID);
           if (msgHdr) {
             return msgHdr.flags;
           }
           return false;
-        },
-
-        generateUUID: async function () {
-          return Services.uuid.generateUUID().toString().replace(/[{}]/g, "");
         },
 
         addRaw: async function (aUUID, aContent, aMailFolder, aRefID) {

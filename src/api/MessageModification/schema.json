@@ -21,19 +21,6 @@
         ]
       },
       {
-        "name": "selectMessage",
-        "type": "function",
-        "description": "Select a message in UI.",
-        "async": true,
-        "parameters": [
-          {
-            "name": "aID",
-            "type": "integer",
-            "description": "ID of the requested message."
-          }
-        ]
-      },
-      {
         "name": "getMessageFlags",
         "type": "function",
         "description": "Get the internal Thunderbird flags of a message",
@@ -45,13 +32,6 @@
             "description": "ID of the requested message."
           }
         ]
-      },
-      {
-        "name": "generateUUID",
-        "type": "function",
-        "description": "Generate a UUID.",
-        "async": true,
-        "parameters": []
       },
       {
         "name": "addRaw",
