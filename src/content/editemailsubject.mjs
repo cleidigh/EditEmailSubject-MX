@@ -32,6 +32,8 @@ export async function edit({ selectedMessage, tab, localMode, addReMode }) {
   if (addReMode) {
     if (flags & 0x0010) currentSubject = "Re: " + currentSubject;
   }
+  // If the header contains X-EditEmailSubject, we show a warning about being already modified.
+  let full = await messenger.messages.getFull(selectedMessage.id);
 
   let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
     ? full.headers["x-editemailsubject-originalsubject"]
