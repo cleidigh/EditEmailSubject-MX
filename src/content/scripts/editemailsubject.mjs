@@ -16,6 +16,8 @@
  * Modifications for TB78, TB91, TB102, TB115 by John Bieling (2020-2023)
  */
 
+import * as q from "/content/scripts/q.mjs";
+
 // Reduces a MessageList to a single message, if it contains a single message.
 export function getSingleMessageFromList(messageList) {
   return messageList && messageList.messages && messageList.messages.length == 1
@@ -71,11 +73,34 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
   while (headerPart.match(/\r\nSubject: .*\r\n\s+/))
     headerPart = headerPart.replace(/(\r\nSubject: .*)(\r\n\s+)/, "$1 ");
 
+  // RFC2047 Q-Encoding
+  const encodeHeader = (name, value) => {
+    const startLine = " =?utf-8?q?"
+    const nextLine = "=?="
+    const endLine = "?=";
+    
+    let lines = [];
+    let currentLine = `${name}:${startLine}`;
+    
+    let uint8Array = new TextEncoder().encode(value);
+    for (let v of uint8Array.values()) {
+      let next = q.encode(String.fromCharCode(v)); // or btoa() for b-encoding
+      if (currentLine.length + next.length + endLine.length > 78) {
+        lines.push(currentLine + nextLine);
+        currentLine = startLine;
+      }
+      currentLine += next;
+    }
+    lines.push(currentLine + endLine);
+
+    return lines.join("\r\n");
+  }
+
   // Either replace the subject header or add one if missing.
   if (headerPart.includes("\nSubject: ")) {
-    headerPart = headerPart.replace(/\nSubject: .*\r\n/, "\nSubject: " + unescape(encodeURIComponent(newSubject)) + "\r\n");
+    headerPart = headerPart.replace(/\nSubject: .*\r\n/, "\n" + encodeHeader("Subject", newSubject) + "\r\n");
   } else {
-    headerPart += "Subject: " + unescape(encodeURIComponent(newSubject)) + "\r\n";
+    headerPart += encodeHeader("Subject", newSubject) + "\r\n";
   }
 
   // Without changing the message-id, the MessageHeader obj of the new message and the old message will
