@@ -20,8 +20,8 @@ import * as ees from "/content/editemailsubject.mjs";
 
 // Define default prefs and migrate legacy settings.
 let defaultPrefs = {
-  "version": "2.1.1",
-  "localOnly": false,
+  "localOnly": false, // no longer supported, only kept here to be able to inform users about deprecation
+  "keepBackup": true,
 };
 await eesPreferences.setDefaults(defaultPrefs);
 
@@ -33,26 +33,26 @@ messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
 })
 
 messenger.menus.onClicked.addListener(async ({ selectedMessages }, tab) => {
-  let localMode = await eesPreferences.getPrefValue("localOnly");
+  let keepBackup = await eesPreferences.getPrefValue("keepBackup");
   let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
   if (!selectedMessage || !tab.mailTab) {
     return;
   }
 
-  ees.edit({ selectedMessage, tab, localMode });
+  ees.edit({ selectedMessage, tab, keepBackup });
 })
 
 // Keyboard shortcut listener.
 messenger.commands.onCommand.addListener(async (command, tab) => {
   if (command == "edit_email_subject" && tab.mailTab) {
     let selectedMessages = await messenger.mailTabs.getSelectedMessages(tab.id);
-    let localMode = await eesPreferences.getPrefValue("localOnly");
+    let keepBackup = await eesPreferences.getPrefValue("keepBackup");
     let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
     if (!selectedMessage || !tab.mailTab) {
       return;
     }
 
-    ees.edit({ selectedMessage, tab, localMode });
+    ees.edit({ selectedMessage, tab, keepBackup });
   }
 });
 

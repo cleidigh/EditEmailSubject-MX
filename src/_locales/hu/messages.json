@@ -8,8 +8,8 @@
   "lang.settings": {
     "message": "Beállítások"
   },
-  "lang.localOnly": {
-    "message": "Csak helyi változások (csak a helyi Thunderbird index adatbázis módosul)"
+  "lang.keepBackup": {
+    "message": "Átnevezésük előtt készítsen biztonsági másolatot az eredeti e-mailekről az „EES-Temp” helyi mappában"
   },
   "lang.menuTitle": {
     "message": "Tárgy szerkesztése"

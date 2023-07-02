@@ -24,7 +24,7 @@ export function getSingleMessageFromList(messageList) {
 }
 
 // Initiate subject editing by opening the edit dialog.
-export async function edit({ selectedMessage, tab, localMode }) {
+export async function edit({ selectedMessage, tab, keepBackup }) {
   let full = await messenger.messages.getFull(selectedMessage.id);
 
   // It looks like TB is storing a leading Re: not as part of the MessageHeader subject,

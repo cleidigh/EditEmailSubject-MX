@@ -8,8 +8,8 @@
   "lang.settings": {
     "message": "Settings"
   },
-  "lang.localOnly": {
-    "message": "Only local changes (will only change local Thunderbird index database)"
+  "lang.keepBackup": {
+    "message": "Back up original emails in the local folder „EES-Temp” before renaming them"
   },
   "lang.menuTitle": {
     "message": "Edit Mail Subject"

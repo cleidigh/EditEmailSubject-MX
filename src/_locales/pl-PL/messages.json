@@ -8,8 +8,8 @@
     "lang.settings": {
       "message": "Ustawienia"
     },
-    "lang.localOnly": {
-      "message": "Zmiany zapisuj tylko lokalnie (tylko lokalna baza danych Thunderbirda)"
+    "lang.keepBackup": {
+      "message": "Wykonaj kopię zapasową oryginalnych wiadomości e-mail w folderze lokalnym „EES-Temp” przed zmianą ich nazwy"
     },
     "lang.menuTitle": {
       "message": "Edytuj temat wiadomości"

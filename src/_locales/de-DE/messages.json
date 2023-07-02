@@ -8,8 +8,8 @@
   "lang.settings": {
     "message": "Einstellungen"
   },
-  "lang.localOnly": {
-    "message": "Änderungen nur lokal speichern (Lokale Datenbank)"
+  "lang.keepBackup": {
+    "message": "Originale E-Mails in dem lokalen Ordner „EES-Temp” vor dem Umbenennen sichern"
   },
   "lang.menuTitle": {
     "message": "E-Mail-Betreff bearbeiten"
