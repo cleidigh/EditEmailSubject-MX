@@ -16,7 +16,7 @@
  * Modifications for TB78, TB91, TB102, TB115 by John Bieling (2020-2023)
  */
 
-import * as ees from "/content/editemailsubject.mjs";
+import * as ees from "/content/scripts/editemailsubject.mjs";
 
 // Define default prefs and migrate legacy settings.
 let defaultPrefs = {

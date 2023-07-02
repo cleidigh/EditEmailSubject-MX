@@ -37,7 +37,7 @@ export async function edit({ selectedMessage, tab, keepBackup }) {
     ? full.headers["x-editemailsubject-originalsubject"]
     : null
 
-  let popupUrl = new URL(messenger.runtime.getURL("/content/editemailsubjectPopup.html"));
+  let popupUrl = new URL(messenger.runtime.getURL("/content/popup/editemailsubjectPopup.html"));
   popupUrl.searchParams.append("tabId", tab.id);
   popupUrl.searchParams.append("msgId", selectedMessage.id);
   popupUrl.searchParams.append("currentSubject", currentSubject);
