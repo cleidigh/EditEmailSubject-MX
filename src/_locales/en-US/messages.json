@@ -11,9 +11,6 @@
   "lang.localOnly": {
     "message": "Only local changes (will only change local Thunderbird index database)"
   },
-  "lang.alwaysAddRePrefix": {
-    "message": "Always prepend Re: if e-mail is an answer"
-  },
   "lang.menuTitle": {
     "message": "Edit Mail Subject"
   },

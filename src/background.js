@@ -22,7 +22,6 @@ import * as ees from "/content/editemailsubject.mjs";
 let defaultPrefs = {
   "version": "2.1.1",
   "localOnly": false,
-  "addRePrefix": true
 };
 await eesPreferences.setDefaults(defaultPrefs);
 
@@ -35,13 +34,12 @@ messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
 
 messenger.menus.onClicked.addListener(async ({ selectedMessages }, tab) => {
   let localMode = await eesPreferences.getPrefValue("localOnly");
-  let addReMode = await eesPreferences.getPrefValue("addRePrefix");
   let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
   if (!selectedMessage || !tab.mailTab) {
     return;
   }
 
-  ees.edit({ selectedMessage, tab, localMode, addReMode });
+  ees.edit({ selectedMessage, tab, localMode });
 })
 
 // Keyboard shortcut listener.
@@ -49,13 +47,12 @@ messenger.commands.onCommand.addListener(async (command, tab) => {
   if (command == "edit_email_subject" && tab.mailTab) {
     let selectedMessages = await messenger.mailTabs.getSelectedMessages(tab.id);
     let localMode = await eesPreferences.getPrefValue("localOnly");
-    let addReMode = await eesPreferences.getPrefValue("addRePrefix");
     let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
     if (!selectedMessage || !tab.mailTab) {
       return;
     }
 
-    ees.edit({ selectedMessage, tab, localMode, addReMode });
+    ees.edit({ selectedMessage, tab, localMode });
   }
 });
 

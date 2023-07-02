@@ -11,9 +11,6 @@
   "lang.localOnly": {
     "message": "Änderungen nur lokal speichern (Lokale Datenbank)"
   },
-   "lang.alwaysAddRePrefix": {
-    "message": "Bei Antworten immer Re: voranstellen"
-  },
   "lang.menuTitle": {
     "message": "E-Mail-Betreff bearbeiten"
   },

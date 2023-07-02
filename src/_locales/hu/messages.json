@@ -11,9 +11,6 @@
   "lang.localOnly": {
     "message": "Csak helyi változások (csak a helyi Thunderbird index adatbázis módosul)"
   },
-  "lang.alwaysAddRePrefix": {
-    "message": "Always prepend Re: if e-mail is an answer"
-  },
   "lang.menuTitle": {
     "message": "Tárgy szerkesztése"
   },
