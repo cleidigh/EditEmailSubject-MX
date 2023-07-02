@@ -12,14 +12,6 @@ var MessageModification = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       MessageModification: {
-        getMessageFlags: async function (aID) {
-          let msgHdr = context.extension.messageManager.get(aID);
-          if (msgHdr) {
-            return msgHdr.flags;
-          }
-          return false;
-        },
-
         addRaw: async function (aUUID, aContent, aMailFolder, aRefID) {
           return new Promise(async function (resolve, reject) {
             // reference message for flags and stuff

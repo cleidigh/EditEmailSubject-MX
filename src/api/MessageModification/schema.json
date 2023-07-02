@@ -3,19 +3,6 @@
     "namespace": "MessageModification",
     "functions": [
       {
-        "name": "getMessageFlags",
-        "type": "function",
-        "description": "Get the internal Thunderbird flags of a message",
-        "async": true,
-        "parameters": [
-          {
-            "name": "aID",
-            "type": "integer",
-            "description": "ID of the requested message."
-          }
-        ]
-      },
-      {
         "name": "addRaw",
         "type": "function",
         "description": "Add a new message.",

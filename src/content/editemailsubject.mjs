@@ -25,16 +25,14 @@ export function getSingleMessageFromList(messageList) {
 
 // Initiate subject editing by opening the edit dialog.
 export async function edit({ selectedMessage, tab, localMode, addReMode }) {
-  let flags = await messenger.MessageModification.getMessageFlags(selectedMessage.id);
-  let currentSubject = selectedMessage.subject;
-
-  // It looks like TB is storing a leading Re: not as part of the subject, but inside a flag, which is not honored by the subject member.
-  if (addReMode) {
-    if (flags & 0x0010) currentSubject = "Re: " + currentSubject;
-  }
-  // If the header contains X-EditEmailSubject, we show a warning about being already modified.
   let full = await messenger.messages.getFull(selectedMessage.id);
 
+  // It looks like TB is storing a leading Re: not as part of the MessageHeader subject,
+  // but inside an internal message flag not accessible to WebExtensions.
+  // -> Get the real subject from full.headers.subject. 
+  let currentSubject = full.headers.subject[0];
+
+  // If the header contains X-EditEmailSubject, we show a warning about being already modified.
   let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
     ? full.headers["x-editemailsubject-originalsubject"]
     : null
