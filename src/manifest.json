@@ -23,6 +23,7 @@
     "messagesRead",
     "messagesMove",
     "accountsRead",
+    "accountsFolders",
     "messagesDelete"
   ],
   "background": {

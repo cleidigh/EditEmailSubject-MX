@@ -43,6 +43,7 @@ export async function edit({ selectedMessage, tab, keepBackup }) {
   popupUrl.searchParams.append("currentSubject", currentSubject);
 
   if (originalSubject) popupUrl.searchParams.append("originalSubject", originalSubject);
+  if (keepBackup) popupUrl.searchParams.append("keepBackup", keepBackup);
 
   return messenger.windows.create({
     height: !!originalSubject ? 260 : 170,
@@ -53,7 +54,7 @@ export async function edit({ selectedMessage, tab, keepBackup }) {
 }
 
 // Change the entire email (add new + delete original).
-export async function updateMessage({ msgId, tabId, newSubject, currentSubject, originalSubject }) {
+export async function updateMessage({ msgId, tabId, keepBackup, newSubject, currentSubject, originalSubject }) {
   let msg = await messenger.messages.get(msgId);
   let raw = (await messenger.messages.getRaw(msgId))
     .replace(/\r/g, "") //for RFC2822
@@ -103,6 +104,17 @@ export async function updateMessage({ msgId, tabId, newSubject, currentSubject, 
   if (newMsgId) {
     console.log("Success [" + msgId + " vs " + newMsgId + "]");
     await messenger.mailTabs.setSelectedMessages(tabId, [newMsgId]);
-    //await messenger.messages.delete([msg.id], true);
+    
+    if (keepBackup) {
+      let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
+      let localFolders = await messenger.folders.getSubFolders(localAccount, false);
+      let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
+      if (!tempFolder) {
+        tempFolder = await messenger.folders.create(localAccount, "EES-Temp");
+      }
+      await messenger.messages.move([msg.id], tempFolder);
+    } else {
+      await messenger.messages.delete([msg.id], true);
+    }
   }
 }

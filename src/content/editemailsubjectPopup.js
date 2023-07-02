@@ -1,4 +1,4 @@
-let msgId, tabId, currentSubject, originalSubject;
+let msgId, tabId, keepBackup, currentSubject, originalSubject;
 
 async function okAndInput(e) {
   if ((e.type == "keydown" && e.key == "Enter") || e.type == "click") {
@@ -10,6 +10,7 @@ async function okAndInput(e) {
         msgId,
         tabId,
         newSubject,
+        keepBackup,
         currentSubject,
         originalSubject
       });
@@ -36,7 +37,8 @@ async function load() {
   tabId = parseInt(urlParams.get('tabId'), 10);
   currentSubject = urlParams.get('currentSubject');
   originalSubject = urlParams.get('originalSubject');
-
+  keepBackup = urlParams.get('keepBackup');
+  
   document.getElementById("editemailsubjectCANCEL").addEventListener('click', cancel);
   document.getElementById("editemailsubjectOK").addEventListener('click', okAndInput);
   document.getElementById("editemailsubjectInput").addEventListener('keydown', okAndInput);
