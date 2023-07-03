@@ -57,7 +57,7 @@ async function okAndInput(e) {
         tabId,
         keepBackup,
         newSubject,
-        originalSubject: currentSubject
+        currentSubject,
       });
       busy = false;
     }

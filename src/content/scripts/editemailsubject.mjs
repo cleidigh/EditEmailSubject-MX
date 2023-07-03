@@ -40,7 +40,7 @@ export async function edit({ selectedMessage, tab }) {
 }
 
 // Change the entire email (add new + delete original).
-export async function updateMessage({ msgId, tabId, keepBackup, newSubject, originalSubject }) {
+export async function updateMessage({ msgId, tabId, keepBackup, newSubject, currentSubject }) {
   let msg = await messenger.messages.get(msgId);
   let raw = (await messenger.messages.getRaw(msgId))
     .replace(/\r/g, "") //for RFC2822
@@ -98,7 +98,7 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, orig
   let now = new Date;
   let EditEmailSubjectHead = ("X-EditEmailSubject: " + now.toString()).replace(/\(.+\)/, "").substring(0, 75);
   if (!headerPart.includes("\nX-EditEmailSubject: ")) {
-    headerPart += EditEmailSubjectHead + "\r\n" + encodeHeader("X-EditEmailSubject-OriginalSubject", originalSubject) + "\r\n";
+    headerPart += EditEmailSubjectHead + "\r\n" + encodeHeader("X-EditEmailSubject-OriginalSubject", currentSubject) + "\r\n";
   } else {
     headerPart = headerPart.replace(/\nX-EditEmailSubject: .+\r\n/, "\n" + EditEmailSubjectHead + "\r\n");
   }
