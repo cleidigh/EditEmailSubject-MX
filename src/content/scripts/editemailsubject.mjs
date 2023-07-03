@@ -40,7 +40,7 @@ export async function edit({ selectedMessage, tab }) {
 }
 
 // Change the entire email (add new + delete original).
-export async function updateMessage({ msgId, tabId, keepBackup, newSubject, currentSubject, originalSubject }) {
+export async function updateMessage({ msgId, tabId, keepBackup, newSubject, originalSubject }) {
   let msg = await messenger.messages.get(msgId);
   let raw = (await messenger.messages.getRaw(msgId))
     .replace(/\r/g, "") //for RFC2822
@@ -94,12 +94,11 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
   let newHeaderMessagId = uid + "@" + server;
   headerPart = headerPart.replace(/\nMessage-ID: *.*\r\n/i, "\nMessage-ID: <" + newHeaderMessagId + ">\r\n");
 
-  // Update or modify X-EditEmailSubject headers
+  // Update or modify X-EditEmailSubject headers.
   let now = new Date;
   let EditEmailSubjectHead = ("X-EditEmailSubject: " + now.toString()).replace(/\(.+\)/, "").substring(0, 75);
-  let EditEmailSubjectOriginal = ("X-EditEmailSubject-OriginalSubject: " + unescape(encodeURIComponent(originalSubject || currentSubject)));
   if (!headerPart.includes("\nX-EditEmailSubject: ")) {
-    headerPart += EditEmailSubjectHead + "\r\n" + EditEmailSubjectOriginal + "\r\n";
+    headerPart += EditEmailSubjectHead + "\r\n" + encodeHeader("X-EditEmailSubject-OriginalSubject", originalSubject) + "\r\n";
   } else {
     headerPart = headerPart.replace(/\nX-EditEmailSubject: .+\r\n/, "\n" + EditEmailSubjectHead + "\r\n");
   }
@@ -107,11 +106,23 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
   // Remove the leading linebreak.
   headerPart = headerPart.substring(2);
 
-  let newMsgContent = headerPart + bodyPart;
+  // Create File.
+  // https://thunderbird.topicbox.com/groups/addons/T06356567165277ee-M25e96f2d58e961d6167ad348
+  let newMsgContent = `${headerPart}${bodyPart}`;
+  let newMsgBytes = new Array(newMsgContent.length);
+  for (let i = 0; i < newMsgBytes.length; i++) {
+    newMsgBytes[i] = newMsgContent.charCodeAt(i) & 0xFF;
+  }
+  let newMsgFile = new File([new Uint8Array(newMsgBytes)], `${uid}.eml`, {type: 'message/rfc822'});
 
-  let newMsgId = await messenger.MessageModification.addRaw(newHeaderMessagId, newMsgContent, msg.folder, msg.id);
-  if (newMsgId) {
-    console.log("Success [" + msgId + " vs " + newMsgId + "]");    
+  let newMsgHeader = await messenger.messages.import(newMsgFile, msg.folder, {
+    flagged: msg.flagged,
+    read: msg.read,
+    tags: msg.tags
+  });
+
+  if (newMsgHeader) {
+    console.log("Success [" + msg.id + " vs " + newMsgHeader.id + "]");    
     if (keepBackup) {
       let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
       let localFolders = await messenger.folders.getSubFolders(localAccount, false);
@@ -124,6 +135,6 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
       await messenger.messages.delete([msg.id], true);
     }
     await new Promise(resolve => window.setTimeout(resolve, 500));
-    await messenger.mailTabs.setSelectedMessages(tabId, [newMsgId]);
+    await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
   }
 }

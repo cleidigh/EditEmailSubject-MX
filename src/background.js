@@ -63,7 +63,7 @@ messenger.menus.create({
   title: messenger.i18n.getMessage("lang.menuTitle")
 });
 
-// Open tab with deprecation info on localOnly
+// Open tab with deprecation info on localOnly.
 let localOnly = await preferences.getPrefValue("localOnly");
 if (localOnly) {
   messenger.tabs.create({url: "/content/localModeDeprecated.html"});

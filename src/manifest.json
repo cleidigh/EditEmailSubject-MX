@@ -22,6 +22,7 @@
     "menus",
     "messagesRead",
     "messagesMove",
+    "messagesImport",
     "accountsRead",
     "accountsFolders",
     "messagesDelete"
@@ -35,22 +36,6 @@
         "default": "Ctrl+Shift+E"
       },
       "description": "Open the Edit Email Subject popup"
-    }
-  },
-  "experiment_apis": {
-    "MessageModification": {
-      "schema": "api/MessageModification/schema.json",
-      "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          [
-            "MessageModification"
-          ]
-        ],
-        "script": "api/MessageModification/implementation.js"
-      }
     }
   },
   "options_ui": {

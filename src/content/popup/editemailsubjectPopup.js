@@ -18,7 +18,7 @@ window.addEventListener("beforeunload", event => {
 let full = await messenger.messages.getFull(msgId);
 let currentSubject = full.headers.subject[0];
 // If the header contains X-EditEmailSubject, we show a warning about being already modified.
-let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
+let headerOriginalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
   ? full.headers["x-editemailsubject-originalsubject"]
   : null
 
@@ -28,8 +28,8 @@ document.getElementById("editemailsubjectInput").addEventListener('keydown', okA
 
 document.getElementById("editemailsubjectInput").value = currentSubject;
 
-if (originalSubject) {
-  document.getElementById("editemailsubjectOld").value = originalSubject;
+if (headerOriginalSubject) {
+  document.getElementById("editemailsubjectOld").value = headerOriginalSubject;
 } else {
   document.getElementById("editemailsubjectOld").style.visibility = "hidden";
   document.getElementById("editemailsubjectOldDesc").style.visibility = "hidden";
@@ -57,8 +57,7 @@ async function okAndInput(e) {
         tabId,
         keepBackup,
         newSubject,
-        currentSubject,
-        originalSubject
+        originalSubject: currentSubject
       });
       busy = false;
     }
