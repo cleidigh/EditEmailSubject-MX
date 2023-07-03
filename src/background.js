@@ -16,6 +16,7 @@
  * Modifications for TB78, TB91, TB102, TB115 by John Bieling (2020-2023)
  */
 
+import * as preferences from "/content/scripts/preferences.mjs";
 import * as ees from "/content/scripts/editemailsubject.mjs";
 
 // Define default prefs and migrate legacy settings.
@@ -23,7 +24,7 @@ let defaultPrefs = {
   "localOnly": false, // no longer supported, only kept here to be able to inform users about deprecation
   "keepBackup": true,
 };
-await eesPreferences.setDefaults(defaultPrefs);
+await preferences.setDefaults(defaultPrefs);
 
 messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
   messenger.menus.update("edit_email_subject_entry", {
@@ -33,7 +34,7 @@ messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
 })
 
 messenger.menus.onClicked.addListener(async ({ selectedMessages }, tab) => {
-  let keepBackup = await eesPreferences.getPrefValue("keepBackup");
+  let keepBackup = await preferences.getPrefValue("keepBackup");
   let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
   if (!selectedMessage || !tab.mailTab) {
     return;
@@ -46,7 +47,7 @@ messenger.menus.onClicked.addListener(async ({ selectedMessages }, tab) => {
 messenger.commands.onCommand.addListener(async (command, tab) => {
   if (command == "edit_email_subject" && tab.mailTab) {
     let selectedMessages = await messenger.mailTabs.getSelectedMessages(tab.id);
-    let keepBackup = await eesPreferences.getPrefValue("keepBackup");
+    let keepBackup = await preferences.getPrefValue("keepBackup");
     let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
     if (!selectedMessage || !tab.mailTab) {
       return;
@@ -77,8 +78,8 @@ messenger.menus.create({
 });
 
 // Open tab with deprecation info on localOnly
-let localOnly = await eesPreferences.getPrefValue("localOnly");
+let localOnly = await preferences.getPrefValue("localOnly");
 if (localOnly) {
   messenger.tabs.create({url: "/content/localModeDeprecated.html"});
-  eesPreferences.setPrefValue("localOnly", false); 
+  preferences.setPrefValue("localOnly", false); 
 }
