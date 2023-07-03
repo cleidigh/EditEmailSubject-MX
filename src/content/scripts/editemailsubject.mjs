@@ -111,9 +111,7 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
 
   let newMsgId = await messenger.MessageModification.addRaw(newHeaderMessagId, newMsgContent, msg.folder, msg.id);
   if (newMsgId) {
-    console.log("Success [" + msgId + " vs " + newMsgId + "]");
-    await messenger.mailTabs.setSelectedMessages(tabId, [newMsgId]);
-    
+    console.log("Success [" + msgId + " vs " + newMsgId + "]");    
     if (keepBackup) {
       let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
       let localFolders = await messenger.folders.getSubFolders(localAccount, false);
@@ -125,5 +123,7 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
     } else {
       await messenger.messages.delete([msg.id], true);
     }
+    await new Promise(resolve => window.setTimeout(resolve, 500));
+    await messenger.mailTabs.setSelectedMessages(tabId, [newMsgId]);
   }
 }
