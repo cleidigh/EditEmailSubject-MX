@@ -19,8 +19,5 @@
   },
   "lang.subjectOld": {
     "message": "Original-Betreff:"
-  },
-  "lang.warning": {
-    "message": "Warnung, der Betreff wurde schon bearbeitet. Eine erneute Änderung ist mit Risiken verbunden."
   }
 }

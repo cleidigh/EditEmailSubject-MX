@@ -19,8 +19,5 @@
   },
   "lang.subjectOld": {
     "message": "Original subject:"
-  },
-  "lang.warning": {
-    "message": "Warning, subject has already been changed. Try it again at your own risk."
   }
 }
