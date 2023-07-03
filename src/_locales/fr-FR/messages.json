@@ -9,7 +9,7 @@
     "message": "Réglages"
   },
   "lang.keepBackup": {
-    "message": "Sauvegardez les e-mails d'origine dans le dossier local „EES-Temp” avant de les renommer"
+    "message": "Enregistrez une sauvegarde de l'e-mail dans le dossier local „EES-Temp” avant de le renommer."
   },
   "lang.menuTitle": {
     "message": "Editer le sujet du message"

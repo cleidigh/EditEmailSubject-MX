@@ -9,7 +9,7 @@
     "message": "Settings"
   },
   "lang.keepBackup": {
-    "message": "Back up original emails in the local folder „EES-Temp” before renaming them"
+    "message": "Back up email into the local folder „EES-Temp” before renaming it."
   },
   "lang.menuTitle": {
     "message": "Edit Mail Subject"

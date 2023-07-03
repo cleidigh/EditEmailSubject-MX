@@ -15,9 +15,6 @@ let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.
   ? full.headers["x-editemailsubject-originalsubject"]
   : null
 
-// Preselect the keep backup checkbox with the value from the preferences.
-let keepBackup = await preferences.getPrefValue("keepBackup");
-
 document.getElementById("editemailsubjectCANCEL").addEventListener('click', cancel);
 document.getElementById("editemailsubjectOK").addEventListener('click', okAndInput);
 document.getElementById("editemailsubjectInput").addEventListener('keydown', okAndInput);
@@ -27,7 +24,13 @@ document.getElementById("editemailsubjectInput").value = currentSubject;
 if (originalSubject) {
   document.getElementById("editemailsubjectOld").value = originalSubject;
 } else {
-  document.getElementById("modifiedInfo").style.display = "none";
+  document.getElementById("editemailsubjectOld").style.visibility = "hidden";
+  document.getElementById("editemailsubjectOldDesc").style.visibility = "hidden";
+}
+
+// Preselect the keep backup checkbox with the value from the preferences.
+if (await preferences.getPrefValue("keepBackup")) {
+  document.getElementById("keepBackup").setAttribute("checked", true);
 }
 
 document.getElementById("body").style.display = "block";
@@ -37,6 +40,7 @@ window.focus();
 async function okAndInput(e) {
   if ((e.type == "keydown" && e.key == "Enter") || e.type == "click") {
     let newSubject = document.getElementById("editemailsubjectInput").value;
+    let keepBackup = document.getElementById("keepBackup").checked;
 
     if (msgId && tabId && currentSubject != newSubject) {
       await ees.updateMessage({

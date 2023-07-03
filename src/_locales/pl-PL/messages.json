@@ -9,7 +9,7 @@
       "message": "Ustawienia"
     },
     "lang.keepBackup": {
-      "message": "Wykonaj kopię zapasową oryginalnych wiadomości e-mail w folderze lokalnym „EES-Temp” przed zmianą ich nazwy"
+      "message": "Zapisz kopię zapasową wiadomości e-mail w lokalnym folderze „EES-Temp” przed zmianą jej nazwy."
     },
     "lang.menuTitle": {
       "message": "Edytuj temat wiadomości"

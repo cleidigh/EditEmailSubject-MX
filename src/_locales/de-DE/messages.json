@@ -9,7 +9,7 @@
     "message": "Einstellungen"
   },
   "lang.keepBackup": {
-    "message": "Originale E-Mails in dem lokalen Ordner „EES-Temp” vor dem Umbenennen sichern"
+    "message": "Sicherung der E-Mail vor dem Umbenennen im lokalen Ordner „EES-Temp” ablegen."
   },
   "lang.menuTitle": {
     "message": "E-Mail-Betreff bearbeiten"

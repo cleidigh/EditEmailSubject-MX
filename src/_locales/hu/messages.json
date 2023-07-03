@@ -9,7 +9,7 @@
     "message": "Beállítások"
   },
   "lang.keepBackup": {
-    "message": "Átnevezésük előtt készítsen biztonsági másolatot az eredeti e-mailekről az „EES-Temp” helyi mappában"
+    "message": "Az átnevezés előtt tároljon biztonsági másolatot az e-mailről a helyi „EES-Temp” mappában."
   },
   "lang.menuTitle": {
     "message": "Tárgy szerkesztése"
