@@ -4,6 +4,13 @@ import * as ees from "/content/scripts/editemailsubject.mjs";
 const urlParams = new URLSearchParams(window.location.search);
 let msgId = parseInt(urlParams.get('msgId'), 10);
 let tabId = parseInt(urlParams.get('tabId'), 10);
+let busy = false;
+
+window.addEventListener("beforeunload", event => {
+  if (busy) {
+    event.preventDefault();
+  };
+})
 
 // It looks like TB is storing a leading Re: not as part of the MessageHeader subject,
 // but inside an internal message flag not accessible to WebExtensions.
@@ -43,6 +50,7 @@ async function okAndInput(e) {
     let keepBackup = document.getElementById("keepBackup").checked;
 
     if (msgId && tabId && currentSubject != newSubject) {
+      busy = true;
       await ees.updateMessage({
         msgId,
         tabId,
@@ -51,6 +59,7 @@ async function okAndInput(e) {
         currentSubject,
         originalSubject
       });
+      busy = false;
     }
 
     let popupTab = await messenger.tabs.getCurrent();
