@@ -51,6 +51,7 @@ async function okAndInput(e) {
 
     if (msgId && tabId && currentSubject != newSubject) {
       busy = true;
+      document.getElementById("busy").style.display = "block"
       await ees.updateMessage({
         msgId,
         tabId,

@@ -5,12 +5,17 @@
   <meta charset="UTF-8">
   <title>__EESMSG_extensionDescription__</title>
   <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="editemailsubjectPopup.css" type="text/css" />
   <script src="/content/scripts/locales.js"></script>
   <script src="editemailsubjectPopup.js" type="module"></script>
 </head>
 
-<body id="body" style="font-size:small; display:none">
-  <div style="font-size:small">
+<body id="body">
+  <div id="busy">
+    <img src="/content/images/spinner.gif"/>
+  </div>
+
+  <div>
     <p>__EESMSG_lang.subject__</p>
     <div style="display:flex">
       <input style="flex-grow:1" type="text" id="editemailsubjectInput" />
@@ -19,7 +24,7 @@
   </div>
 
 
-  <div style="font-size:small;">
+  <div>
     <p id="editemailsubjectOldDesc" style="font-size:small">__EESMSG_lang.subjectOld__</p>
     <div style="display:flex;">
       <input style="flex-grow:1" type="text" disabled="true" id="editemailsubjectOld" />
