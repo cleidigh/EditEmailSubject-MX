@@ -26,29 +26,13 @@ export function getSingleMessageFromList(messageList) {
 }
 
 // Initiate subject editing by opening the edit dialog.
-export async function edit({ selectedMessage, tab, keepBackup }) {
-  let full = await messenger.messages.getFull(selectedMessage.id);
-
-  // It looks like TB is storing a leading Re: not as part of the MessageHeader subject,
-  // but inside an internal message flag not accessible to WebExtensions.
-  // -> Get the real subject from full.headers.subject. 
-  let currentSubject = full.headers.subject[0];
-
-  // If the header contains X-EditEmailSubject, we show a warning about being already modified.
-  let originalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
-    ? full.headers["x-editemailsubject-originalsubject"]
-    : null
-
+export async function edit({ selectedMessage, tab }) {
   let popupUrl = new URL(messenger.runtime.getURL("/content/popup/editemailsubjectPopup.html"));
   popupUrl.searchParams.append("tabId", tab.id);
   popupUrl.searchParams.append("msgId", selectedMessage.id);
-  popupUrl.searchParams.append("currentSubject", currentSubject);
-
-  if (originalSubject) popupUrl.searchParams.append("originalSubject", originalSubject);
-  if (keepBackup) popupUrl.searchParams.append("keepBackup", keepBackup);
 
   return messenger.windows.create({
-    height: !!originalSubject ? 260 : 170,
+    height: 170,
     width: 500,
     url: popupUrl.href,
     type: "popup"

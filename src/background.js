@@ -26,6 +26,7 @@ let defaultPrefs = {
 };
 await preferences.setDefaults(defaultPrefs);
 
+// Menu show listener, to disable/enable menu item based on selected message(s).
 messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
   messenger.menus.update("edit_email_subject_entry", {
     enabled: !!ees.getSingleMessageFromList(selectedMessages)
@@ -33,43 +34,28 @@ messenger.menus.onShown.addListener(({ selectedMessages }, tab) => {
   messenger.menus.refresh();
 })
 
+// Menu click listener.
 messenger.menus.onClicked.addListener(async ({ selectedMessages }, tab) => {
-  let keepBackup = await preferences.getPrefValue("keepBackup");
   let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
   if (!selectedMessage || !tab.mailTab) {
     return;
   }
 
-  ees.edit({ selectedMessage, tab, keepBackup });
+  ees.edit({ selectedMessage, tab });
 })
 
 // Keyboard shortcut listener.
 messenger.commands.onCommand.addListener(async (command, tab) => {
   if (command == "edit_email_subject" && tab.mailTab) {
     let selectedMessages = await messenger.mailTabs.getSelectedMessages(tab.id);
-    let keepBackup = await preferences.getPrefValue("keepBackup");
     let selectedMessage = ees.getSingleMessageFromList(selectedMessages);
     if (!selectedMessage || !tab.mailTab) {
       return;
     }
 
-    ees.edit({ selectedMessage, tab, keepBackup });
+    ees.edit({ selectedMessage, tab });
   }
 });
-
-// Communication from popup window (the window is closed before operation is executed,
-// therefore the execution needs to happen here).
-messenger.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request && request.action) {
-    switch (request.action) {
-      case "updateMessage":
-        sendResponse();
-        // Change the entire email.
-        ees.updateMessage(request);
-        break;
-    }
-  }
-})
 
 messenger.menus.create({
   contexts: ["message_list"],
