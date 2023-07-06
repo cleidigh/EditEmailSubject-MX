@@ -1,15 +1,9 @@
 # ![EESMX icon]  EditEmailSubject MX
 ## MailExtension Conversion Project
 
-The original EditEmailSubject is a [Thunderbird](https://www.thunderbird.net/) Add-on that allows users to change the subject header for any e-mail that is displayed to the user.
+The original EditEmailSubject was a legacy [Thunderbird](https://www.thunderbird.net/) add-on for Thunderbird 68 written by jisse44, that allowed users to change the subject header for any e-mail that is displayed to the user.
 
-This add-on is the original work of jisse44. We will be updating
-the code to be a "pure" MailExtension (EditEmailSubject MX) with the desired goal of providing detailed process, tips and conversion notes.  Besides helping developers with the transition process, we hope to use this as one of the vehicles for developing requirements for Thunderbird 78 specifically pertaining to extensions.
-
-[![editemailsubjectmx_version](https://img.shields.io/badge/version-v3.0.0b2-darkorange.png?label=EditEmailSubject%20MX)](https://github.com/cleidigh/EditEmailSubject-MX/releases)
-![Thunderbird_version](https://img.shields.io/badge/version-v68-blue.png?label=Thunderbird)
-[![License: GPL v3](https://img.shields.io/badge/License-MPL,%20GPL%20v3-red.png)](LICENSE)
-![Project Status](https://img.shields.io/badge/Project%20Status-Startup-brightgreen.png)
+The extension in this repository is based on the work of jisse44. We updated the code to be a pure MailExtension (EditEmailSubject MX) with the goal of providing tips and conversion notes for other developers, to outline how to migrate legacy add-ons to WebExtension add-ons.
 
 ## Releases & Changelog
 EditEmailSubject-MX releases can be found [here](https://github.com/cleidigh/EditEmailSubject-MX/releases). Each release will list the relevant changes and provides a link to an XPI file to download the add-on. 
