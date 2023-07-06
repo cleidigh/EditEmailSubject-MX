@@ -16,10 +16,9 @@ _Alternatively use Drag&Drop for installing from "Releases" directly to the TB/A
 Post any issues or questions for EditEmailSubject MX [here](https://github.com/cleidigh/EditEmailSubject-MX/issues).
 
 ## Credits
-Original author: [jisse44 (ATN)]
-New add-on icon: [Carl-Erich]
-Success icon: [icons8.com](https://icons8.com/icon/63312/ok)
-
+Original author: [jisse44 (ATN)]  
+New add-on icon: [Carl-Erich]  
+Success icon: [icons8.com](https://icons8.com/icon/63312/ok)  
 Failure icon: [icons8.com](https://icons8.com/icon/63688/cancel)
 
 ## Team
