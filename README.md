@@ -52,5 +52,5 @@ New Icon: [Carl-Erich]
 [Christopher]: https://github.com/cleidigh
 
 
-[EESMX icon]: rep-resources/images/editemailsubjectmx-icon-64px.png 
+[EESMX icon]: images/editemailsubjectmx-icon-64px.png 
 [jisse44 (ATN)]: https://addons.thunderbird.net/user/jisse44/
