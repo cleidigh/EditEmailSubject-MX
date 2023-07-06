@@ -48,22 +48,28 @@ async function okAndInput(e) {
   if ((e.type == "keydown" && e.key == "Enter") || e.type == "click") {
     let newSubject = document.getElementById("editemailsubjectInput").value;
     let keepBackup = document.getElementById("keepBackup").checked;
+    let newMsgHeader;
 
     if (msgId && tabId && currentSubject != newSubject) {
       busy = true;
       document.getElementById("busy").style.display = "block"
-      await ees.updateMessage({
+      newMsgHeader = await ees.updateMessage({
         msgId,
-        tabId,
         keepBackup,
         newSubject,
         currentSubject,
       });
       busy = false;
+      document.getElementById("busy").style.display = "none"
     }
 
-    let popupTab = await messenger.tabs.getCurrent();
-    await messenger.tabs.remove(popupTab.id);
+    if (newMsgHeader) {      
+      document.getElementById("ok").style.display = "block";
+      await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
+      await new Promise(resolve => window.setTimeout(resolve, 250));
+      let popupTab = await messenger.tabs.getCurrent();
+      await messenger.tabs.remove(popupTab.id);
+    }
   }
 
   if (e.type == "keydown" && e.key == "Escape") {

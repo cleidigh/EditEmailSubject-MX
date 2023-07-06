@@ -1,4 +1,4 @@
-#busy {
+.overlay {
   z-index: 5;
   position: absolute;
   margin: 0;
@@ -11,7 +11,7 @@
   opacity: .8;
   display: none;
 }
-#busy img {
+.overlay img {
   position: absolute;
   top: calc(50% - 32px);
   left: calc(50% - 32px);
