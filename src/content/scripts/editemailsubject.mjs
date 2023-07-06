@@ -40,7 +40,7 @@ export async function edit({ selectedMessage, tab }) {
 }
 
 // Change the entire email (add new + delete original).
-export async function updateMessage({ msgId, tabId, keepBackup, newSubject, currentSubject }) {
+export async function updateMessage({ msgId, keepBackup, newSubject, currentSubject }) {
   let msg = await messenger.messages.get(msgId);
   let raw = (await messenger.messages.getRaw(msgId))
     .replace(/\r/g, "") //for RFC2822
@@ -54,18 +54,19 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
   let bodyPart = raw.substring(headerEnd + 2);
 
   // Update subject, check if subject is multiline.
-  while (headerPart.match(/\r\nSubject: .*\r\n\s+/))
+  while (headerPart.match(/\r\nSubject: .*\r\n\s+/)) {
     headerPart = headerPart.replace(/(\r\nSubject: .*)(\r\n\s+)/, "$1 ");
+  }
 
   // RFC2047 Q-Encoding
   const encodeHeader = (name, value) => {
     const startLine = " =?utf-8?q?"
     const nextLine = "=?="
     const endLine = "?=";
-    
+
     let lines = [];
     let currentLine = `${name}:${startLine}`;
-    
+
     let uint8Array = new TextEncoder().encode(value);
     for (let v of uint8Array.values()) {
       let next = q.encode(String.fromCharCode(v)); // or btoa() for b-encoding
@@ -106,35 +107,70 @@ export async function updateMessage({ msgId, tabId, keepBackup, newSubject, curr
   // Remove the leading linebreak.
   headerPart = headerPart.substring(2);
 
-  // Create File.
+  // Create message file.
   // https://thunderbird.topicbox.com/groups/addons/T06356567165277ee-M25e96f2d58e961d6167ad348
   let newMsgContent = `${headerPart}${bodyPart}`;
   let newMsgBytes = new Array(newMsgContent.length);
   for (let i = 0; i < newMsgBytes.length; i++) {
     newMsgBytes[i] = newMsgContent.charCodeAt(i) & 0xFF;
   }
-  let newMsgFile = new File([new Uint8Array(newMsgBytes)], `${uid}.eml`, {type: 'message/rfc822'});
+  let newMsgFile = new File([new Uint8Array(newMsgBytes)], `${uid}.eml`, { type: 'message/rfc822' });
 
-  let newMsgHeader = await messenger.messages.import(newMsgFile, msg.folder, {
+
+  // Operation is piped thru a local folder, since messages.import does not work with imap.
+  let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
+  let localFolders = await messenger.folders.getSubFolders(localAccount, false);
+  let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
+  if (!tempFolder) {
+    tempFolder = await messenger.folders.create(localAccount, "EES-Temp");
+  }
+  let newMsgHeader = await messenger.messages.import(newMsgFile, tempFolder, {
     flagged: msg.flagged,
     read: msg.read,
     tags: msg.tags
   });
 
-  if (newMsgHeader) {
-    console.log("Success [" + msg.id + " vs " + newMsgHeader.id + "]");    
-    if (keepBackup) {
-      let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
-      let localFolders = await messenger.folders.getSubFolders(localAccount, false);
-      let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
-      if (!tempFolder) {
-        tempFolder = await messenger.folders.create(localAccount, "EES-Temp");
-      }
-      await messenger.messages.move([msg.id], tempFolder);
-    } else {
-      await messenger.messages.delete([msg.id], true);
-    }
-    await new Promise(resolve => window.setTimeout(resolve, 500));
-    await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
+  if (!newMsgHeader) {
+    return false;
   }
+  console.log("Created [" + msg.id + " -> " + newMsgHeader.id + "]");
+
+  // Move new message from temp folder to real destination.
+  let newMovedMsgHeader;
+  try {
+    let waitCounter = 0;
+    newMovedMsgHeader = await new Promise((resolve, reject) => {
+      let checkFolder = async () => {
+        let { messages } = await browser.messages.list(msg.folder);
+        let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
+        if (movedMessage) {
+          console.log("Moved [" + newMsgHeader.id + " -> " + movedMessage.id + "]");
+          resolve(movedMessage);
+        } else {
+          waitCounter++;
+          if (waitCounter>20) {
+            reject(new Error("Message not found after rename"));
+          } else {
+            window.setTimeout(checkFolder, 250);
+          }
+        }
+      }
+      messenger.messages.move([newMsgHeader.id], msg.folder);
+      checkFolder();
+    })
+  } catch (ex) {
+    console.error(ex);
+  }
+
+  if (!newMovedMsgHeader) {
+    return false;
+  }
+
+  // Remove or backup original message.
+  if (keepBackup) {
+    await messenger.messages.move([msg.id], tempFolder);
+  } else {
+    await messenger.messages.delete([msg.id], true);
+  }
+  return newMovedMsgHeader;
 }
