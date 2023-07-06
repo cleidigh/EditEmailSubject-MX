@@ -66,9 +66,13 @@ async function okAndInput(e) {
     if (newMsgHeader) {      
       document.getElementById("ok").style.display = "block";
       await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
-      await new Promise(resolve => window.setTimeout(resolve, 250));
+      await new Promise(resolve => window.setTimeout(resolve, 500));
       let popupTab = await messenger.tabs.getCurrent();
       await messenger.tabs.remove(popupTab.id);
+    } else {
+      document.getElementById("error").style.display = "block";
+      await new Promise(resolve => window.setTimeout(resolve, 750));
+      document.getElementById("error").style.display = "none";
     }
   }
 
