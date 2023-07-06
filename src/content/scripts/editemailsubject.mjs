@@ -141,7 +141,7 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
     let waitCounter = 0;
     newMovedMsgHeader = await new Promise((resolve, reject) => {
       let checkFolder = async () => {
-        let { messages } = await browser.messages.list(msg.folder);
+        let { messages } = await browser.messages.query({folder: msg.folder, headerMessageId: newMsgHeader.headerMessageId });
         let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
         if (movedMessage) {
           console.log("Moved [" + newMsgHeader.id + " -> " + movedMessage.id + "]");
