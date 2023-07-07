@@ -16,7 +16,8 @@ window.addEventListener("beforeunload", event => {
 // but inside an internal message flag not accessible to WebExtensions.
 // -> Get the real subject from full.headers.subject. 
 let full = await messenger.messages.getFull(msgId);
-let currentSubject = full.headers.subject[0];
+let currentSubject = Array.isArray(full.headers.subject) && full.headers.subject.length > 0 ? full.headers.subject[0] : "";
+
 // If the header contains X-EditEmailSubject, we show a warning about being already modified.
 let headerOriginalSubject = full.headers.hasOwnProperty("x-editemailsubject") && full.headers.hasOwnProperty("x-editemailsubject-originalsubject")
   ? full.headers["x-editemailsubject-originalsubject"]
