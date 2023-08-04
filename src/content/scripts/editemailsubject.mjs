@@ -141,18 +141,27 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
     let waitCounter = 0;
     newMovedMsgHeader = await new Promise((resolve, reject) => {
       let checkFolder = async () => {
-        let { messages } = await browser.messages.query({folder: msg.folder, headerMessageId: newMsgHeader.headerMessageId });
-        let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
-        if (movedMessage) {
-          console.log("Moved [" + newMsgHeader.id + " -> " + movedMessage.id + "]");
-          resolve(movedMessage);
-        } else {
-          waitCounter++;
-          if (waitCounter>20) {
-            reject(new Error("Message not found after rename"));
-          } else {
-            window.setTimeout(checkFolder, 250);
+        let page = await browser.messages.query({folder: msg.folder, headerMessageId: newMsgHeader.headerMessageId });
+        do {
+          let { messages } = page;
+          let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
+          if (movedMessage) {
+            console.log("Moved [" + newMsgHeader.id + " -> " + movedMessage.id + "]");
+            resolve(movedMessage);
+            return;
           }
+          if (page.id) {
+            page = await messenger.messages.continueList(page.id);
+          } else {
+            page = null;
+          }
+        } while (page && page.messages.length > 0)
+        
+        waitCounter++;
+        if (waitCounter>20) {
+          reject(new Error("Message not found after rename"));
+        } else {
+          window.setTimeout(checkFolder, 500);
         }
       }
       messenger.messages.move([newMsgHeader.id], msg.folder);
