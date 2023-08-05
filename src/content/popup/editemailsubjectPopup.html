@@ -10,7 +10,7 @@
   <script src="editemailsubjectPopup.js" type="module"></script>
 </head>
 
-<body id="body">
+<body>
   <div id="busy" class="overlay">
     <img src="/content/images/spinner.gif"/>
   </div>
@@ -23,21 +23,22 @@
     <img src="/content/images/error.png"/>
   </div>
 
-  <div>
-    <p>__EESMSG_lang.subject__</p>
-    <div style="display:flex">
-      <input style="flex-grow:1" type="text" id="editemailsubjectInput" />
+  <div id="container">
+    <div>
+      <div>__EESMSG_lang.subject__</div>
+      <div style="display:flex; margin-top:1ex;">
+        <input style="flex-grow:1" type="text" id="editemailsubjectInput" />
+      </div>
+      <label><input id="keepBackup" type="checkbox"/>__EESMSG_lang.keepBackup__</label>
     </div>
-    <label><input id="keepBackup" type="checkbox"/>__EESMSG_lang.keepBackup__</label>
-  </div>
 
-
-  <div>
-    <p id="editemailsubjectOldDesc" style="font-size:small">__EESMSG_lang.subjectOld__</p>
-    <div style="display:flex;">
-      <input style="flex-grow:1" type="text" disabled="true" id="editemailsubjectOld" />
-      <input style="margin-left: 1ex" type="button" id="editemailsubjectCANCEL" value="CANCEL">
-      <input style="margin-left: 1ex" type="button" id="editemailsubjectOK" value="OK">
+    <div>
+      <div id="editemailsubjectOldDesc" style="font-size:small">__EESMSG_lang.subjectOld__</div>
+      <div style="display:flex;">
+        <input style="flex-grow:1" type="text" disabled="true" id="editemailsubjectOld" />
+        <input style="margin-left: 1ex" type="button" id="editemailsubjectCANCEL" value="CANCEL">
+        <input style="margin-left: 1ex" type="button" id="editemailsubjectOK" value="OK">
+      </div>
     </div>
   </div>
 

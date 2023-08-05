@@ -41,8 +41,34 @@ if (await preferences.getPrefValue("keepBackup")) {
   document.getElementById("keepBackup").setAttribute("checked", true);
 }
 
-document.getElementById("body").style.display = "block";
+document.getElementById("container").style.display = "flex";
 document.getElementById("editemailsubjectInput").focus();
+
+
+// Size of available window space.
+let innerHeight = window.innerHeight;
+let innerWidth = window.innerWidth;
+// Outer window size (used in windows.update()).
+let outerHeight = window.outerHeight;
+let outerWidth = window.outerWidth;
+// Required size
+let bodyHeight = document.getElementById("container").scrollHeight;
+let bodyWidth = document.getElementById("container").scrollWidth;
+
+let height = (bodyHeight > innerHeight) 
+  ? { ok: false, value: outerHeight + (bodyHeight - innerHeight) } 
+  : { ok: true, value: outerHeight };
+let width = (bodyWidth > innerWidth) 
+  ? { ok: false, value: outerWidth + (bodyWidth - innerWidth) } 
+  : { ok: true, value: outerWidth };
+if (!width.ok || !height.ok) {
+  let thisTab = await browser.tabs.getCurrent();
+  await browser.windows.update(thisTab.windowId, {
+    height: height.value,
+    width: width.value,
+  });
+}
+
 window.focus();
 
 async function okAndInput(e) {
@@ -64,7 +90,7 @@ async function okAndInput(e) {
       document.getElementById("busy").style.display = "none"
     }
 
-    if (newMsgHeader) {      
+    if (newMsgHeader) {
       document.getElementById("ok").style.display = "block";
       await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
       await new Promise(resolve => window.setTimeout(resolve, 500));

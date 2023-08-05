@@ -1,3 +1,9 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
 .overlay {
   z-index: 5;
   position: absolute;
@@ -17,8 +23,16 @@
   left: calc(50% - 32px);
 } 
 
-#body {
+#container {
   font-size: small;
   display: none;
-  font-size: small
+  font-size: small;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  height: 100%;
+}
+
+#container > div {
+  padding: 1ex 2ex;
 }

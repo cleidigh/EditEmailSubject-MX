@@ -32,7 +32,7 @@ export async function edit({ selectedMessage, tab }) {
   popupUrl.searchParams.append("msgId", selectedMessage.id);
 
   return messenger.windows.create({
-    height: 170,
+    height: 180,
     width: 500,
     url: popupUrl.href,
     type: "popup"
