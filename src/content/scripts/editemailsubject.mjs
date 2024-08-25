@@ -54,8 +54,8 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
   let bodyPart = raw.substring(headerEnd + 2);
 
   // Update subject, check if subject is multiline.
-  while (headerPart.match(/\r\nSubject: .*\r\n\s+/)) {
-    headerPart = headerPart.replace(/(\r\nSubject: .*)(\r\n\s+)/, "$1 ");
+  while (headerPart.match(/\r\nSubject:.*\r\n\s+/)) {
+    headerPart = headerPart.replace(/(\r\nSubject:.*)(\r\n\s+)/, "$1 ");
   }
 
   // RFC2047 Q-Encoding
@@ -82,8 +82,8 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
   }
 
   // Either replace the subject header or add one if missing.
-  if (headerPart.includes("\nSubject: ")) {
-    headerPart = headerPart.replace(/\nSubject: .*\r\n/, "\n" + encodeHeader("Subject", newSubject) + "\r\n");
+  if (headerPart.includes("\r\nSubject:")) {
+    headerPart = headerPart.replace(/\r\nSubject:.*\r\n/, "\r\n" + encodeHeader("Subject", newSubject) + "\r\n");
   } else {
     headerPart += encodeHeader("Subject", newSubject) + "\r\n";
   }
@@ -93,15 +93,15 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
   let server = msg.headerMessageId.split("@").pop();
   let uid = crypto.randomUUID();
   let newHeaderMessagId = uid + "@" + server;
-  headerPart = headerPart.replace(/\nMessage-ID: *.*\r\n/i, "\nMessage-ID: <" + newHeaderMessagId + ">\r\n");
+  headerPart = headerPart.replace(/\r\nMessage-ID: *.*\r\n/i, "\r\nMessage-ID: <" + newHeaderMessagId + ">\r\n");
 
   // Update or modify X-EditEmailSubject headers.
   let now = new Date;
   let EditEmailSubjectHead = ("X-EditEmailSubject: " + now.toString()).replace(/\(.+\)/, "").substring(0, 75);
-  if (!headerPart.includes("\nX-EditEmailSubject: ")) {
+  if (!headerPart.includes("\r\nX-EditEmailSubject: ")) {
     headerPart += EditEmailSubjectHead + "\r\n" + encodeHeader("X-EditEmailSubject-OriginalSubject", currentSubject) + "\r\n";
   } else {
-    headerPart = headerPart.replace(/\nX-EditEmailSubject: .+\r\n/, "\n" + EditEmailSubjectHead + "\r\n");
+    headerPart = headerPart.replace(/\r\nX-EditEmailSubject: .+\r\n/, "\r\n" + EditEmailSubjectHead + "\r\n");
   }
 
   // Remove the leading linebreak.
@@ -119,12 +119,12 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
 
   // Operation is piped thru a local folder, since messages.import does not work with imap.
   let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
-  let localFolders = await messenger.folders.getSubFolders(localAccount, false);
+  let localFolders = await messenger.folders.getSubFolders(localAccount.rootFolder.id, false);
   let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
   if (!tempFolder) {
-    tempFolder = await messenger.folders.create(localAccount, "EES-Temp");
+    tempFolder = await messenger.folders.create(localAccount.rootFolder.id, "EES-Temp");
   }
-  let newMsgHeader = await messenger.messages.import(newMsgFile, tempFolder, {
+  let newMsgHeader = await messenger.messages.import(newMsgFile, tempFolder.id, {
     flagged: msg.flagged,
     read: msg.read,
     tags: msg.tags
@@ -141,7 +141,7 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
     let waitCounter = 0;
     newMovedMsgHeader = await new Promise((resolve, reject) => {
       let checkFolder = async () => {
-        let page = await browser.messages.query({folder: msg.folder, headerMessageId: newMsgHeader.headerMessageId });
+        let page = await browser.messages.query({folderId: msg.folder.id, headerMessageId: newMsgHeader.headerMessageId });
         do {
           let { messages } = page;
           let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
@@ -164,7 +164,7 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
           window.setTimeout(checkFolder, 500);
         }
       }
-      messenger.messages.move([newMsgHeader.id], msg.folder);
+      messenger.messages.move([newMsgHeader.id], msg.folder.id);
       checkFolder();
     })
   } catch (ex) {
@@ -177,7 +177,7 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
 
   // Remove or backup original message.
   if (keepBackup) {
-    await messenger.messages.move([msg.id], tempFolder);
+    await messenger.messages.move([msg.id], tempFolder.id);
   } else {
     await messenger.messages.delete([msg.id], true);
   }
