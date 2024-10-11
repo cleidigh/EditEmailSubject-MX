@@ -115,71 +115,44 @@ export async function updateMessage({ msgId, keepBackup, newSubject, currentSubj
     newMsgBytes[i] = newMsgContent.charCodeAt(i) & 0xFF;
   }
   let newMsgFile = new File([new Uint8Array(newMsgBytes)], `${uid}.eml`, { type: 'message/rfc822' });
-
-
-  // Operation is piped thru a local folder, since messages.import does not work with imap.
-  let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
-  let localFolders = await messenger.folders.getSubFolders(localAccount.rootFolder.id, false);
-  let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
-  if (!tempFolder) {
-    tempFolder = await messenger.folders.create(localAccount.rootFolder.id, "EES-Temp");
-  }
-  let newMsgHeader = await messenger.messages.import(newMsgFile, tempFolder.id, {
+  let newMsgHeader = await messenger.messages.import(newMsgFile, msg.folder.id, {
     flagged: msg.flagged,
     read: msg.read,
     tags: msg.tags
   });
-
   if (!newMsgHeader) {
+    console.log("Failed to import!");
     return false;
   }
   console.log("Created [" + msg.id + " -> " + newMsgHeader.id + "]");
 
-  // Move new message from temp folder to real destination.
-  let newMovedMsgHeader;
-  try {
-    let waitCounter = 0;
-    newMovedMsgHeader = await new Promise((resolve, reject) => {
-      let checkFolder = async () => {
-        let page = await browser.messages.query({folderId: msg.folder.id, headerMessageId: newMsgHeader.headerMessageId });
-        do {
-          let { messages } = page;
-          let movedMessage = messages.find(m => m.headerMessageId == newMsgHeader.headerMessageId);
-          if (movedMessage) {
-            console.log("Moved [" + newMsgHeader.id + " -> " + movedMessage.id + "]");
-            resolve(movedMessage);
-            return;
-          }
-          if (page.id) {
-            page = await messenger.messages.continueList(page.id);
-          } else {
-            page = null;
-          }
-        } while (page && page.messages.length > 0)
-        
-        waitCounter++;
-        if (waitCounter>20) {
-          reject(new Error("Message not found after rename"));
-        } else {
-          window.setTimeout(checkFolder, 500);
+  // Remove or Backup original message.
+  if (keepBackup) {
+    let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
+    let localFolders = await messenger.folders.getSubFolders(localAccount.rootFolder.id, false);
+    let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
+    if (!tempFolder) {
+      tempFolder = await messenger.folders.create(localAccount.rootFolder.id, "EES-Temp");
+    }
+
+    const movedMessage = await new Promise(resolve => {
+      const listener = (src, dst) => {
+        console.log(src,dst);
+        let idx = src.messages.findIndex(m => m.id == msg.id);
+        if (idx != -1 && dst.messages[idx].folder.id == tempFolder.id) {
+          messenger.messages.onMoved.removeListener(listener);
+          resolve(dst.messages[idx]);
         }
       }
-      messenger.messages.move([newMsgHeader.id], msg.folder.id);
-      checkFolder();
+      messenger.messages.onMoved.addListener(listener);
+      messenger.messages.move([msg.id], tempFolder.id);
     })
-  } catch (ex) {
-    console.error(ex);
-  }
+    console.log("Moved [" + msg.id + " -> " + movedMessage.id + "]");
 
-  if (!newMovedMsgHeader) {
-    return false;
-  }
-
-  // Remove or backup original message.
-  if (keepBackup) {
-    await messenger.messages.move([msg.id], tempFolder.id);
   } else {
     await messenger.messages.delete([msg.id], true);
+    console.log("Deleted [" + msg.id + "]");
   }
-  return newMovedMsgHeader;
+
+  return newMsgHeader;
 }

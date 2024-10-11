@@ -92,8 +92,9 @@ async function okAndInput(e) {
 
     if (newMsgHeader) {
       document.getElementById("ok").style.display = "block";
-      await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
+      // The key swap will cause the message to be deselected.
       await new Promise(resolve => window.setTimeout(resolve, 500));
+      await messenger.mailTabs.setSelectedMessages(tabId, [newMsgHeader.id]);
       let popupTab = await messenger.tabs.getCurrent();
       await messenger.tabs.remove(popupTab.id);
     } else {
