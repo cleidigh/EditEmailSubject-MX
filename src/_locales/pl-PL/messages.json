@@ -11,6 +11,9 @@
     "lang.keepBackup": {
       "message": "Zapisz kopię zapasową wiadomości e-mail w lokalnym folderze „EES-Temp” przed zmianą jej nazwy."
     },
+    "lang.changeId": {
+      "message": "Zmieniając nazwę wiadomości e-mail, przypisz nowy identyfikator wiadomości. Może to być konieczne w przypadku niektórych serwerów IMAP."
+    },
     "lang.menuTitle": {
       "message": "Edytuj temat wiadomości"
     },

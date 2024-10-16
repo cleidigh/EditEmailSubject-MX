@@ -11,6 +11,9 @@
   "lang.keepBackup": {
     "message": "Enregistrez une sauvegarde de l'e-mail dans le dossier local „EES-Temp” avant de le renommer."
   },
+  "lang.changeId": {
+    "message": "Lorsque vous renommez l'e-mail, attribuez un nouvel identifiant de message. Cela peut être nécessaire pour certains serveurs IMAP."
+  },
   "lang.menuTitle": {
     "message": "Editer le sujet du message"
   },

@@ -11,6 +11,9 @@
   "lang.keepBackup": {
     "message": "Sicherung der E-Mail vor dem Umbenennen im lokalen Ordner „EES-Temp” ablegen."
   },
+  "lang.changeId": {
+    "message": "Beim Umbenennen der E-Mail eine neue Message-ID zuordnen, dies kann für manche IMAP Server notwendig sein."
+  },
   "lang.menuTitle": {
     "message": "E-Mail-Betreff bearbeiten"
   },

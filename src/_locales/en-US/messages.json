@@ -11,6 +11,9 @@
   "lang.keepBackup": {
     "message": "Back up email into the local folder „EES-Temp” before renaming it."
   },
+  "lang.changeId": {
+    "message": "When renaming the email, assign a new message ID. This may be necessary for some IMAP servers."
+  },
   "lang.menuTitle": {
     "message": "Edit Mail Subject"
   },

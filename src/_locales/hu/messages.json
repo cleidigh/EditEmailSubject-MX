@@ -11,6 +11,9 @@
   "lang.keepBackup": {
     "message": "Az átnevezés előtt tároljon biztonsági másolatot az e-mailről a helyi „EES-Temp” mappában."
   },
+  "lang.changeId": {
+    "message": "Az e-mail átnevezésekor rendeljen hozzá új üzenetazonosítót. Erre bizonyos IMAP-kiszolgálók esetében szükség lehet."
+  },
   "lang.menuTitle": {
     "message": "Tárgy szerkesztése"
   },

@@ -23,6 +23,7 @@ import * as ees from "/content/scripts/editemailsubject.mjs";
 let defaultPrefs = {
   "localOnly": false, // no longer supported, only kept here to be able to inform users about deprecation
   "keepBackup": true,
+  "changeId": true,
 };
 await preferences.setDefaults(defaultPrefs);
 

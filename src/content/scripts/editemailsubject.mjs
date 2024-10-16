@@ -16,7 +16,7 @@
  * Modifications for TB78, TB91, TB102, TB115 by John Bieling (2020-2023)
  */
 
-import * as q from "/content/scripts/q.mjs";
+import * as preferences from "/content/scripts/preferences.mjs";
 
 // Reduces a MessageList to a single message, if it contains a single message.
 export function getSingleMessageFromList(messageList) {
@@ -39,120 +39,105 @@ export async function edit({ selectedMessage, tab }) {
   });
 }
 
+
+const setHeader = async (full, name, value) => {
+  const encoded = await browser.messengerUtilities.encodeMimeHeader(
+    name,
+    value
+  );
+  full.rawHeaders[name.toLowerCase()] = encoded;
+};
+
+const getHeader = async (full, name) => {
+  const encoded = full.rawHeaders[name.toLowerCase()];
+  if (!encoded) {
+    return undefined
+  }
+  return await browser.messengerUtilities.decodeMimeHeader(
+    name,
+    encoded
+  );
+};
+
 // Change the entire email (add new + delete original).
 export async function updateMessage({ msgId, keepBackup, newSubject, currentSubject }) {
-  let msg = await messenger.messages.get(msgId);
-  let raw = (await messenger.messages.getRaw(msgId))
-    .replace(/\r/g, "") //for RFC2822
-    .replace(/\n/g, "\r\n");
+  const msg = await messenger.messages.get(msgId);
 
-  // Extract the header section and include the linebreak belonging to the last header and include
-  // a linebreak before the first header.
-  // Prevent blank line into headers and binary attachments broken (thanks to Achim Czasch for fix).
-  let headerEnd = raw.search(/\r\n\r\n/);
-  let headerPart = "\r\n" + raw.substring(0, headerEnd + 2).replace(/\r\r/, "\r");
-  let bodyPart = raw.substring(headerEnd + 2);
-
-  // Update subject, check if subject is multiline.
-  while (headerPart.match(/\r\nSubject:.*\r\n\s+/)) {
-    headerPart = headerPart.replace(/(\r\nSubject:.*)(\r\n\s+)/, "$1 ");
-  }
-
-  // RFC2047 Q-Encoding
-  const encodeHeader = (name, value) => {
-    const startLine = " =?utf-8?q?"
-    const nextLine = "=?="
-    const endLine = "?=";
-
-    let lines = [];
-    let currentLine = `${name}:${startLine}`;
-
-    let uint8Array = new TextEncoder().encode(value);
-    for (let v of uint8Array.values()) {
-      let next = q.encode(String.fromCharCode(v)); // or btoa() for b-encoding
-      if (currentLine.length + next.length + endLine.length > 78) {
-        lines.push(currentLine + nextLine);
-        currentLine = startLine;
-      }
-      currentLine += next;
-    }
-    lines.push(currentLine + endLine);
-
-    return lines.join("\r\n");
-  }
-
-  // Either replace the subject header or add one if missing.
-  if (headerPart.includes("\r\nSubject:")) {
-    headerPart = headerPart.replace(/\r\nSubject:.*\r\n/, "\r\n" + encodeHeader("Subject", newSubject) + "\r\n");
-  } else {
-    headerPart += encodeHeader("Subject", newSubject) + "\r\n";
-  }
-
-  // Without changing the message-id, the MessageHeader obj of the new message and the old message will
-  // share the same ID.
-  let server = msg.headerMessageId.split("@").pop();
-  let uid = crypto.randomUUID();
-  let newHeaderMessagId = uid + "@" + server;
-  headerPart = headerPart.replace(/\r\nMessage-ID: *.*\r\n/i, "\r\nMessage-ID: <" + newHeaderMessagId + ">\r\n");
-
-  // Update or modify X-EditEmailSubject headers.
-  let now = new Date;
-  let EditEmailSubjectHead = ("X-EditEmailSubject: " + now.toString()).replace(/\(.+\)/, "").substring(0, 75);
-  if (!headerPart.includes("\r\nX-EditEmailSubject: ")) {
-    headerPart += EditEmailSubjectHead + "\r\n" + encodeHeader("X-EditEmailSubject-OriginalSubject", currentSubject) + "\r\n";
-  } else {
-    headerPart = headerPart.replace(/\r\nX-EditEmailSubject: .+\r\n/, "\r\n" + EditEmailSubjectHead + "\r\n");
-  }
-
-  // Remove the leading linebreak.
-  headerPart = headerPart.substring(2);
-
-  // Create message file.
-  // https://thunderbird.topicbox.com/groups/addons/T06356567165277ee-M25e96f2d58e961d6167ad348
-  let newMsgContent = `${headerPart}${bodyPart}`;
-  let newMsgBytes = new Array(newMsgContent.length);
-  for (let i = 0; i < newMsgBytes.length; i++) {
-    newMsgBytes[i] = newMsgContent.charCodeAt(i) & 0xFF;
-  }
-  let newMsgFile = new File([new Uint8Array(newMsgBytes)], `${uid}.eml`, { type: 'message/rfc822' });
-  let newMsgHeader = await messenger.messages.import(newMsgFile, msg.folder.id, {
-    flagged: msg.flagged,
-    read: msg.read,
-    tags: msg.tags
-  });
-  if (!newMsgHeader) {
-    console.log("Failed to import!");
-    return false;
-  }
-  console.log("Created [" + msg.id + " -> " + newMsgHeader.id + "]");
-
-  // Remove or Backup original message.
   if (keepBackup) {
     let localAccount = (await messenger.accounts.list(false)).find(account => account.type == "none");
     let localFolders = await messenger.folders.getSubFolders(localAccount.rootFolder.id, false);
     let tempFolder = localFolders.find(folder => folder.name == "EES-Temp");
     if (!tempFolder) {
       tempFolder = await messenger.folders.create(localAccount.rootFolder.id, "EES-Temp");
+    } else {
+      // If a backup is requested, we need to check if the destination folder has
+      // the id already. If yes, abort.
+      let {messages} = await browser.messages.query({folderId: tempFolder.id, headerMessageId: msg.headerMessageId})
+      if (messages.length) {
+        throw new Error(`Backup folder already contains a message with id <${msg.headerMessageId}>`)
+      }
     }
-
-    const movedMessage = await new Promise(resolve => {
+    const copiedMessage = await new Promise(resolve => {
       const listener = (src, dst) => {
         console.log(src,dst);
         let idx = src.messages.findIndex(m => m.id == msg.id);
         if (idx != -1 && dst.messages[idx].folder.id == tempFolder.id) {
-          messenger.messages.onMoved.removeListener(listener);
+          messenger.messages.onCopied.removeListener(listener);
           resolve(dst.messages[idx]);
         }
       }
-      messenger.messages.onMoved.addListener(listener);
-      messenger.messages.move([msg.id], tempFolder.id);
-    })
-    console.log("Moved [" + msg.id + " -> " + movedMessage.id + "]");
-
-  } else {
-    await messenger.messages.delete([msg.id], true);
-    console.log("Deleted [" + msg.id + "]");
+      messenger.messages.onCopied.addListener(listener);
+      messenger.messages.copy([msg.id], tempFolder.id);
+    });
+    console.log("Backup [" + msg.id + " -> " + copiedMessage.id + "]");
   }
+
+  const full = await messenger.messages.getFull(msgId, {decodeHeaders: false, decodeContent: false})
+  // Handle X-Mozilla-Status, X-Mozilla-Status2 and X-Mozilla-Keys.
+  // This is a bug in getRaw().
+  for (let name of ["Keys", "Status", "Status2"]) {
+    let values = [...new Set(await getHeader(full, `X-Mozilla-${name}`))];
+    if (values.length) {
+      await setHeader(full, `X-Mozilla-${name}`, values);
+    }
+  }
+
+  // Update Subject.
+  await setHeader(full, "Subject", newSubject);
+  
+  // Update Message-ID.
+  if (await preferences.getPrefValue("changeId")) {
+    let server = msg.headerMessageId.split("@").pop();
+    let uid = crypto.randomUUID();
+    let newHeaderMessageId = uid + "@" + server;
+    await setHeader(full, "Message-ID", newHeaderMessageId);
+  }
+
+  // Update X-EditEmailSubject headers.
+  let now = new Date();
+  await setHeader(full, "X-EditEmailSubject", now.toString());
+  let originalSubject = await getHeader(full, "X-EditEmailSubject-OriginalSubject");
+  if (!originalSubject) {
+    await setHeader(full, "X-EditEmailSubject-OriginalSubject", currentSubject);
+  }
+
+  // Delete original message.
+  await messenger.messages.delete([msg.id], true);
+  console.log("Deleted [" + msg.id + "]");
+
+  // Build and import updated message.
+  let newMsgFile = await browser.messages.getRaw(full, {data_format: "File"});
+  let newMsgHeader = await messenger.messages.import(newMsgFile, msg.folder.id, {
+    flagged: msg.flagged,
+    read: true,//msg.read,
+    tags: msg.tags
+  });
+
+  if (!newMsgHeader) {
+    console.log("Failed to import!");
+    return false;
+  }
+  console.log("Created [" + msg.id + " -> " + newMsgHeader.id + "]");
 
   return newMsgHeader;
 }

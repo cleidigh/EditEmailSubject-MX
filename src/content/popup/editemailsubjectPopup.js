@@ -80,12 +80,16 @@ async function okAndInput(e) {
     if (msgId && tabId && currentSubject != newSubject) {
       busy = true;
       document.getElementById("busy").style.display = "block"
-      newMsgHeader = await ees.updateMessage({
-        msgId,
-        keepBackup,
-        newSubject,
-        currentSubject,
-      });
+      try {
+        newMsgHeader = await ees.updateMessage({
+          msgId,
+          keepBackup,
+          newSubject,
+          currentSubject,
+        });
+      } catch (ex) {
+        console.error(ex);
+      }
       busy = false;
       document.getElementById("busy").style.display = "none"
     }
